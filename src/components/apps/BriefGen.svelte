@@ -90,7 +90,7 @@ Title tag, meta description, URL slug, schema markup recommendations.`;
 
 	async function generate() {
 		if (!keyword.trim() || loading) return;
-		if (!getActiveProvider()) { notify(t('mira.noApiKey'), 'error'); return; }
+		if (!getActiveProvider()) { notify($t('mira.noApiKey'), 'error'); return; }
 		loading = true;
 		result = '';
 		sections = [];
@@ -153,28 +153,28 @@ ${wordNote}${compNote}`;
 			{#if !result}
 				<!-- Input form -->
 				<div class="bg-form">
-					<label class="field-label">{t('apps.briefgen.keyword')}</label>
+					<label class="field-label">{$t('apps.briefgen.keyword')}</label>
 					<input class="bg-input" type="text" bind:value={keyword} placeholder="e.g. best project management tools" />
 
-					<label class="field-label">{t('apps.briefgen.secondaryKw')}</label>
+					<label class="field-label">{$t('apps.briefgen.secondaryKw')}</label>
 					<input class="bg-input" type="text" bind:value={secondaryKeywords} placeholder="e.g. agile tools, team collaboration, kanban" />
 
-					<label class="field-label">{t('apps.briefgen.contentType')}</label>
+					<label class="field-label">{$t('apps.briefgen.contentType')}</label>
 					<div class="type-pills">
 						{#each CONTENT_TYPES as ct}
 							<button class="pill" class:active={contentType === ct} on:click={() => contentType = ct}>{ct}</button>
 						{/each}
 					</div>
 
-					<label class="field-label">{t('apps.briefgen.audience')}</label>
+					<label class="field-label">{$t('apps.briefgen.audience')}</label>
 					<input class="bg-input" type="text" bind:value={audience} placeholder="e.g. SaaS founders, 25-45, tech-savvy" />
 
-					<label class="field-label">{t('apps.briefgen.competitors')}</label>
+					<label class="field-label">{$t('apps.briefgen.competitors')}</label>
 					<textarea class="bg-textarea" rows="3" bind:value={competitors} placeholder="https://competitor1.com/article&#10;https://competitor2.com/post"></textarea>
 
 					<div class="form-row">
 						<div class="form-col">
-							<label class="field-label">{t('apps.briefgen.language')}</label>
+							<label class="field-label">{$t('apps.briefgen.language')}</label>
 							<div class="lang-pills">
 								{#each ['en', 'es', 'de', 'fr', 'zh'] as lang}
 									<button class="pill sm" class:active={outputLang === lang} on:click={() => outputLang = lang}>{lang.toUpperCase()}</button>
@@ -182,7 +182,7 @@ ${wordNote}${compNote}`;
 							</div>
 						</div>
 						<div class="form-col">
-							<label class="field-label">{t('apps.briefgen.wordTarget')}</label>
+							<label class="field-label">{$t('apps.briefgen.wordTarget')}</label>
 							<div class="lang-pills">
 								{#each WORD_TARGETS as wt}
 									<button class="pill sm" class:active={wordTarget === wt} on:click={() => wordTarget = wt}>{wt}</button>
@@ -192,7 +192,7 @@ ${wordNote}${compNote}`;
 					</div>
 
 					<button class="action-btn" on:click={generate} disabled={!keyword.trim() || loading}>
-						{#if loading}⟳ Generating...{:else}🔍 {t('apps.briefgen.generateBtn')}{/if}
+						{#if loading}⟳ Generating...{:else}🔍 {$t('apps.briefgen.generateBtn')}{/if}
 					</button>
 				</div>
 			{:else}

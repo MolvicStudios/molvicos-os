@@ -17,11 +17,11 @@
 </script>
 
 <div class="close-panel">
-	<span class="close-text">{t('feedback.closeHow')} <strong>{appName}</strong>?</span>
+	<span class="close-text">{$t('feedback.closeHow')} <strong>{appName}</strong>?</span>
 	<div class="close-actions">
-		<button class="cp-btn" on:click={sendFeedback}>💬 {t('feedback.tab_feedback')}</button>
-		<button class="cp-btn bug" on:click={reportBug}>🐛 {t('feedback.tab_bug')}</button>
-		<button class="cp-btn skip" on:click={onDismiss}>{t('feedback.skip')}</button>
+		<button class="cp-btn" on:click={sendFeedback}>💬 {$t('feedback.tab_feedback')}</button>
+		<button class="cp-btn bug" on:click={reportBug}>🐛 {$t('feedback.tab_bug')}</button>
+		<button class="cp-btn skip" on:click={onDismiss}>{$t('feedback.skip')}</button>
 	</div>
 </div>
 

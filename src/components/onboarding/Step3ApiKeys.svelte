@@ -32,8 +32,8 @@
 </script>
 
 <div class="step">
-	<h2 class="step-title">{t('onboarding.step3.title')}</h2>
-	<p class="step-desc">{t('onboarding.step3.subtitle')}</p>
+	<h2 class="step-title">{$t('onboarding.step3.title')}</h2>
+	<p class="step-desc">{$t('onboarding.step3.subtitle')}</p>
 
 	<div class="providers">
 		{#each providers as provider}
@@ -64,7 +64,7 @@
 		{/each}
 	</div>
 
-	<p class="note">{t('onboarding.step3.note')}</p>
+	<p class="note">{$t('onboarding.step3.note')}</p>
 </div>
 
 <style>

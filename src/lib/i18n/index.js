@@ -1,4 +1,4 @@
-import { writable, get } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import en from './en.js';
 import es from './es.js';
 import de from './de.js';
@@ -21,7 +21,16 @@ export function setLang(code) {
 	}
 }
 
-export function t(key) {
+/** Reactive translation store — use as $t('key') in .svelte files */
+export const t = derived(currentLang, ($lang) => {
+	return (key) => {
+		const dict = LANGS[$lang] || LANGS.en;
+		return key.split('.').reduce((o, k) => o?.[k], dict) ?? key;
+	};
+});
+
+/** Non-reactive translation for use in plain .js files */
+export function tGet(key) {
 	const lang = get(currentLang);
 	const dict = LANGS[lang] || LANGS.en;
 	return key.split('.').reduce((o, k) => o?.[k], dict) ?? key;

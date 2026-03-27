@@ -38,14 +38,14 @@
 </script>
 
 <div class="step">
-	<h2 class="step-title">{t('onboarding.step2.title')}</h2>
-	<p class="step-desc">{t('onboarding.step2.subtitle')}</p>
+	<h2 class="step-title">{$t('onboarding.step2.title')}</h2>
+	<p class="step-desc">{$t('onboarding.step2.subtitle')}</p>
 
 	<div class="scanner-card">
 		{#if !done}
 			<div class="scan-anim">
 				<div class="scan-ring"></div>
-				<span class="scan-label">{t('onboarding.step2.scanning')}</span>
+				<span class="scan-label">{$t('onboarding.step2.scanning')}</span>
 			</div>
 			<ProgressBar value={progress} max={100} />
 		{:else if result}
@@ -63,7 +63,7 @@
 					<span class="hw-val">{result.gpu || 'N/A'}</span>
 				</div>
 				<div class="hw-row">
-					<span class="hw-key">{t('onboarding.step2.profile')}</span>
+					<span class="hw-key">{$t('onboarding.step2.profile')}</span>
 					<span class="hw-val hw-tier tier-{result.tier}">{result.tier.toUpperCase()}</span>
 				</div>
 			</div>

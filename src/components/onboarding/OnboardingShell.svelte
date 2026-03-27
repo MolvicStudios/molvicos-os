@@ -26,7 +26,7 @@
 		step = 5;
 	}
 
-	$: stepLabel = t('onboarding.stepOf').replace('{step}', step).replace('{total}', totalSteps);
+	$: stepLabel = $t('onboarding.stepOf').replace('{step}', step).replace('{total}', totalSteps);
 	$: canNext = true;
 </script>
 
@@ -39,7 +39,7 @@
 			<div class="ob-meta">
 				<span class="step-label">{stepLabel}</span>
 				{#if step < 5}
-					<button class="skip-btn" on:click={skip}>{t('onboarding.skip')}</button>
+					<button class="skip-btn" on:click={skip}>{$t('onboarding.skip')}</button>
 				{/if}
 			</div>
 		</div>
@@ -61,11 +61,11 @@
 		{#if step < 5}
 			<div class="ob-footer">
 				{#if step > 1}
-					<button class="btn-back" on:click={back}>{t('onboarding.back')}</button>
+					<button class="btn-back" on:click={back}>{$t('onboarding.back')}</button>
 				{:else}
 					<div></div>
 				{/if}
-				<button class="btn-next" on:click={next}>{t('onboarding.next')}</button>
+				<button class="btn-next" on:click={next}>{$t('onboarding.next')}</button>
 			</div>
 		{/if}
 	</div>

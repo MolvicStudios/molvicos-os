@@ -35,7 +35,7 @@
 
 	async function optimize() {
 		if (!input.trim() || loading) return;
-		if (!getActiveProvider()) { notify(t('mira.noApiKey'), 'error'); return; }
+		if (!getActiveProvider()) { notify($t('mira.noApiKey'), 'error'); return; }
 		loading = true;
 		variantA = ''; variantB = ''; variantC = '';
 		hasResult = false;
@@ -60,7 +60,7 @@
 		});
 		storage.set('ms_prompt_library', lib);
 		prompts = storage.get('ms_prompt_library') || [];
-		notify(t('apps.promptlab.saveToLibrary') + ' ✓', 'success');
+		notify($t('apps.promptlab.saveToLibrary') + ' ✓', 'success');
 	}
 
 	// --- Library state ---
@@ -158,19 +158,19 @@
 			<!-- Tabs -->
 			<div class="pl-tabs">
 				<button class="pl-tab" class:active={tab === 'optimizer'} on:click={() => tab = 'optimizer'}>
-					{t('apps.promptlab.tabOptimizer')}
+					{$t('apps.promptlab.tabOptimizer')}
 				</button>
 				<button class="pl-tab" class:active={tab === 'library'} on:click={() => tab = 'library'}>
-					{t('apps.promptlab.tabLibrary')}
+					{$t('apps.promptlab.tabLibrary')}
 				</button>
 			</div>
 
 			{#if tab === 'optimizer'}
 				<div class="optimizer">
-					<label class="field-label">{t('apps.promptlab.inputLabel')}</label>
-					<textarea class="prompt-input" rows="5" bind:value={input} placeholder={t('apps.promptlab.inputPlaceholder')}></textarea>
+					<label class="field-label">{$t('apps.promptlab.inputLabel')}</label>
+					<textarea class="prompt-input" rows="5" bind:value={input} placeholder={$t('apps.promptlab.inputPlaceholder')}></textarea>
 
-					<label class="field-label">{t('apps.promptlab.targetLabel')}</label>
+					<label class="field-label">{$t('apps.promptlab.targetLabel')}</label>
 					<div class="target-pills">
 						{#each TARGETS as tgt}
 							<button class="pill" class:active={target === tgt} on:click={() => target = tgt}>{tgt}</button>
@@ -178,12 +178,12 @@
 					</div>
 
 					<button class="optimize-btn" on:click={optimize} disabled={!input.trim() || loading}>
-						{#if loading}⟳ ...{:else}⚡ {t('apps.promptlab.optimizeBtn')}{/if}
+						{#if loading}⟳ ...{:else}⚡ {$t('apps.promptlab.optimizeBtn')}{/if}
 					</button>
 
 					{#if hasResult}
 						<div class="variants">
-							{#each [{label:'A', tag: t('apps.promptlab.variantA'), text: variantA}, {label:'B', tag: t('apps.promptlab.variantB'), text: variantB}, {label:'C', tag: t('apps.promptlab.variantC'), text: variantC}] as v}
+							{#each [{label:'A', tag: $t('apps.promptlab.variantA'), text: variantA}, {label:'B', tag: $t('apps.promptlab.variantB'), text: variantB}, {label:'C', tag: $t('apps.promptlab.variantC'), text: variantC}] as v}
 								<div class="variant-card">
 									<div class="vc-head">
 										<span class="vc-label">{v.label}</span>
@@ -192,7 +192,7 @@
 									<pre class="vc-text">{v.text}</pre>
 									<div class="vc-actions">
 										<button on:click={() => copyToClipboard(v.text).then(() => notify('Copied ✓', 'success'))}>Copy</button>
-										<button on:click={() => saveToLibrary(v.text, v.tag)}>{t('apps.promptlab.saveToLibrary')}</button>
+										<button on:click={() => saveToLibrary(v.text, v.tag)}>{$t('apps.promptlab.saveToLibrary')}</button>
 									</div>
 								</div>
 							{/each}
@@ -203,8 +203,8 @@
 			{:else}
 				<div class="library">
 					<div class="lib-top">
-						<input class="search-input" type="text" bind:value={search} placeholder={t('apps.promptlab.searchPrompts')} />
-						<button class="add-btn" on:click={() => showAdd = !showAdd}>{t('apps.promptlab.addPrompt')}</button>
+						<input class="search-input" type="text" bind:value={search} placeholder={$t('apps.promptlab.searchPrompts')} />
+						<button class="add-btn" on:click={() => showAdd = !showAdd}>{$t('apps.promptlab.addPrompt')}</button>
 					</div>
 
 					{#if allTags.length > 0}
@@ -220,12 +220,12 @@
 							<input type="text" bind:value={newTitle} placeholder="Title" class="field-input" />
 							<textarea bind:value={newContent} placeholder="Prompt content" rows="3" class="field-input"></textarea>
 							<input type="text" bind:value={newTags} placeholder="Tags (comma-separated)" class="field-input" />
-							<button class="optimize-btn" on:click={addPrompt}>{t('common.save')}</button>
+							<button class="optimize-btn" on:click={addPrompt}>{$t('common.save')}</button>
 						</div>
 					{/if}
 
 					{#if filteredPrompts.length === 0}
-						<p class="empty">{t('apps.promptlab.libraryEmpty')}</p>
+						<p class="empty">{$t('apps.promptlab.libraryEmpty')}</p>
 					{:else}
 						<div class="prompt-grid">
 							{#each filteredPrompts as p (p.id)}

@@ -59,11 +59,11 @@
 			{#if $feedbackSuccess}
 				<div class="success-state">
 					<span class="success-icon">✓</span>
-					<p>{t('feedback.thankYou')}</p>
+					<p>{$t('feedback.thankYou')}</p>
 				</div>
 			{:else}
 				<div class="modal-header">
-					<h2>{t('feedback.title')}</h2>
+					<h2>{$t('feedback.title')}</h2>
 					<button class="close-btn" on:click={closeFeedback}>✕</button>
 				</div>
 
@@ -74,7 +74,7 @@
 							class:active={activeTab === tab}
 							on:click={() => activeTab = tab}
 						>
-							{t(`feedback.tab_${tab}`)}
+							{$t(`feedback.tab_${tab}`)}
 						</button>
 					{/each}
 				</div>
@@ -82,7 +82,7 @@
 				<div class="modal-body">
 					{#if activeTab === 'bug'}
 						<div class="field">
-							<label>{t('feedback.severity')}</label>
+							<label>{$t('feedback.severity')}</label>
 							<div class="severity-row">
 								{#each SEVERITIES as sev}
 									<button
@@ -90,7 +90,7 @@
 										class:active={severity === sev}
 										on:click={() => severity = sev}
 									>
-										{t(`feedback.sev_${sev}`)}
+										{$t(`feedback.sev_${sev}`)}
 									</button>
 								{/each}
 							</div>
@@ -98,33 +98,33 @@
 					{/if}
 
 					<div class="field">
-						<label for="fb-title">{t('feedback.titleLabel')}</label>
+						<label for="fb-title">{$t('feedback.titleLabel')}</label>
 						<input
 							id="fb-title"
 							type="text"
 							bind:value={title}
-							placeholder={t('feedback.titlePlaceholder')}
+							placeholder={$t('feedback.titlePlaceholder')}
 							disabled={$feedbackSubmitting}
 						/>
 					</div>
 
 					<div class="field">
-						<label for="fb-desc">{t('feedback.descLabel')}</label>
+						<label for="fb-desc">{$t('feedback.descLabel')}</label>
 						<textarea
 							id="fb-desc"
 							bind:value={description}
-							placeholder={t('feedback.descPlaceholder')}
+							placeholder={$t('feedback.descPlaceholder')}
 							rows="4"
 							disabled={$feedbackSubmitting}
 						></textarea>
 					</div>
 
 					<div class="auto-capture">
-						<span class="capture-label">{t('feedback.autoCapture')}</span>
+						<span class="capture-label">{$t('feedback.autoCapture')}</span>
 						<div class="capture-items">
-							<span>📱 {appCount} {t('feedback.appsOpen')}</span>
-							<span>📋 {actionCount} {t('feedback.actions')}</span>
-							<span>{errorCount > 0 ? '⚠️' : '✓'} {errorCount} {t('feedback.errors')}</span>
+							<span>📱 {appCount} {$t('feedback.appsOpen')}</span>
+							<span>📋 {actionCount} {$t('feedback.actions')}</span>
+							<span>{errorCount > 0 ? '⚠️' : '✓'} {errorCount} {$t('feedback.errors')}</span>
 							<span>🎨 {$theme}</span>
 							<span>🌐 {$currentLang}</span>
 						</div>
@@ -133,10 +133,10 @@
 
 				<div class="modal-footer">
 					<button class="btn-cancel" on:click={closeFeedback} disabled={$feedbackSubmitting}>
-						{t('common.cancel')}
+						{$t('common.cancel')}
 					</button>
 					<button class="btn-submit" on:click={handleSubmit} disabled={$feedbackSubmitting || !title.trim()}>
-						{$feedbackSubmitting ? t('feedback.sending') : t('feedback.submit')}
+						{$feedbackSubmitting ? $t('feedback.sending') : $t('feedback.submit')}
 					</button>
 				</div>
 			{/if}

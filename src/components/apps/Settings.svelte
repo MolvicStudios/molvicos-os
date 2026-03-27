@@ -88,7 +88,7 @@
 	<div class="settings-content">
 
 		{#if activeSection === 'general'}
-			<div class="settings-section-title">{t('settings.general')}</div>
+			<div class="settings-section-title">{$t('settings.general')}</div>
 
 			<div class="setting-row">
 				<div class="sr-info">
@@ -108,17 +108,17 @@
 
 			<div class="setting-row">
 				<div class="sr-info">
-					<span class="sr-label">{t('settings.n8nUrl')}</span>
-					<span class="sr-sub">{t('settings.n8nUrlSub')}</span>
+					<span class="sr-label">{$t('settings.n8nUrl')}</span>
+					<span class="sr-sub">{$t('settings.n8nUrlSub')}</span>
 				</div>
 				<div class="sr-input-row">
 					<input bind:value={n8nUrl} placeholder="https://your-n8n.cloud" />
-					<button class="sr-save-btn" on:click={saveN8nUrl}>{t('common.save')}</button>
+					<button class="sr-save-btn" on:click={saveN8nUrl}>{$t('common.save')}</button>
 				</div>
 			</div>
 
 		{:else if activeSection === 'appearance'}
-			<div class="settings-section-title">{t('settings.appearance')}</div>
+			<div class="settings-section-title">{$t('settings.appearance')}</div>
 
 			<div class="theme-grid">
 				{#each THEMES as th}
@@ -138,7 +138,7 @@
 			</div>
 
 		{:else if activeSection === 'ai'}
-			<div class="settings-section-title">{t('settings.ai')}</div>
+			<div class="settings-section-title">{$t('settings.ai')}</div>
 
 			<div class="sr-sub" style="margin-bottom:14px">
 				Keys are stored locally. Never sent to our servers.
@@ -177,7 +177,7 @@
 			</div>
 
 		{:else if activeSection === 'account'}
-			<div class="settings-section-title">{t('settings.account')}</div>
+			<div class="settings-section-title">{$t('settings.account')}</div>
 
 			<div class="current-plan-card" class:pro={$planStore.plan === 'pro'}>
 				<div class="cpc-left">
@@ -228,7 +228,7 @@
 			{/if}
 
 		{:else if activeSection === 'about'}
-			<div class="settings-section-title">{t('settings.about')}</div>
+			<div class="settings-section-title">{$t('settings.about')}</div>
 			<div class="about-content">
 				<div class="about-logo">◈ MOLVICOS</div>
 				<div class="about-version">AI Operating System · v0.1.0-beta</div>

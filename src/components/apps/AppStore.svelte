@@ -5,10 +5,10 @@
 
 <div class="coming-soon">
 	<div class="cs-icon">🌐</div>
-	<h2 class="cs-title">{t('apps.appstore.name')}</h2>
-	<p class="cs-desc">{t('apps.appstore.desc')}</p>
-	<div class="cs-badge">{t('apps.comingSoon')}</div>
-	<p class="cs-hint">{t('apps.comingSoonHint')}</p>
+	<h2 class="cs-title">{$t('apps.appstore.name')}</h2>
+	<p class="cs-desc">{$t('apps.appstore.desc')}</p>
+	<div class="cs-badge">{$t('apps.comingSoon')}</div>
+	<p class="cs-hint">{$t('apps.comingSoonHint')}</p>
 </div>
 
 <style>

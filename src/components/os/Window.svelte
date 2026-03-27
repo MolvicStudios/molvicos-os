@@ -21,14 +21,20 @@
 	let resizing = false;
 	let dragOffset = { x: 0, y: 0 };
 	let showClosePanel = false;
+	let closeTimer;
+
+	const SYSTEM_APPS = ['settings', 'dashboard'];
 
 	$: zIndex = $windowOrder.indexOf(id) + 100;
 
 	function handleTitleMouseDown(e) {
 		if (maximized) return;
+		if (e.target.closest('button')) return;
+		if (e.button !== 0) return;
 		dragging = true;
 		dragOffset = { x: e.clientX - x, y: e.clientY - y };
 		focusApp(id);
+		e.preventDefault();
 
 		function onMouseMove(e) {
 			if (!dragging) return;
@@ -77,10 +83,20 @@
 	}
 
 	function requestClose() {
+		if (SYSTEM_APPS.includes(id)) {
+			trackAction(Actions.CLOSE_APP, id);
+			closeApp(id);
+			return;
+		}
 		showClosePanel = true;
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => {
+			if (showClosePanel) confirmClose();
+		}, 4000);
 	}
 
 	function confirmClose() {
+		clearTimeout(closeTimer);
 		showClosePanel = false;
 		trackAction(Actions.CLOSE_APP, id);
 		closeApp(id);
@@ -108,13 +124,13 @@
 			{#if credits > 0}
 				<span class="credits-cost">⚡{credits}</span>
 			{/if}
-			<button class="win-btn minimize" on:click|stopPropagation={() => minimizeApp(id)} title={t('os.minimize')}>
+			<button class="win-btn minimize" on:click|stopPropagation={() => minimizeApp(id)} title={$t('os.minimize')}>
 				<span class="dot dot-yellow"></span>
 			</button>
-			<button class="win-btn maximize" on:click|stopPropagation={() => maximizeApp(id)} title={t('os.maximize')}>
+			<button class="win-btn maximize" on:click|stopPropagation={() => maximizeApp(id)} title={$t('os.maximize')}>
 				<span class="dot dot-green"></span>
 			</button>
-			<button class="win-btn close" on:click|stopPropagation={requestClose} title={t('os.close')}>
+			<button class="win-btn close" on:click|stopPropagation={requestClose} title={$t('os.close')}>
 				<span class="dot dot-red"></span>
 			</button>
 		</div>
@@ -243,8 +259,10 @@
 
 	.window-body {
 		flex: 1;
-		overflow: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
 		position: relative;
+		min-height: 0;
 	}
 
 	.resize-handle {

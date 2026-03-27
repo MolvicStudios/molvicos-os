@@ -20,7 +20,7 @@
 
 			<div class="upgrade-header">
 				<span class="upgrade-icon">⚡</span>
-				<h2>{t('plans.upgradeTitle')}</h2>
+				<h2>{$t('plans.upgradeTitle')}</h2>
 				<button class="upgrade-close" on:click={closeUpgradeModal}>×</button>
 			</div>
 
@@ -30,11 +30,11 @@
 
 			<div class="upgrade-features">
 				{#each [
-					['∞', t('plans.unlimitedCredits')],
-					['5', t('plans.workspaces')],
-					['◈', t('plans.miraFull')],
-					['🎨', t('plans.premiumThemes')],
-					['📱', t('plans.mobileApp')],
+					['∞', $t('plans.unlimitedCredits')],
+					['5', $t('plans.workspaces')],
+					['◈', $t('plans.miraFull')],
+					['🎨', $t('plans.premiumThemes')],
+					['📱', $t('plans.mobileApp')],
 				] as [icon, label]}
 					<div class="upgrade-feat">
 						<span class="upgrade-feat-icon">{icon}</span>
@@ -48,7 +48,7 @@
 					class="cta-yearly"
 					on:click={() => openCheckout(LS_CONFIG.yearlyVariant)}
 				>
-					$199/year <span class="cta-save">{t('plans.save89')}</span>
+					$199/year <span class="cta-save">{$t('plans.save89')}</span>
 				</button>
 				<button
 					class="cta-monthly"
@@ -58,7 +58,7 @@
 				</button>
 			</div>
 
-			<p class="upgrade-note">{t('plans.cancelAnytime')}</p>
+			<p class="upgrade-note">{$t('plans.cancelAnytime')}</p>
 		</div>
 	</div>
 {/if}

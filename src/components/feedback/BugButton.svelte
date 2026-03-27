@@ -6,8 +6,8 @@
 <button
 	class="bug-btn"
 	on:click={() => openFeedback('bug')}
-	title={t('feedback.reportBug')}
-	aria-label={t('feedback.reportBug')}
+	title={$t('feedback.reportBug')}
+	aria-label={$t('feedback.reportBug')}
 >
 	🐛
 </button>

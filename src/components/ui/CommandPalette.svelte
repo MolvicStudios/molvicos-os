@@ -10,7 +10,7 @@
 	let selectedIndex = 0;
 	let inputEl;
 
-	$: results = buildResults(query);
+	$: results = ($t, buildResults(query));
 	$: if ($cmdPaletteOpen && inputEl) {
 		setTimeout(() => inputEl?.focus(), 50);
 	}
@@ -21,12 +21,12 @@
 
 		// Apps
 		for (const app of APPS) {
-			const name = t(`apps.${app.id}.name`);
-			const desc = t(`apps.${app.id}.desc`);
+			const name = $t(`apps.${app.id}.name`);
+			const desc = $t(`apps.${app.id}.desc`);
 			if (!q || name.toLowerCase().includes(lower) || desc.toLowerCase().includes(lower)) {
 				items.push({
 					type: 'app',
-					category: t('cmd.apps'),
+					category: $t('cmd.apps'),
 					label: name,
 					sublabel: desc,
 					emoji: app.emoji,
@@ -41,7 +41,7 @@
 		// Actions
 		const actions = [
 			{
-				label: t('cmd.actionToggleTheme'),
+				label: $t('cmd.actionToggleTheme'),
 				emoji: '🎨',
 				action: () => {
 					theme.update((t) => (t === 'noir' ? 'icaro' : 'noir'));
@@ -49,7 +49,7 @@
 				}
 			},
 			...SUPPORTED_LANGS.map((lang) => ({
-				label: t('cmd.actionSwitchLang').replace('{lang}', lang.native),
+				label: $t('cmd.actionSwitchLang').replace('{lang}', lang.native),
 				emoji: lang.flag,
 				action: () => {
 					setLang(lang.code);
@@ -60,7 +60,7 @@
 
 		for (const action of actions) {
 			if (!q || action.label.toLowerCase().includes(lower)) {
-				items.push({ type: 'action', category: t('cmd.actions'), ...action });
+				items.push({ type: 'action', category: $t('cmd.actions'), ...action });
 			}
 		}
 
@@ -116,12 +116,12 @@
 				bind:this={inputEl}
 				bind:value={query}
 				class="cmd-input"
-				placeholder={t('cmd.placeholder')}
+				placeholder={$t('cmd.placeholder')}
 				on:keydown={handleKeyDown}
 			/>
 			<div class="cmd-results">
 				{#if results.length === 0}
-					<div class="cmd-empty">{t('cmd.noResults')}</div>
+					<div class="cmd-empty">{$t('cmd.noResults')}</div>
 				{:else}
 					{#each results as result, i (result.label + i)}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->

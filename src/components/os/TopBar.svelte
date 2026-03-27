@@ -26,7 +26,7 @@
 	});
 
 	$: activeAppDef = $activeApp ? APPS.find((a) => a.id === $activeApp) : null;
-	$: activeAppName = activeAppDef ? t(`apps.${activeAppDef.id}.name`) : '';
+	$: activeAppName = activeAppDef ? $t(`apps.${activeAppDef.id}.name`) : '';
 	$: initials = $userProfile.name
 		? $userProfile.name
 				.split(' ')

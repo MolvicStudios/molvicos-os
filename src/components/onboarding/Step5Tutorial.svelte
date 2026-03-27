@@ -19,20 +19,20 @@
 </script>
 
 <div class="step">
-	<h2 class="step-title">{t('onboarding.step5.title')}</h2>
-	<p class="step-desc">{t('onboarding.step5.subtitle')}</p>
+	<h2 class="step-title">{$t('onboarding.step5.title')}</h2>
+	<p class="step-desc">{$t('onboarding.step5.subtitle')}</p>
 
 	<div class="tips">
 		{#each tips as tip}
 			<div class="tip-card">
 				<span class="tip-icon">{tip.icon}</span>
-				<span class="tip-text">{t(tip.text)}</span>
+				<span class="tip-text">{$t(tip.text)}</span>
 			</div>
 		{/each}
 	</div>
 
 	<button class="launch-btn" on:click={finish}>
-		{t('onboarding.step5.launch')}
+		{$t('onboarding.step5.launch')}
 	</button>
 </div>
 

@@ -6,7 +6,7 @@
 {#if $feedbackSuccess}
 	<div class="feedback-toast">
 		<span class="toast-icon">✓</span>
-		<span>{t('feedback.thankYou')}</span>
+		<span>{$t('feedback.thankYou')}</span>
 	</div>
 {/if}
 

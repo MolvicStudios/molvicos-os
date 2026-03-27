@@ -103,7 +103,7 @@ COMPLEXITY GUIDE:
 
 	async function generate() {
 		if (!description.trim() || loading) return;
-		if (!getActiveProvider()) { notify(t('mira.noApiKey'), 'error'); return; }
+		if (!getActiveProvider()) { notify($t('mira.noApiKey'), 'error'); return; }
 		loading = true;
 		rawResult = '';
 		jsonStr = '';
@@ -179,17 +179,17 @@ Error handling: ${errorHandling ? 'Yes' : 'No'}`;
 			{#if !jsonStr && !loading}
 				<!-- Input form -->
 				<div class="wb-form">
-					<label class="field-label">{t('apps.workflow.descLabel')}</label>
-					<textarea class="wb-textarea" rows="5" bind:value={description} placeholder={t('apps.workflow.descPlaceholder')}></textarea>
+					<label class="field-label">{$t('apps.workflow.descLabel')}</label>
+					<textarea class="wb-textarea" rows="5" bind:value={description} placeholder={$t('apps.workflow.descPlaceholder')}></textarea>
 
-					<label class="field-label">{t('apps.workflow.triggerType')}</label>
+					<label class="field-label">{$t('apps.workflow.triggerType')}</label>
 					<div class="type-pills">
 						{#each TRIGGERS as tr}
 							<button class="pill" class:active={triggerType === tr} on:click={() => triggerType = tr}>{tr}</button>
 						{/each}
 					</div>
 
-					<label class="field-label">{t('apps.workflow.complexity')}</label>
+					<label class="field-label">{$t('apps.workflow.complexity')}</label>
 					<div class="type-pills">
 						{#each COMPLEXITY as c}
 							<button class="pill" class:active={complexity === c} on:click={() => complexity = c}>{c}</button>
@@ -198,11 +198,11 @@ Error handling: ${errorHandling ? 'Yes' : 'No'}`;
 
 					<label class="wb-toggle">
 						<input type="checkbox" bind:checked={errorHandling} />
-						<span>{t('apps.workflow.errorHandling')}</span>
+						<span>{$t('apps.workflow.errorHandling')}</span>
 					</label>
 
 					<button class="action-btn" on:click={generate} disabled={!description.trim() || loading}>
-						⚙️ {t('apps.workflow.generateBtn')}
+						⚙️ {$t('apps.workflow.generateBtn')}
 					</button>
 				</div>
 			{:else}

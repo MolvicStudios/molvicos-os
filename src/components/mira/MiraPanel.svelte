@@ -38,14 +38,14 @@
 				<span class="mira-logo">✦</span>
 				<div>
 					<h3>MIRA</h3>
-					<span class="mira-subtitle">{t('mira.subtitle')}</span>
+					<span class="mira-subtitle">{$t('mira.subtitle')}</span>
 				</div>
 			</div>
 			<div class="mira-actions">
-				<button class="mira-clear" on:click={clearChat} title={t('mira.clearChat')}>
+				<button class="mira-clear" on:click={clearChat} title={$t('mira.clearChat')}>
 					⟳
 				</button>
-				<button class="mira-close" on:click={() => miraOpen.set(false)} title={t('mira.close')}>
+				<button class="mira-close" on:click={() => miraOpen.set(false)} title={$t('mira.close')}>
 					✕
 				</button>
 			</div>
@@ -58,7 +58,7 @@
 		{#if thinking}
 			<div class="mira-thinking">
 				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-				<span class="think-text">{t('mira.thinking')}</span>
+				<span class="think-text">{$t('mira.thinking')}</span>
 			</div>
 		{/if}
 	</aside>

@@ -8,7 +8,7 @@
 	const powerApps = getPowerApps();
 
 	function handleOpen(e, app) {
-		openApp({ ...app, title: t(`apps.${app.id}.name`) });
+		openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 	}
 </script>
 
@@ -17,8 +17,8 @@
 		{#each coreApps as app (app.id)}
 			<AppIcon
 				id={app.id}
-				label={t(`apps.${app.id}.name`)}
-				sublabel={t(`apps.${app.id}.desc`)}
+				label={$t(`apps.${app.id}.name`)}
+				sublabel={$t(`apps.${app.id}.desc`)}
 				emoji={app.emoji}
 				colorClass={app.colorClass}
 				badge={app.badge || ''}
@@ -31,8 +31,8 @@
 		{#each powerApps as app (app.id)}
 			<AppIcon
 				id={app.id}
-				label={t(`apps.${app.id}.name`)}
-				sublabel={t(`apps.${app.id}.desc`)}
+				label={$t(`apps.${app.id}.name`)}
+				sublabel={$t(`apps.${app.id}.desc`)}
 				emoji={app.emoji}
 				colorClass={app.colorClass}
 				badge={app.badge || ''}

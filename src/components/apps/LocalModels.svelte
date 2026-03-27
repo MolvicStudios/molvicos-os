@@ -45,42 +45,42 @@
 
 <div class="local-models">
 	<div class="lm-header">
-		<h2>🤖 {t('apps.localmodels.name')}</h2>
+		<h2>🤖 {$t('apps.localmodels.name')}</h2>
 		<div class="lm-status" class:online={$ollamaStatus === 'online'} class:offline={$ollamaStatus === 'offline'}>
 			{#if $ollamaStatus === 'online'}
-				<span class="status-dot green"></span> {t('onboarding.step4.ollama_online')}
+				<span class="status-dot green"></span> {$t('onboarding.step4.ollama_online')}
 			{:else if $ollamaStatus === 'checking'}
 				<span class="status-dot yellow"></span> ...
 			{:else}
-				<span class="status-dot red"></span> {t('onboarding.step4.ollama_offline')}
+				<span class="status-dot red"></span> {$t('onboarding.step4.ollama_offline')}
 			{/if}
 		</div>
 	</div>
 
 	{#if $ollamaStatus === 'offline'}
 		<div class="lm-offline">
-			<p>{t('onboarding.step4.installStep1')}</p>
-			<p>{t('onboarding.step4.installStep2')}</p>
-			<p>{t('onboarding.step4.installStep3')}</p>
+			<p>{$t('onboarding.step4.installStep1')}</p>
+			<p>{$t('onboarding.step4.installStep2')}</p>
+			<p>{$t('onboarding.step4.installStep3')}</p>
 			<div class="lm-actions">
 				<a href="https://ollama.com" target="_blank" rel="noopener" class="btn btn-primary">
-					{t('onboarding.step4.install_ollama')}
+					{$t('onboarding.step4.install_ollama')}
 				</a>
 				<button class="btn btn-secondary" on:click={checkOllama}>
-					{t('onboarding.step4.detect')}
+					{$t('onboarding.step4.detect')}
 				</button>
 			</div>
 		</div>
 	{:else if $ollamaStatus === 'online'}
 		{#if $ollamaModels.length > 0}
 			<div class="lm-section">
-				<h3>{t('onboarding.step4.installed')}</h3>
+				<h3>{$t('onboarding.step4.installed')}</h3>
 				<div class="model-list">
 					{#each $ollamaModels as model (model.name)}
 						<div class="model-card installed">
 							<span class="model-name">{model.name}</span>
 							<span class="model-size">{model.size ? (model.size / 1e9).toFixed(1) + 'GB' : ''}</span>
-							<span class="model-badge">{t('onboarding.step4.installed')}</span>
+							<span class="model-badge">{$t('onboarding.step4.installed')}</span>
 						</div>
 					{/each}
 				</div>
@@ -88,7 +88,7 @@
 		{/if}
 
 		<div class="lm-section">
-			<h3>{t('onboarding.step4.recommended')}</h3>
+			<h3>{$t('onboarding.step4.recommended')}</h3>
 			<div class="model-list">
 				{#each recommendations as rec (rec.name)}
 					<div class="model-card">
@@ -98,7 +98,7 @@
 							<span class="model-desc">{rec.desc}</span>
 						</div>
 						{#if installedNames.has(rec.name)}
-							<span class="model-badge">{t('onboarding.step4.installed')}</span>
+							<span class="model-badge">{$t('onboarding.step4.installed')}</span>
 						{:else if pulling[rec.name]}
 							<div class="pull-progress">
 								<div class="pull-bar" style="width: {pullProgress[rec.name] || 0}%"></div>
@@ -106,7 +106,7 @@
 							</div>
 						{:else}
 							<button class="btn btn-small" on:click={() => handlePull(rec.name)}>
-								{t('onboarding.step4.download')}
+								{$t('onboarding.step4.download')}
 							</button>
 						{/if}
 					</div>

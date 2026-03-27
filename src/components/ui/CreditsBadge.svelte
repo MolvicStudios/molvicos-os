@@ -5,7 +5,7 @@
 	$: isPro = $planStore.plan === 'pro';
 </script>
 
-<div class="credits-badge" title="{isPro ? '∞' : $planStore.credits}/{$planStore.creditsMax} {t('os.credits')}">
+<div class="credits-badge" title="{isPro ? '∞' : $planStore.credits}/{$planStore.creditsMax} {$t('os.credits')}">
 	<span class="credits-icon">⚡</span>
 	<span class="credits-value">{isPro ? '∞' : $planStore.credits}</span>
 	<span class="credits-label">cr</span>

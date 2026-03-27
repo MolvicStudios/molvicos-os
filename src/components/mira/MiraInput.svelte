@@ -37,7 +37,7 @@
 			bind:this={textareaEl}
 			bind:value={input}
 			on:keydown={handleKeydown}
-			placeholder={t('mira.inputPlaceholder')}
+			placeholder={$t('mira.inputPlaceholder')}
 			rows="1"
 			disabled={streaming}
 		></textarea>

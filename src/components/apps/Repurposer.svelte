@@ -50,7 +50,7 @@
 
 	async function repurpose() {
 		if (!input.trim() || selected.length === 0 || loading) return;
-		if (!getActiveProvider()) { notify(t('mira.noApiKey'), 'error'); return; }
+		if (!getActiveProvider()) { notify($t('mira.noApiKey'), 'error'); return; }
 		loading = true;
 		results = {};
 
@@ -104,17 +104,17 @@
 			<div class="rp-split">
 				<!-- Left panel -->
 				<div class="rp-left">
-					<label class="field-label">{t('apps.repurposer.inputLabel')}</label>
-					<textarea class="rp-input" rows="8" bind:value={input} placeholder={t('apps.repurposer.inputPlaceholder')}></textarea>
+					<label class="field-label">{$t('apps.repurposer.inputLabel')}</label>
+					<textarea class="rp-input" rows="8" bind:value={input} placeholder={$t('apps.repurposer.inputPlaceholder')}></textarea>
 					<div class="word-count" class:warn={wordCount > 400}>
-						{t('apps.repurposer.wordCount').replace('{n}', wordCount)}
+						{$t('apps.repurposer.wordCount').replace('{n}', wordCount)}
 					</div>
 
 					<label class="field-label">Formats</label>
 					<div class="format-select">
 						<div class="fmt-toggle">
-							<button class="link-btn" on:click={selectAll}>{t('apps.repurposer.selectAll')}</button>
-							<button class="link-btn" on:click={selectNone}>{t('apps.repurposer.selectNone')}</button>
+							<button class="link-btn" on:click={selectAll}>{$t('apps.repurposer.selectAll')}</button>
+							<button class="link-btn" on:click={selectNone}>{$t('apps.repurposer.selectNone')}</button>
 						</div>
 						{#each FORMATS as fmt}
 							<label class="fmt-check">
@@ -125,7 +125,7 @@
 						{/each}
 					</div>
 
-					<label class="field-label">{t('apps.repurposer.outputLang')}</label>
+					<label class="field-label">{$t('apps.repurposer.outputLang')}</label>
 					<div class="lang-pills">
 						{#each ['en', 'es', 'de', 'fr', 'zh'] as lang}
 							<button class="pill" class:active={outputLang === lang} on:click={() => outputLang = lang}>{lang.toUpperCase()}</button>
@@ -133,7 +133,7 @@
 					</div>
 
 					<button class="action-btn" on:click={repurpose} disabled={!input.trim() || selected.length === 0 || loading}>
-						{#if loading}⟳ ...{:else}✨ {t('apps.repurposer.repurposeBtn')}{/if}
+						{#if loading}⟳ ...{:else}✨ {$t('apps.repurposer.repurposeBtn')}{/if}
 					</button>
 				</div>
 

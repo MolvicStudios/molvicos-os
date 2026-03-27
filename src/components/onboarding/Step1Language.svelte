@@ -18,8 +18,8 @@
 </script>
 
 <div class="step">
-	<h2 class="step-title">{t('onboarding.step1.title')}</h2>
-	<p class="step-desc">{t('onboarding.step1.subtitle')}</p>
+	<h2 class="step-title">{$t('onboarding.step1.title')}</h2>
+	<p class="step-desc">{$t('onboarding.step1.subtitle')}</p>
 
 	<div class="lang-grid">
 		{#each languages as lang}

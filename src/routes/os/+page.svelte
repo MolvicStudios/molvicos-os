@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { detectLang, t } from '$lib/i18n/index.js';
+	import { detectLang } from '$lib/i18n/index.js';
 	import * as storage from '$lib/storage/local.js';
 	import { goto } from '$app/navigation';
 	import { miraOpen } from '$lib/stores/mira.js';

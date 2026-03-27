@@ -17,10 +17,10 @@
 			if ($focusedWindow === app.id && !win.minimized) {
 				minimizeApp(app.id);
 			} else {
-				openApp({ ...app, title: t(`apps.${app.id}.name`) });
+				openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 			}
 		} else {
-			openApp({ ...app, title: t(`apps.${app.id}.name`) });
+			openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 		}
 	}
 
@@ -36,7 +36,7 @@
 				class:focused={$focusedWindow === app.id}
 				class:bounce={bounceId === app.id}
 				on:click={() => handleDockClick(app)}
-				title={t(`apps.${app.id}.name`)}
+				title={$t(`apps.${app.id}.name`)}
 			>
 				<span class="dock-emoji">{app.emoji}</span>
 				{#if openIds.has(app.id)}
@@ -54,7 +54,7 @@
 				class:focused={$focusedWindow === app.id}
 				class:bounce={bounceId === app.id}
 				on:click={() => handleDockClick(app)}
-				title={t(`apps.${app.id}.name`)}
+				title={$t(`apps.${app.id}.name`)}
 			>
 				<span class="dock-emoji">{app.emoji}</span>
 				{#if openIds.has(app.id)}

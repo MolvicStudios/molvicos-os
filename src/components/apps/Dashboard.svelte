@@ -65,7 +65,7 @@
 
 	<div class="credits-section">
 		<div class="cs-header">
-			<span class="cs-label">{t('dashboard.creditsThisMonth')}</span>
+			<span class="cs-label">{$t('dashboard.creditsThisMonth')}</span>
 			<span class="cs-value">{creditsDisplay}{creditsMax ? `/${creditsMax}` : ''}</span>
 		</div>
 		<div class="credits-bar">
@@ -85,22 +85,22 @@
 		{#if activeTab === 'overview'}
 			<div class="stat-grid">
 				<div class="stat-card">
-					<span class="stat-label">{t('dashboard.today')}</span>
+					<span class="stat-label">{$t('dashboard.today')}</span>
 					<span class="stat-val">{stats.totals.day}</span>
 					<span class="stat-sub">credits used</span>
 				</div>
 				<div class="stat-card">
-					<span class="stat-label">{t('dashboard.thisWeek')}</span>
+					<span class="stat-label">{$t('dashboard.thisWeek')}</span>
 					<span class="stat-val">{stats.totals.week}</span>
 					<span class="stat-sub">credits used</span>
 				</div>
 				<div class="stat-card">
-					<span class="stat-label">{t('dashboard.thisMonth')}</span>
+					<span class="stat-label">{$t('dashboard.thisMonth')}</span>
 					<span class="stat-val">{stats.totals.month}</span>
 					<span class="stat-sub">credits used</span>
 				</div>
 				<div class="stat-card">
-					<span class="stat-label">{t('dashboard.totalActions')}</span>
+					<span class="stat-label">{$t('dashboard.totalActions')}</span>
 					<span class="stat-val">{stats.totalActions}</span>
 					<span class="stat-sub">all time</span>
 				</div>
@@ -108,7 +108,7 @@
 
 			{#if stats.favoriteApp}
 				<div class="favorite-app">
-					<span class="fa-label">{t('dashboard.favoriteApp')}</span>
+					<span class="fa-label">{$t('dashboard.favoriteApp')}</span>
 					<span class="fa-app">
 						{getAppEmoji(stats.favoriteApp)} {getAppName(stats.favoriteApp)}
 					</span>
