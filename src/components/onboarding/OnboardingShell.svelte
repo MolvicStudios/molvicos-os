@@ -126,6 +126,8 @@
 
 	.ob-body {
 		min-height: 320px;
+		max-height: 60vh;
+		overflow-y: auto;
 		animation: fadeIn 0.3s ease;
 	}
 

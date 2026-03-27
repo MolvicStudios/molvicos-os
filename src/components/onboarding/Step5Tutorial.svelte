@@ -5,10 +5,10 @@
 	import { userProfile } from '$lib/stores/user.js';
 
 	const tips = [
-		{ icon: '⌘', text: 'onboarding.step5.tip1' },
-		{ icon: '🤖', text: 'onboarding.step5.tip2' },
-		{ icon: '🎨', text: 'onboarding.step5.tip3' },
-		{ icon: '💡', text: 'onboarding.step5.tip4' }
+		{ icon: '⌘', text: 'onboarding.step5.tourCmd' },
+		{ icon: '🤖', text: 'onboarding.step5.tourLocal' },
+		{ icon: '🎨', text: 'onboarding.step5.tourTopbar' },
+		{ icon: '💡', text: 'onboarding.step5.tourCredits' }
 	];
 
 	function finish() {
@@ -20,7 +20,7 @@
 
 <div class="step">
 	<h2 class="step-title">{$t('onboarding.step5.title')}</h2>
-	<p class="step-desc">{$t('onboarding.step5.subtitle')}</p>
+	<p class="step-desc">{$t('onboarding.step5.desc')}</p>
 
 	<div class="tips">
 		{#each tips as tip}

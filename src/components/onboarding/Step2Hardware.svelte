@@ -39,7 +39,7 @@
 
 <div class="step">
 	<h2 class="step-title">{$t('onboarding.step2.title')}</h2>
-	<p class="step-desc">{$t('onboarding.step2.subtitle')}</p>
+	<p class="step-desc">{$t('onboarding.step2.desc')}</p>
 
 	<div class="scanner-card">
 		{#if !done}
@@ -63,7 +63,7 @@
 					<span class="hw-val">{result.gpu || 'N/A'}</span>
 				</div>
 				<div class="hw-row">
-					<span class="hw-key">{$t('onboarding.step2.profile')}</span>
+					<span class="hw-key">PROFILE</span>
 					<span class="hw-val hw-tier tier-{result.tier}">{result.tier.toUpperCase()}</span>
 				</div>
 			</div>

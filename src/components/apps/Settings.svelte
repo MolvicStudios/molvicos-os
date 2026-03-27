@@ -10,11 +10,11 @@
 
 	let activeSection = 'general';
 	const sections = [
-		{ id: 'general',    icon: '⚙️', label: 'General' },
-		{ id: 'appearance', icon: '🎨', label: 'Appearance' },
-		{ id: 'ai',         icon: '🤖', label: 'AI & Models' },
-		{ id: 'account',    icon: '👤', label: 'Account & Plan' },
-		{ id: 'about',      icon: 'ℹ️', label: 'About' },
+		{ id: 'general',    icon: '⚙️' },
+		{ id: 'appearance', icon: '🎨' },
+		{ id: 'ai',         icon: '🤖' },
+		{ id: 'account',    icon: '👤' },
+		{ id: 'about',      icon: 'ℹ️' },
 	];
 
 	let n8nUrl = localStorage.getItem('ms_n8n_url') || 'https://molvicstudios.app.n8n.cloud';
@@ -80,7 +80,7 @@
 				on:click={() => activeSection = s.id}
 			>
 				<span class="sn-icon">{s.icon}</span>
-				<span class="sn-label">{s.label}</span>
+				<span class="sn-label">{$t(`settings.${s.id}`)}</span>
 			</button>
 		{/each}
 	</div>
@@ -92,8 +92,8 @@
 
 			<div class="setting-row">
 				<div class="sr-info">
-					<span class="sr-label">Language</span>
-					<span class="sr-sub">OS interface language</span>
+					<span class="sr-label">{$t('settings.language')}</span>
+					<span class="sr-sub">{$t('settings.languageSub')}</span>
 				</div>
 				<div class="lang-pills">
 					{#each [['en','EN'],['es','ES'],['de','DE'],['fr','FR'],['zh','ZH']] as [code, label]}
@@ -141,7 +141,7 @@
 			<div class="settings-section-title">{$t('settings.ai')}</div>
 
 			<div class="sr-sub" style="margin-bottom:14px">
-				Keys are stored locally. Never sent to our servers.
+				{$t('settings.keysLocal')}
 			</div>
 
 			{#each [
@@ -168,7 +168,7 @@
 
 			<div class="setting-row" style="margin-top:16px">
 				<div class="sr-info">
-					<span class="sr-label">Ollama Status</span>
+					<span class="sr-label">{$t('settings.ollamaStatus')}</span>
 					<span class="sr-sub">Local AI (localhost:11434)</span>
 				</div>
 				<span class="ollama-status" class:online={$ollamaStatus === 'online'}>
@@ -188,15 +188,15 @@
 				</div>
 				{#if $planStore.plan === 'free'}
 					<button class="cpc-upgrade" on:click={() => openUpgradeModal()}>
-						Upgrade to Pro →
+					{$t('plans.upgradeTitle')} →
 					</button>
 				{/if}
 			</div>
 
 			{#if $planStore.plan === 'free'}
 				<div class="license-section">
-					<span class="sr-label">License Key</span>
-					<span class="sr-sub">Already purchased? Enter your key.</span>
+					<span class="sr-label">{$t('settings.licenseKey')}</span>
+					<span class="sr-sub">{$t('settings.licenseKeySub')}</span>
 					<div class="license-input-row">
 						<input
 							bind:value={licenseInput}
@@ -208,7 +208,7 @@
 							on:click={activateLicense}
 							disabled={licenseChecking || !licenseInput.trim()}
 						>
-							{licenseChecking ? 'Checking...' : 'Activate'}
+						{licenseChecking ? $t('common.loading') : $t('settings.activate')}
 						</button>
 					</div>
 					{#if licenseMessage}
@@ -220,10 +220,10 @@
 			{:else}
 				<div class="setting-row">
 					<div class="sr-info">
-						<span class="sr-label">License Key</span>
+					<span class="sr-label">{$t('settings.licenseKey')}</span>
 						<span class="sr-sub">{$planStore.licenseKey?.slice(0,20)}...</span>
 					</div>
-					<button class="sr-danger-btn" on:click={deactivatePro}>Deactivate</button>
+					<button class="sr-danger-btn" on:click={deactivatePro}>{$t('settings.deactivate')}</button>
 				</div>
 			{/if}
 

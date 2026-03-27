@@ -46,25 +46,25 @@
 
 <div class="step">
 	<h2 class="step-title">{$t('onboarding.step4.title')}</h2>
-	<p class="step-desc">{$t('onboarding.step4.subtitle')}</p>
+	<p class="step-desc">{$t('onboarding.step4.desc')}</p>
 
 	<div class="ollama-card">
 		{#if checking}
 			<div class="detect">
 				<div class="spinner"></div>
-				<span>{$t('onboarding.step4.detecting')}</span>
+				<span>{$t('onboarding.step2.scanning')}</span>
 			</div>
 		{:else if !available}
 			<div class="not-found">
 				<span class="nf-icon">⚠</span>
-				<p class="nf-text">{$t('onboarding.step4.notFound')}</p>
+				<p class="nf-text">{$t('onboarding.step4.ollama_offline')}</p>
 				<a href="https://ollama.ai" target="_blank" rel="noopener" class="nf-link">
-					{$t('onboarding.step4.install')}
+					{$t('onboarding.step4.install_ollama')}
 				</a>
 			</div>
 		{:else}
 			<div class="connected">
-				<span class="c-badge">● {$t('onboarding.step4.connected')}</span>
+				<span class="c-badge">● {$t('onboarding.step4.ollama_online')}</span>
 			</div>
 
 			{#if models.length > 0}
@@ -76,7 +76,7 @@
 				</div>
 			{/if}
 
-			<div class="section-label">{$t('onboarding.step4.suggested')}</div>
+			<div class="section-label">{$t('onboarding.step4.recommended')}</div>
 			<div class="model-list">
 				{#each suggested as name}
 					<div class="model-item model-pull">

@@ -10,7 +10,7 @@
 	let statuses = {};
 	let validating = {};
 
-	const providers = PROVIDERS.filter(p => p.id !== 'ollama');
+	const providers = Object.values(PROVIDERS);
 
 	async function validate(id) {
 		const key = keys[id]?.trim();
@@ -33,15 +33,15 @@
 
 <div class="step">
 	<h2 class="step-title">{$t('onboarding.step3.title')}</h2>
-	<p class="step-desc">{$t('onboarding.step3.subtitle')}</p>
+	<p class="step-desc">{$t('onboarding.step3.desc')}</p>
 
 	<div class="providers">
 		{#each providers as provider}
 			<div class="provider-row">
 				<div class="provider-info">
 					<span class="provider-name">{provider.name}</span>
-					{#if provider.free}
-						<span class="badge-free">FREE</span>
+					{#if provider.tier === 'free'}
+						<span class="badge-free">{$t('onboarding.step3.free')}</span>
 					{/if}
 				</div>
 				<div class="key-input-row">
@@ -64,7 +64,7 @@
 		{/each}
 	</div>
 
-	<p class="note">{$t('onboarding.step3.note')}</p>
+	<p class="note">{$t('onboarding.step3.skip')}</p>
 </div>
 
 <style>

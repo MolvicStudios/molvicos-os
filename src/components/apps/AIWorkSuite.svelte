@@ -8,30 +8,43 @@
 
   const history = createAppHistory('aiworksuite');
 
-  let activeModule  = 'invoice';
+  let activeModule  = 'teams';
   let isGenerating  = false;
   let result        = '';
   let copySuccess   = false;
 
+  // --- Teams ---
+  let teams = JSON.parse(localStorage.getItem('ms_aiws_teams') || '[]');
+  let teamName      = '';
+  let teamProject   = '';
+  let teamSize      = '3';
+  let teamRoles     = '';
+  let editingTeam   = null;
+
+  // --- Invoice ---
   let invClient     = '';
   let invServices   = '';
   let invTotal      = '';
   let invCurrency   = 'USD';
   let invDueDate    = '';
 
+  // --- Proposal ---
   let propProject   = '';
   let propClient    = '';
   let propBudget    = '';
   let propTimeline  = '';
 
+  // --- Contract ---
   let ctxProject    = '';
   let ctxClient     = '';
   let ctxRate       = '';
   let ctxScope      = '';
 
+  // --- Time tracking ---
   let timeEntries   = JSON.parse(localStorage.getItem('ms_aiws_time') || '[]');
   let newEntry      = { date: '', description: '', hours: '' };
 
+  // --- Rate calculator ---
   let rateDesiredSalary = '';
   let rateWorkWeeks     = '48';
   let rateHoursPerWeek  = '40';
@@ -75,6 +88,55 @@
     });
   }
 
+  // --- Teams ---
+  function saveTeam() {
+    if (!teamName.trim()) return;
+    const team = {
+      id: editingTeam?.id || crypto.randomUUID(),
+      name: teamName,
+      project: teamProject,
+      size: parseInt(teamSize) || 3,
+      roles: teamRoles,
+      createdAt: editingTeam?.createdAt || new Date().toISOString()
+    };
+    if (editingTeam) {
+      teams = teams.map(t => t.id === team.id ? team : t);
+    } else {
+      teams = [team, ...teams].slice(0, 20);
+    }
+    localStorage.setItem('ms_aiws_teams', JSON.stringify(teams));
+    editingTeam = null;
+    teamName = ''; teamProject = ''; teamSize = '3'; teamRoles = '';
+  }
+
+  function editTeam(team) {
+    editingTeam = team;
+    teamName = team.name;
+    teamProject = team.project;
+    teamSize = String(team.size);
+    teamRoles = team.roles || '';
+  }
+
+  function deleteTeam(id) {
+    teams = teams.filter(t => t.id !== id);
+    localStorage.setItem('ms_aiws_teams', JSON.stringify(teams));
+  }
+
+  function generateTeamPlan() {
+    if (!teamName.trim()) return;
+    generate(`You are an expert team management and organizational design consultant.
+Generate a comprehensive team plan including:
+- Team Structure: roles, responsibilities, and reporting lines
+- Communication Plan: meetings, tools, async protocols
+- Project Milestones: key phases and deliverables timeline
+- Workflow: how work flows between team members
+- KPIs: measurable success metrics for the team
+Format in clear sections with actionable items.`,
+      `Team: ${teamName}\nProject: ${teamProject || 'General team operations'}\nTeam size: ${teamSize}\nRoles: ${teamRoles || 'To be determined by AI'}`
+    );
+  }
+
+  // --- Invoice ---
   function generateInvoice() {
     if (!invClient.trim() || !invServices.trim()) return;
     generate(`You are a professional invoice writer for freelancers.
@@ -160,15 +222,16 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
 
   <div class="aiws-tabs">
     {#each [
-      ['invoice','🧾','Invoice'],
-      ['proposal','📄','Proposal'],
-      ['contract','📋','Contract'],
-      ['time','⏱','Time'],
-      ['rate','💰','Rate'],
-    ] as [id, icon, label]}
+      ['teams','👥'],
+      ['invoice','🧾'],
+      ['proposal','📄'],
+      ['contract','📋'],
+      ['time','⏱'],
+      ['rate','💰'],
+    ] as [id, icon]}
       <button class="aiws-tab" class:active={activeModule === id}
         on:click={() => { activeModule = id; result = ''; }}>
-        {icon} {label}
+        {icon} {$t(`apps.aiworksuite.${id}`)}
       </button>
     {/each}
   </div>
@@ -177,46 +240,82 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
 
     <div class="aiws-form">
 
-      {#if activeModule === 'invoice'}
-        <div class="form-field"><label>Client Name / Company</label>
+      {#if activeModule === 'teams'}
+        <div class="form-field"><label>{$t('apps.aiworksuite.teamName')}</label>
+          <input bind:value={teamName} placeholder="Marketing Team" /></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.teamProject')}</label>
+          <textarea bind:value={teamProject} rows="3" placeholder={$t('apps.aiworksuite.teamProjectPh')}></textarea></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.teamSize')}</label>
+          <input bind:value={teamSize} type="number" min="2" max="20" /></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.teamRoles')}</label>
+          <input bind:value={teamRoles} placeholder="Designer, Developer, PM..." /></div>
+        <div style="display:flex;gap:6px">
+          <button class="gen-btn" style="flex:1" on:click={saveTeam} disabled={!teamName.trim()}>
+            💾 {editingTeam ? $t('common.save') : $t('apps.aiworksuite.createTeam')}
+          </button>
+          <button class="gen-btn" style="flex:1" on:click={generateTeamPlan} disabled={isGenerating || !teamName.trim()}>
+            {isGenerating ? $t('common.loading') : `🤖 ${$t('apps.aiworksuite.generatePlan')}`}
+          </button>
+        </div>
+
+        {#if teams.length > 0}
+          <div class="teams-label">{$t('apps.aiworksuite.savedTeams')}</div>
+          <div class="teams-list">
+            {#each teams as team (team.id)}
+              <div class="team-card">
+                <div class="tc-info">
+                  <span class="tc-name">👥 {team.name}</span>
+                  <span class="tc-meta">{team.size} members · {team.project?.slice(0,40) || '—'}</span>
+                </div>
+                <div class="tc-actions">
+                  <button class="tc-btn" on:click={() => editTeam(team)}>✏️</button>
+                  <button class="tc-btn" on:click={() => deleteTeam(team.id)}>×</button>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+
+      {:else if activeModule === 'invoice'}
+        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
           <input bind:value={invClient} placeholder="Acme Corp" /></div>
-        <div class="form-field"><label>Services Rendered</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.services')}</label>
           <textarea bind:value={invServices} rows="4" placeholder="Web design - 20h @ $80/h&#10;Copywriting - 5h @ $60/h"></textarea></div>
-        <div class="form-field"><label>Total Amount</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.totalAmount')}</label>
           <div style="display:flex;gap:6px">
             <input bind:value={invTotal} placeholder="2000" style="flex:1" />
             <select bind:value={invCurrency} style="width:70px">
               {#each ['USD','EUR','GBP','CAD','AUD'] as c}<option>{c}</option>{/each}
             </select>
           </div></div>
-        <div class="form-field"><label>Due Date</label>
-          <input bind:value={invDueDate} placeholder="30 days / specific date" /></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.dueDate')}</label>
+          <input bind:value={invDueDate} placeholder="30 days" /></div>
         <button class="gen-btn" on:click={generateInvoice} disabled={isGenerating || !invClient.trim()}>
-          {isGenerating ? 'Generating...' : '🧾 Generate Invoice — 1 cr'}</button>
+          {isGenerating ? $t('common.loading') : `🧾 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'proposal'}
-        <div class="form-field"><label>Project Description</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.projectDesc')}</label>
           <textarea bind:value={propProject} rows="4" placeholder="Build a landing page for a SaaS product..."></textarea></div>
-        <div class="form-field"><label>Client Name</label>
-          <input bind:value={propClient} placeholder="Client or company name" /></div>
-        <div class="form-field"><label>Budget Range</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
+          <input bind:value={propClient} placeholder="Client" /></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.budget')}</label>
           <input bind:value={propBudget} placeholder="$2,000 - $4,000" /></div>
-        <div class="form-field"><label>Timeline</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.timeline')}</label>
           <input bind:value={propTimeline} placeholder="2-3 weeks" /></div>
         <button class="gen-btn" on:click={generateProposal} disabled={isGenerating || !propProject.trim()}>
-          {isGenerating ? 'Writing...' : '📄 Write Proposal — 1 cr'}</button>
+          {isGenerating ? $t('common.loading') : `📄 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'contract'}
-        <div class="form-field"><label>Project / Scope</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.projectScope')}</label>
           <textarea bind:value={ctxProject} rows="3" placeholder="Website redesign including 5 pages..."></textarea></div>
-        <div class="form-field"><label>Client Name</label>
-          <input bind:value={ctxClient} placeholder="Client name" /></div>
-        <div class="form-field"><label>Rate / Payment</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
+          <input bind:value={ctxClient} placeholder="Client" /></div>
+        <div class="form-field"><label>{$t('apps.aiworksuite.ratePayment')}</label>
           <input bind:value={ctxRate} placeholder="$3,500 flat / $80/hour" /></div>
-        <div class="form-field"><label>Additional Scope Notes</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.scopeNotes')}</label>
           <textarea bind:value={ctxScope} rows="2" placeholder="3 revision rounds included..."></textarea></div>
         <button class="gen-btn" on:click={generateContract} disabled={isGenerating || !ctxProject.trim()}>
-          {isGenerating ? 'Generating...' : '📋 Generate Contract — 1 cr'}</button>
+          {isGenerating ? $t('common.loading') : `📋 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'time'}
         <div class="time-entry-form">
@@ -237,19 +336,19 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
         </div>
         <div class="time-total">Total: <strong>{totalHours.toFixed(1)}h</strong></div>
         <button class="gen-btn" on:click={generateTimeSummary} disabled={isGenerating || timeEntries.length === 0}>
-          {isGenerating ? 'Generating...' : '⏱ Generate Summary — 1 cr'}</button>
+          {isGenerating ? $t('common.loading') : `⏱ ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'rate'}
-        <div class="form-field"><label>Desired Annual Income</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.annualIncome')}</label>
           <input bind:value={rateDesiredSalary} placeholder="60000" type="number" /></div>
-        <div class="form-field"><label>Billable Weeks/Year</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.billableWeeks')}</label>
           <input bind:value={rateWorkWeeks} type="number" min="1" max="52" /></div>
-        <div class="form-field"><label>Billable Hours/Week</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.billableHours')}</label>
           <input bind:value={rateHoursPerWeek} type="number" min="1" max="60" /></div>
-        <div class="form-field"><label>Overhead % (taxes, tools, etc.)</label>
+        <div class="form-field"><label>{$t('apps.aiworksuite.overheadPct')}</label>
           <input bind:value={rateOverhead} type="number" min="0" max="100" /></div>
         <button class="gen-btn" on:click={calculateRate} disabled={!rateDesiredSalary}>
-          💰 Calculate Rate</button>
+          💰 {$t('apps.aiworksuite.calculateRate')}</button>
         {#if rateResult}
           <div class="rate-results">
             {#each [['Hourly',rateResult.hourly],['Daily',rateResult.daily],['Weekly',rateResult.weekly],['Monthly',rateResult.monthly]] as [label, val]}
@@ -268,7 +367,7 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
       <div class="aiws-result">
         {#if result}
           <div class="result-actions">
-            <button on:click={copy}>{copySuccess ? '✓ Copied!' : 'Copy'}</button>
+            <button on:click={copy}>{copySuccess ? '✓' : $t('apps.aiworksuite.copy')}</button>
             <button on:click={() => exportTXT(result, `aiws-${activeModule}.txt`)}>TXT</button>
             <button on:click={() => exportPDF(result, `AIWorkSuite — ${activeModule}`)}>PDF</button>
           </div>
@@ -332,4 +431,14 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .result-text { flex: 1; overflow-y: auto; padding: 14px; font-size: 11px; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; line-height: 1.7; margin: 0; }
   .result-loading, .result-empty { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: var(--text-secondary); font-size: 12px; }
   .loading-glyph { font-size: 24px; color: var(--accent); animation: pulse-accent 2s infinite; }
+
+  .teams-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-top: 6px; }
+  .teams-list { display: flex; flex-direction: column; gap: 6px; }
+  .team-card { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--bg-input); }
+  .tc-info { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .tc-name { font-size: 11px; color: var(--text-primary); font-weight: 500; }
+  .tc-meta { font-size: 9px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tc-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .tc-btn { background: none; border: none; color: var(--text-muted); font-size: 13px; cursor: pointer; padding: 2px 4px; }
+  .tc-btn:hover { color: var(--accent); }
 </style>

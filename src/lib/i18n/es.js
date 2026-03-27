@@ -77,7 +77,7 @@ export default {
 	apps: {
 		promptlab: { name: 'Prompt Lab', desc: 'Optimizador y Biblioteca', tabOptimizer: 'Optimizador', tabLibrary: 'Biblioteca', inputLabel: 'Tu prompt', inputPlaceholder: 'Pega o escribe un prompt para optimizar...', targetModel: 'Modelo objetivo', optimizeBtn: 'Optimizar', librarySearch: 'Buscar prompts...', libraryAdd: 'Nuevo prompt', libraryEmpty: 'Tu biblioteca está vacía' },
 		prospectly: { name: 'Prospectly', desc: 'Prospección B2B con IA' },
-		aiworksuite: { name: 'AIWorkSuite', desc: 'Productividad Freelance' },
+		aiworksuite: { name: 'AIWorkSuite', desc: 'Productividad Freelance', teams: 'Equipos', invoice: 'Factura', proposal: 'Propuesta', contract: 'Contrato', time: 'Tiempo', rate: 'Tarifa', teamName: 'Nombre del equipo', teamProject: 'Contexto del proyecto', teamProjectPh: 'Describe el proyecto en el que trabajará este equipo...', teamSize: 'Tamaño del equipo', teamRoles: 'Roles clave', createTeam: 'Crear equipo', generatePlan: 'Generar plan', savedTeams: 'EQUIPOS GUARDADOS', clientName: 'Nombre del cliente', services: 'Servicios realizados', totalAmount: 'Monto total', dueDate: 'Fecha de vencimiento', generate: 'Generar', projectDesc: 'Descripción del proyecto', budget: 'Rango de presupuesto', timeline: 'Plazo', projectScope: 'Proyecto / Alcance', ratePayment: 'Tarifa / Pago', scopeNotes: 'Notas de alcance', annualIncome: 'Ingreso anual deseado', billableWeeks: 'Semanas facturables/año', billableHours: 'Horas facturables/semana', overheadPct: 'Gastos % (impuestos, herramientas...)', calculateRate: 'Calcular tarifa', copy: 'Copiar' },
 		repurposer: { name: 'Repurposer', desc: 'Contenido × 6 formatos', inputLabel: 'Contenido fuente', inputPlaceholder: 'Pega el contenido que quieres reutilizar...', wordCount: '{n} palabras', selectAll: 'Seleccionar todo', selectNone: 'Deseleccionar todo', outputLang: 'Idioma de salida', repurposeBtn: 'Reutilizar' },
 		briefgen: { name: 'Brief Gen', desc: 'Briefs SEO con IA', keyword: 'Palabra clave principal', secondaryKw: 'Palabras clave secundarias', contentType: 'Tipo de contenido', audience: 'Audiencia objetivo', competitors: 'URLs de competidores', language: 'Idioma', wordTarget: 'Objetivo de palabras', generateBtn: 'Generar Brief' },
 		workflow: { name: 'Automatizaciones', desc: 'n8n · Make · Scripts', descLabel: 'Descripción', descPlaceholder: 'Describe lo que quieres automatizar...', triggerType: 'Tipo de disparador', complexity: 'Complejidad', errorHandling: 'Incluir manejo de errores', generateBtn: 'Generar', primaryModule: 'Módulo principal', resourceType: 'Tipo de recurso', level: 'Nivel', levelBasic: 'Básico', levelAdvanced: 'Avanzado' },
@@ -178,6 +178,14 @@ export default {
 		ai: 'IA y Modelos',
 		account: 'Cuenta y Plan',
 		about: 'Acerca de',
+		language: 'Idioma',
+		languageSub: 'Idioma de la interfaz del SO',
+		keysLocal: 'Todas las claves se almacenan localmente en tu navegador.',
+		ollamaStatus: 'Estado de Ollama',
+		licenseKey: 'Clave de licencia',
+		licenseKeySub: '¿Ya compraste? Introduce tu clave abajo.',
+		activate: 'Activar',
+		deactivate: 'Desactivar',
 		n8nUrl: 'URL de instancia n8n',
 		n8nUrlSub: 'Conecta tu n8n autoalojado',
 		saved: 'Guardado'

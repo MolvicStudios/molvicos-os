@@ -77,7 +77,7 @@ export default {
 	apps: {
 		promptlab: { name: 'Prompt Lab', desc: 'Optimizer & Library', tabOptimizer: 'Optimizer', tabLibrary: 'Library', inputLabel: 'Your prompt', inputPlaceholder: 'Paste or write a prompt to optimize...', targetModel: 'Target model', optimizeBtn: 'Optimize', librarySearch: 'Search prompts...', libraryAdd: 'New prompt', libraryEmpty: 'Your library is empty' },
 		prospectly: { name: 'Prospectly', desc: 'B2B AI Outreach' },
-		aiworksuite: { name: 'AIWorkSuite', desc: 'Freelance Productivity' },
+		aiworksuite: { name: 'AIWorkSuite', desc: 'Freelance Productivity', teams: 'Teams', invoice: 'Invoice', proposal: 'Proposal', contract: 'Contract', time: 'Time', rate: 'Rate', teamName: 'Team Name', teamProject: 'Project Context', teamProjectPh: 'Describe the project this team will work on...', teamSize: 'Team Size', teamRoles: 'Key Roles', createTeam: 'Create Team', generatePlan: 'Generate Plan', savedTeams: 'SAVED TEAMS', clientName: 'Client Name', services: 'Services Rendered', totalAmount: 'Total Amount', dueDate: 'Due Date', generate: 'Generate', projectDesc: 'Project Description', budget: 'Budget Range', timeline: 'Timeline', projectScope: 'Project / Scope', ratePayment: 'Rate / Payment', scopeNotes: 'Scope Notes', annualIncome: 'Desired Annual Income', billableWeeks: 'Billable Weeks/Year', billableHours: 'Billable Hours/Week', overheadPct: 'Overhead % (taxes, tools...)', calculateRate: 'Calculate Rate', copy: 'Copy' },
 		repurposer: { name: 'Repurposer', desc: 'Content × 6 formats', inputLabel: 'Source content', inputPlaceholder: 'Paste the content you want to repurpose...', wordCount: '{n} words', selectAll: 'Select all', selectNone: 'Select none', outputLang: 'Output language', repurposeBtn: 'Repurpose' },
 		briefgen: { name: 'Brief Gen', desc: 'SEO Briefs AI', keyword: 'Primary keyword', secondaryKw: 'Secondary keywords', contentType: 'Content type', audience: 'Target audience', competitors: 'Competitor URLs', language: 'Language', wordTarget: 'Word target', generateBtn: 'Generate Brief' },
 		workflow: { name: 'Automations', desc: 'n8n · Make · Scripts', descLabel: 'Description', descPlaceholder: 'Describe what you want to automate...', triggerType: 'Trigger type', complexity: 'Complexity', errorHandling: 'Include error handling', generateBtn: 'Generate', primaryModule: 'Primary module', resourceType: 'Resource type', level: 'Level', levelBasic: 'Basic', levelAdvanced: 'Advanced' },
@@ -178,6 +178,14 @@ export default {
 		ai: 'AI & Models',
 		account: 'Account & Plan',
 		about: 'About',
+		language: 'Language',
+		languageSub: 'OS interface language',
+		keysLocal: 'All keys are stored locally in your browser.',
+		ollamaStatus: 'Ollama Status',
+		licenseKey: 'License Key',
+		licenseKeySub: 'Already purchased? Enter your key below.',
+		activate: 'Activate',
+		deactivate: 'Deactivate',
 		n8nUrl: 'n8n Instance URL',
 		n8nUrlSub: 'Connect your self-hosted n8n',
 		saved: 'Saved'

@@ -6,7 +6,6 @@ import BriefGen from '../components/apps/BriefGen.svelte';
 import WorkflowBuilder from '../components/apps/WorkflowBuilder.svelte';
 import LocalModels from '../components/apps/LocalModels.svelte';
 import AITerminal from '../components/apps/AITerminal.svelte';
-import AppStore from '../components/apps/AppStore.svelte';
 import Dashboard from '../components/apps/Dashboard.svelte';
 import Settings from '../components/apps/Settings.svelte';
 
@@ -98,17 +97,6 @@ export const APPS = [
 		credits: 1,
 		section: 'power',
 		status: 'active'
-	},
-	{
-		id: 'appstore',
-		component: AppStore,
-		emoji: '🌐',
-		colorClass: 'icon-gray',
-		dockSlot: null,
-		defaultSize: { w: 760, h: 560 },
-		credits: 0,
-		section: 'power',
-		status: 'coming-soon'
 	},
 	{
 		id: 'dashboard',
