@@ -1,0 +1,10 @@
+name = "prospectly-groq-proxy"
+main = "groq-proxy.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+# LEMONSQUEEZY_API_KEY se añade como secret:
+# wrangler secret put LEMONSQUEEZY_API_KEY
+
+[env.production]
+routes = [{ pattern = "api.prospectly.shop/*", zone_name = "prospectly.shop" }]

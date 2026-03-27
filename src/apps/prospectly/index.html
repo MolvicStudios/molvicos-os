@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Prospectly.shop — Genera recursos IA y consigue clientes B2B</title>
+  <meta name="description" content="Genera prompts, flujos n8n, scripts de IA y plantillas de automatización al instante. Herramienta de prospección B2B con IA: ICP, emails en frío y scripts de venta. Gratis.">
+  <meta name="keywords" content="generar prompts IA, flujos n8n gratis, automatizacion IA, prospección B2B IA, email frio IA, conseguir clientes freelance, scripts ventas IA, plantillas automatizacion">
+  <meta name="author" content="MolvicStudios">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://prospectly.shop/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prospectly.shop/">
+  <meta property="og:title" content="Prospectly.shop — Recursos IA y prospección B2B gratis">
+  <meta property="og:description" content="Genera prompts, flujos n8n y scripts de IA al instante. Kit completo de prospección B2B con IA.">
+  <meta property="og:image" content="https://prospectly.shop/icons/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Prospectly.shop">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prospectly.shop — Recursos IA y clientes B2B con IA">
+  <meta name="twitter:description" content="Genera prompts, automatizaciones y scripts IA al instante. Kit prospección B2B completo. Gratis.">
+  <meta name="twitter:image" content="https://prospectly.shop/icons/og-image.png">
+
+  <meta name="theme-color" content="#1a1f35">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Prospectly.shop",
+    "url": "https://prospectly.shop",
+    "description": "Generador de recursos IA (prompts, flujos n8n, scripts) y herramienta de prospección B2B con IA. Gratis.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "inLanguage": ["es", "en"],
+    "author": {
+      "@type": "Organization",
+      "name": "MolvicStudios",
+      "url": "https://molvicstudios.pro",
+      "email": "molvicstudios@outlook.com"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+  <link rel="preload" href="/css/tokens.css" as="style">
+  <link rel="preload" href="/css/reset.css" as="style">
+  <link rel="preload" href="/css/layout.css" as="style">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/generator.css">
+  <link rel="stylesheet" href="/css/prospecting.css">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+
+<!-- NAVBAR -->
+<header>
+<nav class="navbar" aria-label="Navegación principal">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      Prospectly<span class="nav-logo-accent">.shop</span>
+      <span class="nav-by">by MolvicStudios.pro</span>
+    </a>
+    <div class="nav-tabs">
+      <span id="pro-badge" class="badge badge--free">🔒 Free</span>
+      <button class="nav-tab active" data-section="generator">
+        <span class="tab-dot" style="background:var(--color-generator)"></span>
+        Generador de recursos
+      </button>
+      <button class="nav-tab" data-section="prospecting">
+        <span class="tab-dot" style="background:var(--color-prospecting)"></span>
+        Prospección B2B
+      </button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="hero-bar">
+  <div class="container">
+    <p class="hero-text">Herramientas IA para freelancers y profesionales.</p>
+  </div>
+</div>
+
+<main id="main-content">
+<!-- SECCIÓN 1: GENERADOR DE RECURSOS -->
+<section id="section-generator" class="app-section active">
+  <div class="container section-inner">
+
+    <div class="section-header">
+      <h1>Generador de recursos IA</h1>
+      <p>Describe lo que necesitas y la IA lo genera al instante — listo para usar</p>
+    </div>
+
+    <div class="gen-layout">
+
+      <!-- Panel izquierdo: configurador -->
+      <div class="gen-config">
+
+        <div class="field">
+          <label>Tipo de recurso</label>
+          <div class="resource-grid" id="resource-type-grid">
+            <button class="resource-type active" data-type="prompt">
+              <span class="rt-icon">💬</span>
+              <span>Prompt</span>
+            </button>
+            <button class="resource-type" data-type="n8n_flow" data-pro>
+              <span class="rt-icon">🔄</span>
+              <span>Flujo n8n</span>
+            </button>
+            <button class="resource-type" data-type="make_flow" data-pro>
+              <span class="rt-icon">⚙️</span>
+              <span>Flujo Make</span>
+            </button>
+            <button class="resource-type" data-type="automation">
+              <span class="rt-icon">🤖</span>
+              <span>Automatización</span>
+            </button>
+            <button class="resource-type" data-type="script_python" data-pro>
+              <span class="rt-icon">🐍</span>
+              <span>Script Python</span>
+            </button>
+            <button class="resource-type" data-type="script_js" data-pro>
+              <span class="rt-icon">⚡</span>
+              <span>Script JS</span>
+            </button>
+            <button class="resource-type" data-type="guide">
+              <span class="rt-icon">📖</span>
+              <span>Guía PDF</span>
+            </button>
+            <button class="resource-type" data-type="template">
+              <span class="rt-icon">📋</span>
+              <span>Plantilla</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="gen-description">Describe lo que necesitas *</label>
+          <textarea id="gen-description" rows="5"
+            placeholder="Ejemplo: 'Necesito un prompt para Claude que analice facturas en PDF y extraiga: número de factura, fecha, importe total, proveedor y concepto. Que devuelva JSON estructurado.'
+
+Otro ejemplo: 'Quiero un flujo n8n que cuando llegue un lead de Typeform lo guarde en Notion, envíe notificación por Telegram y añada a una lista de Brevo.'"></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="gen-model">Modelo IA objetivo</label>
+            <select id="gen-model">
+              <option value="">Cualquiera</option>
+              <option value="claude">Claude (Anthropic)</option>
+              <option value="chatgpt">ChatGPT / GPT-4</option>
+              <option value="gemini">Gemini</option>
+              <option value="groq">Groq / Llama</option>
+              <option value="mistral">Mistral</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="gen-lang">Idioma del recurso</label>
+            <select id="gen-lang">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Nivel de detalle</label>
+          <div class="level-selector">
+            <button class="level-btn active" data-level="basic">Básico — para empezar</button>
+            <button class="level-btn" data-level="advanced" data-pro>Avanzado — listo para producción</button>
+          </div>
+        </div>
+
+        <button class="btn-generate" id="btn-generate-resource">
+          Generar recurso →
+        </button>
+      </div>
+
+      <!-- Panel derecho: resultado -->
+      <div class="gen-result" id="gen-result-panel">
+        <div class="result-placeholder">
+          <div class="placeholder-icon">✨</div>
+          <p>Tu recurso generado aparecerá aquí</p>
+          <span>Describe lo que necesitas y pulsa Generar</span>
+        </div>
+        <div class="result-content" id="gen-result-content" style="display:none">
+          <div class="result-header">
+            <span class="result-type-badge" id="result-type-badge"></span>
+            <div class="result-actions">
+              <button onclick="copyGenResult()">Copiar</button>
+              <button onclick="downloadGenResult()">Descargar .txt</button>
+              <button onclick="exportGenPDF()" data-pro>PDF</button>
+            </div>
+          </div>
+          <div class="ai-indicator">
+            <span class="ai-badge">🤖 Generado con IA</span>
+            <span class="ai-disclaimer">Este contenido fue generado por inteligencia artificial. Revísalo antes de usarlo.</span>
+          </div>
+          <pre class="result-code" id="gen-result-code"></pre>
+          <div class="result-explanation" id="gen-result-explanation"></div>
+          <div class="share-block">
+            <span>Compartir:</span>
+            <button onclick="shareWhatsApp()" title="WhatsApp" aria-label="Compartir en WhatsApp">💬 WhatsApp</button>
+            <button onclick="shareTwitter()" title="Twitter / X" aria-label="Compartir en Twitter">🐦 Twitter</button>
+            <button onclick="shareURL()" title="Copiar enlace" aria-label="Copiar enlace">🔗 Copiar enlace</button>
+          </div>
+          <div class="feedback-block" id="feedback-gen">
+            <p>¿Te ha sido útil este recurso?</p>
+            <div class="feedback-btns">
+            <button onclick="sendFeedback('gen','up')" aria-label="Me gusta">👍</button>
+            <button onclick="sendFeedback('gen','down')" aria-label="No me gusta">👎</button>
+            </div>
+            <div class="feedback-text" id="feedback-gen-text" style="display:none">
+              <textarea id="feedback-gen-msg" rows="2" placeholder="¿Qué podemos mejorar?"></textarea>
+              <button onclick="submitFeedback('gen')">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 2: PROSPECCIÓN B2B -->
+<section id="section-prospecting" class="app-section">
+  <div class="container section-inner">
+
+    <div class="section-header">
+      <h1>Kit de prospección B2B</h1>
+      <p>Describe tu cliente ideal y la IA genera todo lo que necesitas para conseguirlo</p>
+    </div>
+
+    <div class="prosp-layout">
+
+      <!-- Formulario -->
+      <div class="prosp-form">
+        <div class="field">
+          <label for="prosp-target">¿A quién le quieres vender? *</label>
+          <textarea id="prosp-target" rows="4"
+            placeholder="Ejemplo: 'Agencias de marketing digital en España con 5-20 empleados que no usan automatizaciones de IA todavía. Principalmente en Madrid y Barcelona.'"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="prosp-offer">¿Qué vendes? *</label>
+          <textarea id="prosp-offer" rows="3"
+            placeholder="Ejemplo: 'Servicios de automatización con n8n y Make. Automatizo procesos de captación de leads, onboarding de clientes y reportes automáticos.'"></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="prosp-sector">Tu sector / nicho</label>
+            <select id="prosp-sector">
+              <option value="automatizacion_ia">Automatización e IA</option>
+              <option value="desarrollo_web">Desarrollo web</option>
+              <option value="marketing_digital">Marketing digital</option>
+              <option value="consultoria">Consultoría</option>
+              <option value="diseno">Diseño</option>
+              <option value="copywriting">Copywriting</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="prosp-channel">Canal de prospección</label>
+            <select id="prosp-channel">
+              <option value="email">Email en frío</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="telefono">Llamada telefónica</option>
+              <option value="whatsapp">WhatsApp / Telegram</option>
+              <option value="todos">Todos los canales</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>¿Qué quieres que genere la IA?</label>
+          <div class="checks-grid">
+            <label class="check-item">
+              <input type="checkbox" id="gen-icp" checked> Perfil cliente ideal (ICP)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="gen-email" checked> Email en frío (3 versiones)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="gen-linkedin" checked> Mensaje LinkedIn
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="gen-script" checked> Script de llamada
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="gen-objections" checked> Manejo de objeciones
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="gen-followup"> Secuencia de follow-up
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-generate prosp-btn" id="btn-generate-prosp">
+          Generar kit de prospección →
+        </button>
+      </div>
+
+      <!-- Resultado prospección -->
+      <div class="prosp-result" id="prosp-result" style="display:none">
+        <div class="prosp-result-header">
+          <h2>Tu kit de prospección</h2>
+          <button class="btn-export-all" onclick="exportProspPDF()" data-pro>Exportar todo como PDF</button>
+        </div>
+        <div id="prosp-result-content"></div>
+        <div class="ai-indicator prosp-ai-indicator" id="prosp-ai-indicator" style="display:none">
+          <span class="ai-badge">🤖 Generado con IA</span>
+          <span class="ai-disclaimer">Este contenido fue generado por inteligencia artificial. Revísalo antes de usarlo.</span>
+        </div>
+        <div class="share-block prosp-share" id="prosp-share" style="display:none">
+          <span>Compartir:</span>
+          <button onclick="shareWhatsApp()" title="WhatsApp" aria-label="Compartir en WhatsApp">💬 WhatsApp</button>
+          <button onclick="shareTwitter()" title="Twitter / X" aria-label="Compartir en Twitter">🐦 Twitter</button>
+          <button onclick="shareURL()" title="Copiar enlace" aria-label="Copiar enlace">🔗 Copiar enlace</button>
+        </div>
+        <div class="feedback-block" id="feedback-prosp" style="display:none">
+          <p>¿Te ha sido útil este kit?</p>
+          <div class="feedback-btns">
+            <button onclick="sendFeedback('prosp','up')" aria-label="Me gusta">👍</button>
+            <button onclick="sendFeedback('prosp','down')" aria-label="No me gusta">👎</button>
+          </div>
+          <div class="feedback-text" id="feedback-prosp-text" style="display:none">
+            <textarea id="feedback-prosp-msg" rows="2" placeholder="¿Qué podemos mejorar?"></textarea>
+            <button onclick="submitFeedback('prosp')">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">Prospectly<span style="color:var(--color-primary)">.shop</span></a>
+      <p>Herramientas IA para freelancers y profesionales. Genera recursos y consigue clientes B2B.</p>
+      <p class="footer-by">Desarrollado por <a href="https://molvicstudios.pro" target="_blank" rel="noopener">MolvicStudios.pro</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Herramientas</h4>
+      <ul>
+        <li><a href="#" onclick="switchSection('generator'); return false">Generador de recursos IA</a></li>
+        <li><a href="#" onclick="switchSection('prospecting'); return false">Prospección B2B</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosistema MolvicStudios</h4>
+      <ul>
+        <li><a href="https://leyfacil.pro" target="_blank" rel="noopener">LeyFácil.pro</a></li>
+        <li><a href="https://gestorai.pro" target="_blank" rel="noopener">GestorAI.pro</a></li>
+        <li><a href="https://linxai.quest" target="_blank" rel="noopener">LinxAI.quest</a></li>
+        <li><a href="https://politicasweb.pro" target="_blank" rel="noopener">PoliticasWeb.pro</a></li>
+        <li><a href="https://planobase.pro" target="_blank" rel="noopener">PlanoBase.pro</a></li>
+        <li><a href="https://periodico.one" target="_blank" rel="noopener">Periodico.one</a></li>
+        <li><a href="https://molvicstudios.pro" target="_blank" rel="noopener">MolvicStudios.pro</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="mailto:molvicstudios@outlook.com">molvicstudios@outlook.com</a></li>
+        <li><a href="https://t.me/molvicstudios" target="_blank" rel="noopener">Telegram @molvicstudios</a></li>
+        <li><a href="https://molvicstudios.pro" target="_blank" rel="noopener">molvicstudios.pro</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>&copy; 2026 MolvicStudios &middot; prospectly.shop &middot; Todos los derechos reservados</span>
+      <span>Hecho con IA en España 🇪🇸</span>
+    </div>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+</main>
+
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+  <div class="cookie-inner">
+    <p>Usamos cookies esenciales para el funcionamiento del sitio. Puedes aceptar cookies opcionales para mejorar tu experiencia.</p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-accept" onclick="acceptAllCookies()">Aceptar todas</button>
+      <button class="cookie-btn cookie-reject" onclick="rejectOptionalCookies()">Solo esenciales</button>
+      <button class="cookie-btn cookie-config" onclick="openCookieConfig()">Configurar</button>
+    </div>
+  </div>
+</div>
+
+<!-- COOKIE CONFIG PANEL -->
+<div class="cookie-config-panel" id="cookie-config" role="dialog" aria-label="Configuración de cookies">
+  <div class="cookie-config-inner">
+    <h3>Configurar cookies</h3>
+    <label class="check-item">
+      <input type="checkbox" checked disabled> Esenciales (obligatorias)
+    </label>
+    <label class="check-item">
+      <input type="checkbox" id="cookie-analytics"> Analíticas
+    </label>
+    <label class="check-item">
+      <input type="checkbox" id="cookie-functional"> Funcionales
+    </label>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn cookie-accept" onclick="saveCookieConfig()">Guardar preferencias</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="/js/cookies.js" defer></script>
+<script src="/js/onboarding.js" defer></script>
+<script type="module" src="/js/app.js"></script>
+<!-- MolvicStudios Analytics -->
+<script src="/analytics.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+  })
+}
+</script>
+</body>
+</html>

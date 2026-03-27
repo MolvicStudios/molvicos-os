@@ -1,0 +1,229 @@
+/* ===== GENERATOR SECTION ===== */
+
+.gen-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Config panel */
+.gen-config {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+/* Resource type grid */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.resource-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.resource-type:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.resource-type.active {
+  border-color: var(--color-generator);
+  color: var(--text-primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.rt-icon {
+  font-size: 1.4rem;
+}
+
+/* Level selector */
+.level-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.level-btn {
+  padding: 12px 14px;
+  min-height: 44px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.level-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.level-btn.active {
+  border-color: var(--color-generator);
+  color: var(--text-primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Result panel */
+.gen-result {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  min-height: 400px;
+  position: sticky;
+  top: 84px;
+}
+
+.result-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  gap: 12px;
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  opacity: 0.4;
+}
+
+.result-placeholder p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.result-placeholder span {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+}
+
+/* Result content */
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.result-type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.result-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.result-actions button {
+  padding: 6px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.result-actions button:hover {
+  border-color: var(--color-primary);
+  color: var(--text-primary);
+}
+
+/* Code block */
+.result-code {
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-code);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  max-height: 500px;
+  overflow-y: auto;
+  line-height: 1.7;
+}
+
+.result-explanation {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.result-explanation:empty {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .gen-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gen-result {
+    position: static;
+  }
+
+  .resource-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .level-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .gen-config,
+  .gen-result {
+    padding: 20px;
+  }
+}
