@@ -80,7 +80,7 @@ export default {
 		aiworksuite: { name: 'AIWorkSuite', desc: 'Productividad Freelance' },
 		repurposer: { name: 'Repurposer', desc: 'Contenido × 6 formatos', inputLabel: 'Contenido fuente', inputPlaceholder: 'Pega el contenido que quieres reutilizar...', wordCount: '{n} palabras', selectAll: 'Seleccionar todo', selectNone: 'Deseleccionar todo', outputLang: 'Idioma de salida', repurposeBtn: 'Reutilizar' },
 		briefgen: { name: 'Brief Gen', desc: 'Briefs SEO con IA', keyword: 'Palabra clave principal', secondaryKw: 'Palabras clave secundarias', contentType: 'Tipo de contenido', audience: 'Audiencia objetivo', competitors: 'URLs de competidores', language: 'Idioma', wordTarget: 'Objetivo de palabras', generateBtn: 'Generar Brief' },
-		workflow: { name: 'Workflow', desc: 'Prompt → n8n', descLabel: 'Descripción del flujo', descPlaceholder: 'Describe el flujo de trabajo que quieres automatizar...', triggerType: 'Tipo de disparador', complexity: 'Complejidad', errorHandling: 'Incluir manejo de errores', generateBtn: 'Generar Flujo' },
+		workflow: { name: 'Automatizaciones', desc: 'n8n · Make · Scripts', descLabel: 'Descripción', descPlaceholder: 'Describe lo que quieres automatizar...', triggerType: 'Tipo de disparador', complexity: 'Complejidad', errorHandling: 'Incluir manejo de errores', generateBtn: 'Generar', primaryModule: 'Módulo principal', resourceType: 'Tipo de recurso', level: 'Nivel', levelBasic: 'Básico', levelAdvanced: 'Avanzado' },
 		localmodels: { name: 'Modelos Locales', desc: 'Puente Ollama' },
 		terminal: { name: 'Terminal IA', desc: 'CLI Conversacional' },
 		appstore: { name: 'Tienda de Apps', desc: 'Apps Externas' },

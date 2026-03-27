@@ -7,14 +7,12 @@
 
 	import Wallpaper from '../../components/os/Wallpaper.svelte';
 	import TopBar from '../../components/os/TopBar.svelte';
-	import Desktop from '../../components/os/Desktop.svelte';
 	import WindowManager from '../../components/os/WindowManager.svelte';
 	import Dock from '../../components/os/Dock.svelte';
 	import CommandPalette from '../../components/ui/CommandPalette.svelte';
 	import Notification from '../../components/ui/Notification.svelte';
 	import MiraButton from '../../components/mira/MiraButton.svelte';
 	import MiraPanel from '../../components/mira/MiraPanel.svelte';
-	import BugButton from '../../components/feedback/BugButton.svelte';
 	import FeedbackModal from '../../components/feedback/FeedbackModal.svelte';
 	import FeedbackToast from '../../components/feedback/FeedbackToast.svelte';
 	import UpgradeModal from '../../components/ui/UpgradeModal.svelte';
@@ -38,7 +36,6 @@
 <div class="os-viewport" class:mira-shift={panelOpen}>
 	<Wallpaper />
 	<TopBar />
-	<Desktop />
 	<WindowManager />
 	<Dock />
 	<CommandPalette />
@@ -47,7 +44,6 @@
 
 <MiraButton />
 <MiraPanel />
-<BugButton />
 <FeedbackModal />
 <FeedbackToast />
 <UpgradeModal />

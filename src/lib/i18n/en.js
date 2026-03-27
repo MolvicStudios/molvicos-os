@@ -80,7 +80,7 @@ export default {
 		aiworksuite: { name: 'AIWorkSuite', desc: 'Freelance Productivity' },
 		repurposer: { name: 'Repurposer', desc: 'Content × 6 formats', inputLabel: 'Source content', inputPlaceholder: 'Paste the content you want to repurpose...', wordCount: '{n} words', selectAll: 'Select all', selectNone: 'Select none', outputLang: 'Output language', repurposeBtn: 'Repurpose' },
 		briefgen: { name: 'Brief Gen', desc: 'SEO Briefs AI', keyword: 'Primary keyword', secondaryKw: 'Secondary keywords', contentType: 'Content type', audience: 'Target audience', competitors: 'Competitor URLs', language: 'Language', wordTarget: 'Word target', generateBtn: 'Generate Brief' },
-		workflow: { name: 'Workflow', desc: 'Prompt → n8n', descLabel: 'Workflow description', descPlaceholder: 'Describe the workflow you want to automate...', triggerType: 'Trigger type', complexity: 'Complexity', errorHandling: 'Include error handling', generateBtn: 'Generate Workflow' },
+		workflow: { name: 'Automations', desc: 'n8n · Make · Scripts', descLabel: 'Description', descPlaceholder: 'Describe what you want to automate...', triggerType: 'Trigger type', complexity: 'Complexity', errorHandling: 'Include error handling', generateBtn: 'Generate', primaryModule: 'Primary module', resourceType: 'Resource type', level: 'Level', levelBasic: 'Basic', levelAdvanced: 'Advanced' },
 		localmodels: { name: 'Local Models', desc: 'Ollama Bridge' },
 		terminal: { name: 'AI Terminal', desc: 'Conversational CLI' },
 		appstore: { name: 'App Store', desc: 'External Apps' },
