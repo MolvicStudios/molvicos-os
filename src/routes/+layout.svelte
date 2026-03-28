@@ -38,9 +38,12 @@
 			const { PUBLIC_CLERK_PUBLISHABLE_KEY } = await import('$env/static/public').catch(
 				() => ({ PUBLIC_CLERK_PUBLISHABLE_KEY: '' })
 			);
-			if (PUBLIC_CLERK_PUBLISHABLE_KEY) {
-				const { initClerk } = await import('$lib/clerk/index.js');
-				initClerk(PUBLIC_CLERK_PUBLISHABLE_KEY).catch(console.warn);
+			if (PUBLIC_CLERK_PUBLISHABLE_KEY && PUBLIC_CLERK_PUBLISHABLE_KEY.startsWith('pk_')) {
+				const isPlaceholder = /^pk_(test|live)_x+$/i.test(PUBLIC_CLERK_PUBLISHABLE_KEY);
+				if (!isPlaceholder) {
+					const { initClerk } = await import('$lib/clerk/index.js');
+					initClerk(PUBLIC_CLERK_PUBLISHABLE_KEY).catch(console.warn);
+				}
 			}
 		} catch {
 			// Clerk not configured — continue without auth
