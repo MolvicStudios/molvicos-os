@@ -19,5 +19,32 @@
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
+		<script>
+		;(function () {
+			var SITE     = 'molvicos.pro'
+			var ENDPOINT = 'https://molvicstudios-analytics.josemmolera.workers.dev/track'
+			var USER_KEY = 'ms_uid'
+			if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.endsWith('.pages.dev') || /bot|crawl|spider|slurp|bingbot|googlebot/i.test(navigator.userAgent)) return
+			var isNewUser = !localStorage.getItem(USER_KEY)
+			if (isNewUser) localStorage.setItem(USER_KEY, '1')
+			var sessionStart = Date.now(), lastActivity = Date.now()
+			document.addEventListener('mousemove', function(){ lastActivity = Date.now() }, { passive: true })
+			document.addEventListener('keydown', function(){ lastActivity = Date.now() }, { passive: true })
+			document.addEventListener('touchstart', function(){ lastActivity = Date.now() }, { passive: true })
+			function send(ev, extra) {
+				var p = { site: SITE, page: location.pathname, event: ev || 'pageview', referrer: document.referrer, is_new_user: isNewUser }
+				if (extra) Object.assign(p, extra)
+				fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p), keepalive: true }).catch(function(){})
+			}
+			if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ send('pageview') })
+			else send('pageview')
+			window.addEventListener('beforeunload', function () {
+				var d = Math.round((Date.now() - sessionStart) / 1000)
+				var a = Math.min(d, Math.round((lastActivity - sessionStart) / 1000))
+				if (a > 2) send('session_end', { duration: a })
+			})
+			window.molvicTrack = function(e) { send(e) }
+		})()
+		</script>
 	</body>
 </html>
