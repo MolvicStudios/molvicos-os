@@ -188,6 +188,80 @@ export default {
 		deactivate: 'Deactivate',
 		n8nUrl: 'n8n Instance URL',
 		n8nUrlSub: 'Connect your self-hosted n8n',
-		saved: 'Saved'
+		saved: 'Saved',
+		openTutorial: 'Open Tutorial'
+	},
+	tutorial: {
+		skip: 'Skip',
+		launch: 'Start using Molvicos',
+		welcome: {
+			title: 'Welcome to Molvicos OS',
+			desc: 'Your AI-powered operating system running in the browser. Let\'s take a quick tour of everything you can do.',
+			sub: 'You can reopen this tutorial anytime from Settings.'
+		},
+		desktop: {
+			title: 'Your Desktop',
+			desc: 'All your AI apps live here. Double-click any icon to open it. Drag icons to rearrange them to your liking.'
+		},
+		dock: {
+			title: 'The Dock',
+			desc: 'Your favorite apps pinned at the bottom for quick access. Click to open, click again to minimize. Active apps show a dot indicator.'
+		},
+		topbar: {
+			title: 'Top Bar',
+			desc: 'Switch languages, check your credit balance, toggle between light and dark themes, and access your account — all from the top bar.'
+		},
+		cmdk: {
+			title: 'Command Palette (Cmd+K)',
+			desc: 'Press Cmd+K (or Ctrl+K) anytime to quickly search and open apps, switch language, toggle theme, and more. Your productivity shortcut.'
+		},
+		promptlab: {
+			title: '🔧 Prompt Lab',
+			desc: 'Optimize any prompt for better AI results. Paste your prompt, choose target model, and get an enhanced version. Save favorites to your library.'
+		},
+		prospectly: {
+			title: '🎯 Prospectly',
+			desc: 'AI-powered B2B outreach tool. Analyze prospects, generate personalized cold emails, and manage your outreach pipeline.'
+		},
+		aiworksuite: {
+			title: '💼 AIWorkSuite',
+			desc: 'Complete freelancer toolkit: create AI Teams for collaborative projects, generate invoices, proposals, contracts, and calculate your ideal rate.'
+		},
+		repurposer: {
+			title: '📝 Repurposer',
+			desc: 'Transform one piece of content into 6 different formats: tweets, LinkedIn posts, emails, blog intros, video scripts, and more.'
+		},
+		briefgen: {
+			title: '🔍 Brief Gen',
+			desc: 'Generate comprehensive SEO content briefs with keywords, structure, competitor analysis, and word targets.'
+		},
+		workflow: {
+			title: '⚙️ Automations',
+			desc: 'Generate n8n and Make automation workflows, plus custom scripts. Describe what you want to automate and get ready-to-use code.'
+		},
+		terminal: {
+			title: '💻 AI Terminal',
+			desc: 'Conversational command-line interface. Ask questions, generate code, or have natural conversations with AI — in a terminal style.'
+		},
+		localmodels: {
+			title: '🤖 Local Models',
+			desc: 'Run AI models privately on your machine via Ollama. No API keys needed, no credits consumed. Full privacy, zero cost.'
+		},
+		mira: {
+			title: '🧠 MIRA Assistant',
+			desc: 'Your intelligent OS assistant. MIRA can open apps, change settings, search the web, and answer questions. Click the floating button to chat.'
+		},
+		credits: {
+			title: '💎 Credits System',
+			desc: 'Each AI action consumes credits. Free plan: 30 credits/month. Local models via Ollama use zero credits. Upgrade to Pro for unlimited.'
+		},
+		settings: {
+			title: '⚙️ Settings',
+			desc: 'Configure API keys (Groq, OpenAI, Anthropic, Gemini, Mistral), change themes, manage your license, and connect n8n automation.'
+		},
+		ready: {
+			title: 'You\'re all set!',
+			desc: 'Start exploring your AI OS. Open any app from the Desktop or Dock. Remember: Cmd+K for quick access, and MIRA is always there to help.'
+		}
 	}
 };

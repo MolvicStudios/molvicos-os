@@ -188,6 +188,28 @@ export default {
 		deactivate: 'Deaktivieren',
 		n8nUrl: 'n8n-Instanz-URL',
 		n8nUrlSub: 'Verbinde dein selbstgehostetes n8n',
-		saved: 'Gespeichert'
+		saved: 'Gespeichert',
+		openTutorial: 'Tutorial öffnen'
+	},
+	tutorial: {
+		skip: 'Überspringen',
+		launch: 'Molvicos starten',
+		welcome: { title: 'Willkommen bei Molvicos OS', desc: 'Dein KI-Betriebssystem im Browser. Lass uns einen kurzen Rundgang machen.', sub: 'Du kannst dieses Tutorial jederzeit in den Einstellungen erneut öffnen.' },
+		desktop: { title: 'Dein Desktop', desc: 'Alle deine KI-Apps sind hier. Doppelklicke auf ein Symbol zum Öffnen. Ziehe Symbole zum Neuanordnen.' },
+		dock: { title: 'Das Dock', desc: 'Deine Lieblings-Apps unten angeheftet. Klicke zum Öffnen, erneut zum Minimieren. Aktive Apps zeigen einen Punkt.' },
+		topbar: { title: 'Obere Leiste', desc: 'Sprache wechseln, Guthaben prüfen, Theme umschalten und auf dein Konto zugreifen — alles in der oberen Leiste.' },
+		cmdk: { title: 'Befehlspalette (Cmd+K)', desc: 'Drücke jederzeit Cmd+K (oder Strg+K) um schnell Apps zu suchen und öffnen, Sprache zu wechseln und mehr.' },
+		promptlab: { title: '🔧 Prompt Lab', desc: 'Optimiere jeden Prompt für bessere KI-Ergebnisse. Füge deinen Prompt ein, wähle das Zielmodell und erhalte eine verbesserte Version.' },
+		prospectly: { title: '🎯 Prospectly', desc: 'KI-gestütztes B2B-Outreach-Tool. Analysiere Interessenten, generiere personalisierte E-Mails und verwalte deine Pipeline.' },
+		aiworksuite: { title: '💼 AIWorkSuite', desc: 'Komplettes Freelancer-Toolkit: KI-Teams erstellen, Rechnungen, Angebote, Verträge generieren und deinen idealen Stundensatz berechnen.' },
+		repurposer: { title: '📝 Repurposer', desc: 'Verwandle einen Inhalt in 6 verschiedene Formate: Tweets, LinkedIn-Posts, E-Mails, Blog-Intros, Video-Skripte und mehr.' },
+		briefgen: { title: '🔍 Brief Gen', desc: 'Erstelle umfassende SEO-Content-Briefings mit Keywords, Struktur, Wettbewerbsanalyse und Wortziel.' },
+		workflow: { title: '⚙️ Automatisierungen', desc: 'Generiere n8n- und Make-Workflows sowie benutzerdefinierte Skripte. Beschreibe was du automatisieren möchtest.' },
+		terminal: { title: '💻 AI Terminal', desc: 'Konversationelle Kommandozeile. Stelle Fragen, generiere Code oder unterhalte dich mit KI — im Terminal-Stil.' },
+		localmodels: { title: '🤖 Lokale Modelle', desc: 'Führe KI-Modelle privat auf deinem Rechner über Ollama aus. Keine API-Keys, keine Credits. Volle Privatsphäre.' },
+		mira: { title: '🧠 MIRA Assistent', desc: 'Dein intelligenter OS-Assistent. MIRA kann Apps öffnen, Einstellungen ändern, im Web suchen und Fragen beantworten.' },
+		credits: { title: '💎 Credits-System', desc: 'Jede KI-Aktion verbraucht Credits. Kostenloser Plan: 30 Credits/Monat. Lokale Modelle: null Credits. Upgrade auf Pro für unbegrenzt.' },
+		settings: { title: '⚙️ Einstellungen', desc: 'API-Keys konfigurieren (Groq, OpenAI, Anthropic, Gemini, Mistral), Themes ändern, Lizenz verwalten und n8n verbinden.' },
+		ready: { title: 'Alles bereit!', desc: 'Erkunde dein KI-Betriebssystem. Öffne jede App vom Desktop oder Dock. Denke daran: Cmd+K für Schnellzugriff.' }
 	}
 };

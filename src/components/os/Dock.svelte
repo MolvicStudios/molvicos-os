@@ -8,7 +8,7 @@
 
 	let bounceId = null;
 
-	function handleDockClick(app) {
+	async function handleDockClick(app) {
 		bounceId = app.id;
 		setTimeout(() => (bounceId = null), 400);
 
@@ -17,10 +17,10 @@
 			if ($focusedWindow === app.id && !win.minimized) {
 				minimizeApp(app.id);
 			} else {
-				openApp({ ...app, title: $t(`apps.${app.id}.name`) });
+				await openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 			}
 		} else {
-			openApp({ ...app, title: $t(`apps.${app.id}.name`) });
+			await openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 		}
 	}
 

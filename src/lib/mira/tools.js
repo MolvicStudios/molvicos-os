@@ -54,7 +54,7 @@ export async function executeTool(toolName, args) {
 			case 'open_app': {
 				const appDef = getApp(args.app_id);
 				if (!appDef) return { success: false, data: `App "${args.app_id}" not found` };
-				openApp(appDef);
+				await openApp(appDef);
 				return { success: true, data: `Opened ${appDef.emoji} ${args.app_id}` };
 			}
 

@@ -7,7 +7,7 @@
 
 	$: suggestions = $miraSuggestions;
 
-	function handleSuggestion(s) {
+	async function handleSuggestion(s) {
 		if (!s.action) return;
 
 		if (s.action === 'chat') {
@@ -19,7 +19,7 @@
 		const [tool, arg] = s.action.split(':');
 		if (tool === 'open_app') {
 			const app = getApp(arg);
-			if (app) openApp(app);
+			if (app) await openApp(app);
 		} else if (tool === 'change_theme') {
 			executeTool('change_theme', { theme: arg });
 		}

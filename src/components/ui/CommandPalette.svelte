@@ -30,8 +30,8 @@
 					label: name,
 					sublabel: desc,
 					emoji: app.emoji,
-					action: () => {
-						openApp({ ...app, title: name });
+					action: async () => {
+						await openApp({ ...app, title: name });
 						close();
 					}
 				});

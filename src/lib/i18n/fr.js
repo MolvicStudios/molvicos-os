@@ -188,6 +188,28 @@ export default {
 		deactivate: 'Désactiver',
 		n8nUrl: 'URL instance n8n',
 		n8nUrlSub: 'Connectez votre n8n auto-hébergé',
-		saved: 'Enregistré'
+		saved: 'Enregistré',
+		openTutorial: 'Ouvrir le tutoriel'
+	},
+	tutorial: {
+		skip: 'Passer',
+		launch: 'Commencer avec Molvicos',
+		welcome: { title: 'Bienvenue sur Molvicos OS', desc: 'Votre système d\'exploitation IA dans le navigateur. Faisons un tour rapide de tout ce que vous pouvez faire.', sub: 'Vous pouvez rouvrir ce tutoriel à tout moment depuis les Paramètres.' },
+		desktop: { title: 'Votre Bureau', desc: 'Toutes vos applications IA sont ici. Double-cliquez sur une icône pour l\'ouvrir. Glissez les icônes pour les réorganiser.' },
+		dock: { title: 'Le Dock', desc: 'Vos applications favorites épinglées en bas. Cliquez pour ouvrir, recliquez pour minimiser. Les apps actives montrent un point.' },
+		topbar: { title: 'Barre Supérieure', desc: 'Changez de langue, vérifiez vos crédits, basculez entre thèmes clair et sombre, et accédez à votre compte.' },
+		cmdk: { title: 'Palette de Commandes (Cmd+K)', desc: 'Appuyez sur Cmd+K (ou Ctrl+K) à tout moment pour rechercher et ouvrir des apps, changer de langue, basculer le thème.' },
+		promptlab: { title: '🔧 Prompt Lab', desc: 'Optimisez n\'importe quel prompt pour de meilleurs résultats IA. Collez votre prompt, choisissez le modèle cible.' },
+		prospectly: { title: '🎯 Prospectly', desc: 'Outil de prospection B2B alimenté par l\'IA. Analysez des prospects, générez des emails personnalisés.' },
+		aiworksuite: { title: '💼 AIWorkSuite', desc: 'Boîte à outils complète pour freelances : créez des Équipes IA, générez factures, propositions, contrats et calculez votre tarif.' },
+		repurposer: { title: '📝 Repurposer', desc: 'Transformez un contenu en 6 formats différents : tweets, posts LinkedIn, emails, intros de blog, scripts vidéo et plus.' },
+		briefgen: { title: '🔍 Brief Gen', desc: 'Générez des briefs SEO complets avec mots-clés, structure, analyse concurrentielle et objectifs de mots.' },
+		workflow: { title: '⚙️ Automatisations', desc: 'Générez des workflows n8n et Make, plus des scripts personnalisés. Décrivez ce que vous voulez automatiser.' },
+		terminal: { title: '💻 AI Terminal', desc: 'Interface en ligne de commande conversationnelle. Posez des questions, générez du code ou conversez avec l\'IA.' },
+		localmodels: { title: '🤖 Modèles Locaux', desc: 'Exécutez des modèles IA en privé sur votre machine via Ollama. Pas de clés API, pas de crédits. Confidentialité totale.' },
+		mira: { title: '🧠 Assistant MIRA', desc: 'Votre assistant OS intelligent. MIRA peut ouvrir des apps, modifier les paramètres, chercher sur le web et répondre à vos questions.' },
+		credits: { title: '💎 Système de Crédits', desc: 'Chaque action IA consomme des crédits. Plan gratuit : 30 crédits/mois. Modèles locaux : zéro crédit. Passez à Pro pour illimité.' },
+		settings: { title: '⚙️ Paramètres', desc: 'Configurez les clés API (Groq, OpenAI, Anthropic, Gemini, Mistral), changez de thèmes, gérez votre licence et connectez n8n.' },
+		ready: { title: 'Tout est prêt !', desc: 'Explorez votre OS IA. Ouvrez une app depuis le Bureau ou le Dock. Rappel : Cmd+K pour l\'accès rapide.' }
 	}
 };

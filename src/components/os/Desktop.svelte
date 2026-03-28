@@ -7,8 +7,8 @@
 	const coreApps = getCoreApps();
 	const powerApps = getPowerApps();
 
-	function handleOpen(e, app) {
-		openApp({ ...app, title: $t(`apps.${app.id}.name`) });
+	async function handleOpen(e, app) {
+		await openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 	}
 </script>
 

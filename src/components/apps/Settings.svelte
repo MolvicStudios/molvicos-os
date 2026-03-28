@@ -1,5 +1,5 @@
 <script>
-	import { theme } from '$lib/stores/os.js';
+	import { theme, tutorialOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
 	import { apiKeys, ollamaStatus } from '$lib/stores/models.js';
 	import { planStore, openUpgradeModal, activatePro, deactivatePro } from '$lib/stores/plan.js';
@@ -115,6 +115,13 @@
 					<input bind:value={n8nUrl} placeholder="https://your-n8n.cloud" />
 					<button class="sr-save-btn" on:click={saveN8nUrl}>{$t('common.save')}</button>
 				</div>
+			</div>
+
+			<div class="setting-row">
+				<div class="sr-info">
+					<span class="sr-label">{$t('settings.openTutorial')}</span>
+				</div>
+				<button class="sr-save-btn" on:click={() => tutorialOpen.set(true)}>{$t('settings.openTutorial')}</button>
 			</div>
 
 		{:else if activeSection === 'appearance'}

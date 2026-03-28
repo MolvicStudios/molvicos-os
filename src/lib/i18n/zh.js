@@ -188,6 +188,28 @@ export default {
 		deactivate: '停用',
 		n8nUrl: 'n8n 实例 URL',
 		n8nUrlSub: '连接你的自托管 n8n',
-		saved: '已保存'
+		saved: '已保存',
+		openTutorial: '打开教程'
+	},
+	tutorial: {
+		skip: '跳过',
+		launch: '开始使用 Molvicos',
+		welcome: { title: '欢迎来到 Molvicos OS', desc: '您的浏览器AI操作系统。让我们快速了解您可以做的一切。', sub: '您可以随时从设置中重新打开此教程。' },
+		desktop: { title: '您的桌面', desc: '所有AI应用都在这里。双击图标打开应用。拖动图标重新排列。' },
+		dock: { title: '程序坞', desc: '常用应用固定在底部。点击打开，再次点击最小化。活动应用显示圆点。' },
+		topbar: { title: '顶部栏', desc: '切换语言、查看积分余额、切换明暗主题、访问账户 — 全在顶部栏。' },
+		cmdk: { title: '命令面板 (Cmd+K)', desc: '随时按 Cmd+K（或 Ctrl+K）快速搜索和打开应用、切换语言、切换主题等。' },
+		promptlab: { title: '🔧 Prompt Lab', desc: '优化任何提示词以获得更好的AI结果。粘贴提示词，选择目标模型，获取增强版本。' },
+		prospectly: { title: '🎯 Prospectly', desc: 'AI驱动的B2B外联工具。分析潜在客户，生成个性化邮件，管理外联流程。' },
+		aiworksuite: { title: '💼 AIWorkSuite', desc: '完整的自由职业者工具包：创建AI团队、生成发票、提案、合同，计算理想费率。' },
+		repurposer: { title: '📝 Repurposer', desc: '将一段内容转化为6种不同格式：推文、LinkedIn帖子、邮件、博客引言、视频脚本等。' },
+		briefgen: { title: '🔍 Brief Gen', desc: '生成全面的SEO内容摘要，包含关键词、结构、竞争分析和字数目标。' },
+		workflow: { title: '⚙️ 自动化', desc: '生成 n8n 和 Make 自动化工作流，加上自定义脚本。描述您想自动化的内容。' },
+		terminal: { title: '💻 AI 终端', desc: '对话式命令行界面。提问、生成代码或与AI聊天 — 终端风格。' },
+		localmodels: { title: '🤖 本地模型', desc: '通过 Ollama 在本地私密运行AI模型。无需API密钥，不消耗积分。完全隐私，零成本。' },
+		mira: { title: '🧠 MIRA 助手', desc: '您的智能OS助手。MIRA可以打开应用、更改设置、搜索网络和回答问题。' },
+		credits: { title: '💎 积分系统', desc: '每个AI操作消耗积分。免费计划：每月30积分。本地模型：零积分。升级Pro享受无限。' },
+		settings: { title: '⚙️ 设置', desc: '配置API密钥（Groq、OpenAI、Anthropic、Gemini、Mistral），更改主题，管理许可证，连接n8n。' },
+		ready: { title: '一切就绪！', desc: '开始探索您的AI操作系统。从桌面或程序坞打开任何应用。记住：Cmd+K快速访问。' }
 	}
 };

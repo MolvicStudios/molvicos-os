@@ -1,8 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import * as storage from '$lib/storage/local.js';
-	import { goto } from '$app/navigation';
 	import { miraOpen } from '$lib/stores/mira.js';
+	import { tutorialOpen } from '$lib/stores/os.js';
 
 	import Wallpaper from '../../components/os/Wallpaper.svelte';
 	import TopBar from '../../components/os/TopBar.svelte';
@@ -16,13 +15,28 @@
 	import FeedbackToast from '../../components/feedback/FeedbackToast.svelte';
 	import UpgradeModal from '../../components/ui/UpgradeModal.svelte';
 	import { checkMonthlyRefill } from '$lib/plans/credits.js';
+	import TutorialOverlay from '../../components/onboarding/TutorialOverlay.svelte';
+	import LangPickerModal from '../../components/onboarding/LangPickerModal.svelte';
+	import * as storage from '$lib/storage/local.js';
+
+	let showLangPicker = false;
 
 	onMount(() => {
 		checkMonthlyRefill();
 		if (!storage.storage.isOnboardingComplete()) {
-			goto('/onboarding');
+			showLangPicker = true;
 		}
 	});
+
+	function onLangDone() {
+		showLangPicker = false;
+		tutorialOpen.set(true);
+	}
+
+	function onTutorialDone() {
+		tutorialOpen.set(false);
+		storage.storage.setOnboardingComplete(true);
+	}
 
 	$: panelOpen = $miraOpen;
 </script>
@@ -45,6 +59,14 @@
 <FeedbackModal />
 <FeedbackToast />
 <UpgradeModal />
+
+{#if showLangPicker}
+	<LangPickerModal on:done={onLangDone} />
+{/if}
+
+{#if $tutorialOpen}
+	<TutorialOverlay on:done={onTutorialDone} />
+{/if}
 
 <style>
 	.os-viewport {

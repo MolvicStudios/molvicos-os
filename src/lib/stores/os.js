@@ -24,6 +24,9 @@ export const notifications = writable([]);
 /** Desktop icon positions { [appId]: { x, y } } */
 export const iconPositions = writable({});
 
+/** Tutorial overlay state */
+export const tutorialOpen = writable(false);
+
 let windowCounter = 0;
 
 export async function openApp(appDef) {
