@@ -5,7 +5,7 @@
 	import { ollamaStatus, ollamaModels, hardwareProfile } from '$lib/stores/models.js';
 	import { MODEL_RECOMMENDATIONS } from '$lib/hardware/scanner.js';
 
-	export let id = 'localmodels';
+	export const id = 'localmodels';
 
 	let pulling = {};
 	let pullProgress = {};

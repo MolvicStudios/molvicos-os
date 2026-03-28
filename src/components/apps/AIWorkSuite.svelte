@@ -4,7 +4,7 @@
   import { createAppHistory } from '$lib/stores/history.js';
   import { exportTXT, exportPDF, copyToClipboard } from '$lib/utils/export.js';
   import { t } from '$lib/i18n/index.js';
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
 
   const history = createAppHistory('aiworksuite');
 
@@ -13,13 +13,15 @@
   let result        = '';
   let copySuccess   = false;
 
-  // --- Teams ---
+  // --- AI Teams ---
   let teams = JSON.parse(localStorage.getItem('ms_aiws_teams') || '[]');
   let teamName      = '';
   let teamProject   = '';
-  let teamSize      = '3';
-  let teamRoles     = '';
-  let editingTeam   = null;
+  let activeTeam    = null;
+  let teamChatInput = '';
+  let isDetectingRoles = false;
+  let isTeamChatting   = false;
+  let chatEl;
 
   // --- Invoice ---
   let invClient     = '';
@@ -88,52 +90,212 @@
     });
   }
 
-  // --- Teams ---
-  function saveTeam() {
-    if (!teamName.trim()) return;
-    const team = {
-      id: editingTeam?.id || crypto.randomUUID(),
-      name: teamName,
-      project: teamProject,
-      size: parseInt(teamSize) || 3,
-      roles: teamRoles,
-      createdAt: editingTeam?.createdAt || new Date().toISOString()
-    };
-    if (editingTeam) {
-      teams = teams.map(t => t.id === team.id ? team : t);
-    } else {
-      teams = [team, ...teams].slice(0, 20);
-    }
+  // --- AI Teams ---
+  function persistTeams() {
     localStorage.setItem('ms_aiws_teams', JSON.stringify(teams));
-    editingTeam = null;
-    teamName = ''; teamProject = ''; teamSize = '3'; teamRoles = '';
   }
 
-  function editTeam(team) {
-    editingTeam = team;
-    teamName = team.name;
-    teamProject = team.project;
-    teamSize = String(team.size);
-    teamRoles = team.roles || '';
+  async function createAITeam() {
+    if (!teamName.trim() || !teamProject.trim()) return;
+    if (!canAfford('aiworksuite')) { result = 'Not enough credits.'; return; }
+
+    isDetectingRoles = true;
+    let rolesJSON = '';
+
+    await streamAI({
+      system: `You are an expert team composition analyst. Given a project description, suggest exactly 5 specialized AI agent roles for a team.
+The FIRST role MUST always be "Senior Prompt Engineer" — this agent specializes in crafting optimal prompts and coordinating AI interactions across the team.
+Return ONLY a valid JSON array (no markdown fences, no explanation) with exactly 5 objects:
+[{"role":"Senior Prompt Engineer","emoji":"🎯","desc":"..."},{"role":"...","emoji":"...","desc":"..."}]
+Each object has: role (title), emoji (single relevant emoji), desc (one-sentence description of what this agent does for THIS specific project).
+Choose roles that create a complementary team covering all critical aspects of the project.`,
+      messages: [{ role: 'user', content: `Project: ${teamProject}` }],
+      temperature: 0.4,
+      action: 'aiworksuite',
+      onChunk: (_, full) => { rolesJSON = full; },
+      onDone: (full) => { rolesJSON = full; isDetectingRoles = false; },
+      onError: (err) => { isDetectingRoles = false; result = `Error: ${err}`; },
+    });
+
+    if (!rolesJSON) return;
+
+    let agents;
+    try {
+      const match = rolesJSON.match(/\[[\s\S]*\]/);
+      agents = match ? JSON.parse(match[0]) : JSON.parse(rolesJSON);
+      if (!Array.isArray(agents) || agents.length === 0) throw new Error('invalid');
+      agents = agents.slice(0, 5).map((a, i) => ({
+        id: `agent-${i}`,
+        role: String(a.role || `Agent ${i + 1}`),
+        emoji: String(a.emoji || '🤖'),
+        desc: String(a.desc || '')
+      }));
+    } catch {
+      agents = [
+        { id: 'agent-0', role: 'Senior Prompt Engineer', emoji: '🎯', desc: 'Crafts and optimizes AI prompts for the team' },
+        { id: 'agent-1', role: 'Project Manager', emoji: '📋', desc: 'Coordinates tasks and timelines' },
+        { id: 'agent-2', role: 'Technical Lead', emoji: '💻', desc: 'Technical architecture and decisions' },
+        { id: 'agent-3', role: 'Quality Analyst', emoji: '🔍', desc: 'Reviews quality and standards' },
+        { id: 'agent-4', role: 'Strategy Advisor', emoji: '🧠', desc: 'Strategic direction and planning' },
+      ];
+    }
+
+    const team = {
+      id: crypto.randomUUID(),
+      name: teamName,
+      project: teamProject,
+      agents,
+      chatHistory: [],
+      createdAt: new Date().toISOString()
+    };
+
+    teams = [team, ...teams].slice(0, 20);
+    persistTeams();
+    teamName = '';
+    teamProject = '';
+    history.add({ module: 'teams', snippet: `Created team: ${team.name}` });
+    openTeamChat(team);
+  }
+
+  function openTeamChat(team) {
+    activeTeam = team;
+  }
+
+  function closeTeamChat() {
+    activeTeam = null;
   }
 
   function deleteTeam(id) {
     teams = teams.filter(t => t.id !== id);
-    localStorage.setItem('ms_aiws_teams', JSON.stringify(teams));
+    persistTeams();
+    if (activeTeam?.id === id) activeTeam = null;
   }
 
-  function generateTeamPlan() {
-    if (!teamName.trim()) return;
-    generate(`You are an expert team management and organizational design consultant.
-Generate a comprehensive team plan including:
-- Team Structure: roles, responsibilities, and reporting lines
-- Communication Plan: meetings, tools, async protocols
-- Project Milestones: key phases and deliverables timeline
-- Workflow: how work flows between team members
-- KPIs: measurable success metrics for the team
-Format in clear sections with actionable items.`,
-      `Team: ${teamName}\nProject: ${teamProject || 'General team operations'}\nTeam size: ${teamSize}\nRoles: ${teamRoles || 'To be determined by AI'}`
-    );
+  async function scrollChat() {
+    await tick();
+    if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function parseAgentResponses(text) {
+    const sections = text.split(/<<AGENT:([^>]+)>>\s*/);
+    const msgs = [];
+
+    for (let i = 1; i < sections.length; i += 2) {
+      const header = sections[i];
+      const content = (sections[i + 1] || '').trim();
+      if (!content) continue;
+
+      const lastColon = header.lastIndexOf(':');
+      const role = lastColon > 0 ? header.slice(0, lastColon).trim() : header.trim();
+      const emoji = lastColon > 0 ? header.slice(lastColon + 1).trim() : '🤖';
+
+      msgs.push({
+        id: `msg-${Date.now()}-${i}`,
+        sender: 'agent',
+        agentRole: role,
+        agentEmoji: emoji,
+        content,
+        ts: Date.now()
+      });
+    }
+
+    if (msgs.length === 0 && text.trim()) {
+      msgs.push({
+        id: `msg-${Date.now()}-fb`,
+        sender: 'agent',
+        agentRole: 'Team',
+        agentEmoji: '👥',
+        content: text.trim(),
+        ts: Date.now()
+      });
+    }
+
+    return msgs;
+  }
+
+  async function sendTeamMessage() {
+    if (!teamChatInput.trim() || !activeTeam || isTeamChatting) return;
+    if (!canAfford('aiworksuite')) return;
+
+    const userMsg = {
+      id: `msg-${Date.now()}`,
+      sender: 'user',
+      content: teamChatInput.trim(),
+      ts: Date.now()
+    };
+
+    activeTeam.chatHistory = [...(activeTeam.chatHistory || []), userMsg].slice(-50);
+    activeTeam = activeTeam;
+    teamChatInput = '';
+    isTeamChatting = true;
+    scrollChat();
+
+    const agentList = activeTeam.agents.map(a => `- ${a.emoji} ${a.role}: ${a.desc}`).join('\n');
+
+    const recentHistory = (activeTeam.chatHistory || []).slice(-10);
+    const conversationMsgs = recentHistory.map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.sender === 'user' ? m.content : `[${m.agentRole || 'Agent'}]: ${m.content}`
+    }));
+
+    const systemPrompt = `You are a team of ${activeTeam.agents.length} specialized AI agents working on the project "${activeTeam.project}".
+
+TEAM MEMBERS:
+${agentList}
+
+RULES:
+- Each relevant agent MUST respond (minimum 2, maximum all ${activeTeam.agents.length}).
+- The Senior Prompt Engineer should always respond, coordinating or refining the approach.
+- Use this EXACT format for each agent response (critical for parsing):
+
+<<AGENT:Role Name:emoji>>
+Response text here.
+
+- Keep each agent's response focused and concise (2-4 sentences).
+- Agents can reference or build on other agents' points.
+- Stay in character — each agent speaks from their role's perspective.`;
+
+    let fullResponse = '';
+
+    await streamAI({
+      system: systemPrompt,
+      messages: conversationMsgs,
+      temperature: 0.6,
+      action: 'aiworksuite',
+      onChunk: (_, full) => {
+        fullResponse = full;
+        activeTeam = { ...activeTeam, _streamingResponse: full };
+        scrollChat();
+      },
+      onDone: (full) => {
+        fullResponse = full;
+        isTeamChatting = false;
+
+        const agentMsgs = parseAgentResponses(full);
+        const updated = { ...activeTeam };
+        delete updated._streamingResponse;
+        updated.chatHistory = [...(updated.chatHistory || []), ...agentMsgs].slice(-50);
+
+        activeTeam = updated;
+        teams = teams.map(t => t.id === activeTeam.id ? activeTeam : t);
+        persistTeams();
+        history.add({ module: 'teams', snippet: `Team chat: ${activeTeam.name}` });
+        scrollChat();
+      },
+      onError: (err) => {
+        isTeamChatting = false;
+        const updated = { ...activeTeam };
+        delete updated._streamingResponse;
+        updated.chatHistory = [...(updated.chatHistory || []), {
+          id: `msg-${Date.now()}-err`,
+          sender: 'system',
+          content: `Error: ${err}`,
+          ts: Date.now()
+        }];
+        activeTeam = updated;
+        scrollChat();
+      },
+    });
   }
 
   // --- Invoice ---
@@ -230,7 +392,7 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
       ['rate','💰'],
     ] as [id, icon]}
       <button class="aiws-tab" class:active={activeModule === id}
-        on:click={() => { activeModule = id; result = ''; }}>
+        on:click={() => { activeModule = id; result = ''; activeTeam = null; }}>
         {icon} {$t(`apps.aiworksuite.${id}`)}
       </button>
     {/each}
@@ -238,82 +400,135 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
 
   <div class="aiws-body">
 
-    <div class="aiws-form">
-
-      {#if activeModule === 'teams'}
-        <div class="form-field"><label>{$t('apps.aiworksuite.teamName')}</label>
-          <input bind:value={teamName} placeholder="Marketing Team" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.teamProject')}</label>
-          <textarea bind:value={teamProject} rows="3" placeholder={$t('apps.aiworksuite.teamProjectPh')}></textarea></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.teamSize')}</label>
-          <input bind:value={teamSize} type="number" min="2" max="20" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.teamRoles')}</label>
-          <input bind:value={teamRoles} placeholder="Designer, Developer, PM..." /></div>
-        <div style="display:flex;gap:6px">
-          <button class="gen-btn" style="flex:1" on:click={saveTeam} disabled={!teamName.trim()}>
-            💾 {editingTeam ? $t('common.save') : $t('apps.aiworksuite.createTeam')}
-          </button>
-          <button class="gen-btn" style="flex:1" on:click={generateTeamPlan} disabled={isGenerating || !teamName.trim()}>
-            {isGenerating ? $t('common.loading') : `🤖 ${$t('apps.aiworksuite.generatePlan')}`}
-          </button>
-        </div>
-
-        {#if teams.length > 0}
-          <div class="teams-label">{$t('apps.aiworksuite.savedTeams')}</div>
-          <div class="teams-list">
-            {#each teams as team (team.id)}
-              <div class="team-card">
-                <div class="tc-info">
-                  <span class="tc-name">👥 {team.name}</span>
-                  <span class="tc-meta">{team.size} members · {team.project?.slice(0,40) || '—'}</span>
-                </div>
-                <div class="tc-actions">
-                  <button class="tc-btn" on:click={() => editTeam(team)}>✏️</button>
-                  <button class="tc-btn" on:click={() => deleteTeam(team.id)}>×</button>
-                </div>
-              </div>
+    {#if activeModule === 'teams'}
+      {#if activeTeam}
+        <!-- Team Chat Mode -->
+        <div class="team-chat-layout">
+          <div class="tch-header">
+            <button class="tch-back" on:click={closeTeamChat}>← {$t('apps.aiworksuite.teams')}</button>
+            <div class="tch-info">
+              <span class="tch-name">👥 {activeTeam.name}</span>
+              <span class="tch-project">{activeTeam.project?.slice(0, 100)}</span>
+            </div>
+          </div>
+          <div class="tch-agents-bar">
+            {#each activeTeam.agents || [] as agent}
+              <div class="agent-chip" title={agent.desc}>{agent.emoji} {agent.role}</div>
             {/each}
           </div>
-        {/if}
+          <div class="tch-messages" bind:this={chatEl}>
+            {#each activeTeam.chatHistory || [] as msg (msg.id)}
+              {#if msg.sender === 'user'}
+                <div class="msg msg-user">
+                  <div class="msg-bubble">{msg.content}</div>
+                </div>
+              {:else if msg.sender === 'agent'}
+                <div class="msg msg-agent">
+                  <span class="msg-label">{msg.agentEmoji} {msg.agentRole}</span>
+                  <div class="msg-bubble">{msg.content}</div>
+                </div>
+              {:else}
+                <div class="msg msg-system">{msg.content}</div>
+              {/if}
+            {/each}
+            {#if activeTeam._streamingResponse}
+              <div class="msg msg-agent">
+                <span class="msg-label">👥 Team</span>
+                <div class="msg-bubble streaming">{activeTeam._streamingResponse}▋</div>
+              </div>
+            {/if}
+            {#if isTeamChatting && !activeTeam._streamingResponse}
+              <div class="msg msg-thinking">
+                <span class="loading-glyph">◈</span> {$t('apps.aiworksuite.agentsThinking')}
+              </div>
+            {/if}
+          </div>
+          <form class="tch-input" on:submit|preventDefault={sendTeamMessage}>
+            <input bind:value={teamChatInput} placeholder={$t('apps.aiworksuite.messageTeam')} disabled={isTeamChatting} />
+            <button type="submit" class="tci-send" disabled={isTeamChatting || !teamChatInput.trim()}>➤</button>
+          </form>
+        </div>
+      {:else}
+        <!-- Teams List + Create -->
+        <div class="teams-view">
+          <div class="teams-create">
+            <div class="form-field"><label for="aiws-team-name">{$t('apps.aiworksuite.teamName')}</label>
+              <input id="aiws-team-name" bind:value={teamName} placeholder="Marketing Team" /></div>
+            <div class="form-field"><label for="aiws-team-project">{$t('apps.aiworksuite.teamProject')}</label>
+              <textarea id="aiws-team-project" bind:value={teamProject} rows="4" placeholder={$t('apps.aiworksuite.teamProjectPh')}></textarea></div>
+            <button class="gen-btn" on:click={createAITeam} disabled={isDetectingRoles || !teamName.trim() || !teamProject.trim()}>
+              {isDetectingRoles ? `🔄 ${$t('apps.aiworksuite.detectingRoles')}` : `🤖 ${$t('apps.aiworksuite.createAITeam')} — 1 cr`}
+            </button>
+          </div>
+          <div class="teams-grid">
+            {#if teams.length > 0}
+              {#each teams as team (team.id)}
+                <div class="team-card-v2">
+                  <div class="tcv2-header">
+                    <span class="tcv2-name">👥 {team.name}</span>
+                    <button class="tc-btn-del" on:click|stopPropagation={() => deleteTeam(team.id)} title="Delete">×</button>
+                  </div>
+                  <div class="tcv2-project">{team.project?.slice(0, 80) || '—'}</div>
+                  {#if team.agents?.length}
+                    <div class="tcv2-agents">
+                      {#each team.agents as agent}
+                        <span class="agent-tag" title={agent.desc}>{agent.emoji} {agent.role}</span>
+                      {/each}
+                    </div>
+                  {/if}
+                  <button class="tcv2-chat-btn" on:click={() => openTeamChat(team)}>
+                    💬 {$t('apps.aiworksuite.openChat')}
+                  </button>
+                </div>
+              {/each}
+            {:else}
+              <div class="teams-empty">{$t('apps.aiworksuite.teamsEmpty')}</div>
+            {/if}
+          </div>
+        </div>
+      {/if}
+    {:else}
 
-      {:else if activeModule === 'invoice'}
-        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
-          <input bind:value={invClient} placeholder="Acme Corp" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.services')}</label>
-          <textarea bind:value={invServices} rows="4" placeholder="Web design - 20h @ $80/h&#10;Copywriting - 5h @ $60/h"></textarea></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.totalAmount')}</label>
+    <div class="aiws-form">
+
+      {#if activeModule === 'invoice'}
+        <div class="form-field"><label for="aiws-inv-client">{$t('apps.aiworksuite.clientName')}</label>
+          <input id="aiws-inv-client" bind:value={invClient} placeholder="Acme Corp" /></div>
+        <div class="form-field"><label for="aiws-inv-services">{$t('apps.aiworksuite.services')}</label>
+          <textarea id="aiws-inv-services" bind:value={invServices} rows="4" placeholder="Web design - 20h @ $80/h&#10;Copywriting - 5h @ $60/h"></textarea></div>
+        <div class="form-field"><label for="aiws-inv-total">{$t('apps.aiworksuite.totalAmount')}</label>
           <div style="display:flex;gap:6px">
-            <input bind:value={invTotal} placeholder="2000" style="flex:1" />
+            <input id="aiws-inv-total" bind:value={invTotal} placeholder="2000" style="flex:1" />
             <select bind:value={invCurrency} style="width:70px">
               {#each ['USD','EUR','GBP','CAD','AUD'] as c}<option>{c}</option>{/each}
             </select>
           </div></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.dueDate')}</label>
-          <input bind:value={invDueDate} placeholder="30 days" /></div>
+        <div class="form-field"><label for="aiws-inv-due">{$t('apps.aiworksuite.dueDate')}</label>
+          <input id="aiws-inv-due" bind:value={invDueDate} placeholder="30 days" /></div>
         <button class="gen-btn" on:click={generateInvoice} disabled={isGenerating || !invClient.trim()}>
           {isGenerating ? $t('common.loading') : `🧾 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'proposal'}
-        <div class="form-field"><label>{$t('apps.aiworksuite.projectDesc')}</label>
-          <textarea bind:value={propProject} rows="4" placeholder="Build a landing page for a SaaS product..."></textarea></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
-          <input bind:value={propClient} placeholder="Client" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.budget')}</label>
-          <input bind:value={propBudget} placeholder="$2,000 - $4,000" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.timeline')}</label>
-          <input bind:value={propTimeline} placeholder="2-3 weeks" /></div>
+        <div class="form-field"><label for="aiws-prop-project">{$t('apps.aiworksuite.projectDesc')}</label>
+          <textarea id="aiws-prop-project" bind:value={propProject} rows="4" placeholder="Build a landing page for a SaaS product..."></textarea></div>
+        <div class="form-field"><label for="aiws-prop-client">{$t('apps.aiworksuite.clientName')}</label>
+          <input id="aiws-prop-client" bind:value={propClient} placeholder="Client" /></div>
+        <div class="form-field"><label for="aiws-prop-budget">{$t('apps.aiworksuite.budget')}</label>
+          <input id="aiws-prop-budget" bind:value={propBudget} placeholder="$2,000 - $4,000" /></div>
+        <div class="form-field"><label for="aiws-prop-timeline">{$t('apps.aiworksuite.timeline')}</label>
+          <input id="aiws-prop-timeline" bind:value={propTimeline} placeholder="2-3 weeks" /></div>
         <button class="gen-btn" on:click={generateProposal} disabled={isGenerating || !propProject.trim()}>
           {isGenerating ? $t('common.loading') : `📄 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'contract'}
-        <div class="form-field"><label>{$t('apps.aiworksuite.projectScope')}</label>
-          <textarea bind:value={ctxProject} rows="3" placeholder="Website redesign including 5 pages..."></textarea></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.clientName')}</label>
-          <input bind:value={ctxClient} placeholder="Client" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.ratePayment')}</label>
-          <input bind:value={ctxRate} placeholder="$3,500 flat / $80/hour" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.scopeNotes')}</label>
-          <textarea bind:value={ctxScope} rows="2" placeholder="3 revision rounds included..."></textarea></div>
+        <div class="form-field"><label for="aiws-ctx-project">{$t('apps.aiworksuite.projectScope')}</label>
+          <textarea id="aiws-ctx-project" bind:value={ctxProject} rows="3" placeholder="Website redesign including 5 pages..."></textarea></div>
+        <div class="form-field"><label for="aiws-ctx-client">{$t('apps.aiworksuite.clientName')}</label>
+          <input id="aiws-ctx-client" bind:value={ctxClient} placeholder="Client" /></div>
+        <div class="form-field"><label for="aiws-ctx-rate">{$t('apps.aiworksuite.ratePayment')}</label>
+          <input id="aiws-ctx-rate" bind:value={ctxRate} placeholder="$3,500 flat / $80/hour" /></div>
+        <div class="form-field"><label for="aiws-ctx-scope">{$t('apps.aiworksuite.scopeNotes')}</label>
+          <textarea id="aiws-ctx-scope" bind:value={ctxScope} rows="2" placeholder="3 revision rounds included..."></textarea></div>
         <button class="gen-btn" on:click={generateContract} disabled={isGenerating || !ctxProject.trim()}>
           {isGenerating ? $t('common.loading') : `📋 ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
@@ -339,14 +554,14 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
           {isGenerating ? $t('common.loading') : `⏱ ${$t('apps.aiworksuite.generate')} — 1 cr`}</button>
 
       {:else if activeModule === 'rate'}
-        <div class="form-field"><label>{$t('apps.aiworksuite.annualIncome')}</label>
-          <input bind:value={rateDesiredSalary} placeholder="60000" type="number" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.billableWeeks')}</label>
-          <input bind:value={rateWorkWeeks} type="number" min="1" max="52" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.billableHours')}</label>
-          <input bind:value={rateHoursPerWeek} type="number" min="1" max="60" /></div>
-        <div class="form-field"><label>{$t('apps.aiworksuite.overheadPct')}</label>
-          <input bind:value={rateOverhead} type="number" min="0" max="100" /></div>
+        <div class="form-field"><label for="aiws-rate-salary">{$t('apps.aiworksuite.annualIncome')}</label>
+          <input id="aiws-rate-salary" bind:value={rateDesiredSalary} placeholder="60000" type="number" /></div>
+        <div class="form-field"><label for="aiws-rate-weeks">{$t('apps.aiworksuite.billableWeeks')}</label>
+          <input id="aiws-rate-weeks" bind:value={rateWorkWeeks} type="number" min="1" max="52" /></div>
+        <div class="form-field"><label for="aiws-rate-hours">{$t('apps.aiworksuite.billableHours')}</label>
+          <input id="aiws-rate-hours" bind:value={rateHoursPerWeek} type="number" min="1" max="60" /></div>
+        <div class="form-field"><label for="aiws-rate-overhead">{$t('apps.aiworksuite.overheadPct')}</label>
+          <input id="aiws-rate-overhead" bind:value={rateOverhead} type="number" min="0" max="100" /></div>
         <button class="gen-btn" on:click={calculateRate} disabled={!rateDesiredSalary}>
           💰 {$t('apps.aiworksuite.calculateRate')}</button>
         {#if rateResult}
@@ -381,6 +596,8 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
           <div class="result-empty">Results will appear here.</div>
         {/if}
       </div>
+    {/if}
+
     {/if}
 
   </div>
@@ -432,13 +649,53 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .result-loading, .result-empty { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: var(--text-secondary); font-size: 12px; }
   .loading-glyph { font-size: 24px; color: var(--accent); animation: pulse-accent 2s infinite; }
 
-  .teams-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-top: 6px; }
-  .teams-list { display: flex; flex-direction: column; gap: 6px; }
-  .team-card { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--bg-input); }
-  .tc-info { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
-  .tc-name { font-size: 11px; color: var(--text-primary); font-weight: 500; }
-  .tc-meta { font-size: 9px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .tc-actions { display: flex; gap: 4px; flex-shrink: 0; }
-  .tc-btn { background: none; border: none; color: var(--text-muted); font-size: 13px; cursor: pointer; padding: 2px 4px; }
-  .tc-btn:hover { color: var(--accent); }
+  /* Teams view (list mode) */
+  .teams-view { display: flex; flex: 1; overflow: hidden; }
+  .teams-create { width: 280px; flex-shrink: 0; padding: 14px; overflow-y: auto; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+  .teams-grid { flex: 1; padding: 14px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; align-content: start; }
+  .teams-empty { grid-column: 1 / -1; text-align: center; color: var(--text-secondary); font-size: 12px; padding: 40px 0; }
+
+  /* Team card */
+  .team-card-v2 { background: var(--bg-input); border-radius: var(--radius-sm); padding: 14px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); }
+  .tcv2-header { display: flex; align-items: center; justify-content: space-between; }
+  .tcv2-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .tcv2-project { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
+  .tcv2-agents { display: flex; flex-wrap: wrap; gap: 4px; }
+  .agent-tag { font-size: 9px; background: var(--bg-surface, var(--bg-input)); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; color: var(--text-secondary); white-space: nowrap; }
+  .tc-btn-del { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; padding: 2px 6px; line-height: 1; }
+  .tc-btn-del:hover { color: #ef4444; }
+  .tcv2-chat-btn { background: none; border: 1px solid var(--accent); border-radius: var(--radius-sm); color: var(--accent); font-size: 10px; padding: 6px 12px; cursor: pointer; font-family: var(--font-mono); transition: all var(--transition); margin-top: 2px; }
+  .tcv2-chat-btn:hover { background: var(--accent); color: #000; }
+
+  /* Team chat layout */
+  .team-chat-layout { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+  .tch-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .tch-back { background: none; border: none; color: var(--accent); font-size: 12px; cursor: pointer; font-family: var(--font-mono); padding: 4px 8px; white-space: nowrap; }
+  .tch-back:hover { text-decoration: underline; }
+  .tch-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .tch-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .tch-project { font-size: 9px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Agents bar */
+  .tch-agents-bar { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); overflow-x: auto; flex-shrink: 0; }
+  .agent-chip { font-size: 10px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 12px; padding: 4px 10px; color: var(--text-secondary); white-space: nowrap; cursor: default; }
+
+  /* Chat messages */
+  .tch-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 85%; }
+  .msg-user { align-self: flex-end; }
+  .msg-user .msg-bubble { background: var(--accent); color: #000; border-radius: 12px 12px 2px 12px; padding: 8px 12px; font-size: 11px; line-height: 1.5; }
+  .msg-agent { align-self: flex-start; display: flex; flex-direction: column; gap: 3px; }
+  .msg-label { font-size: 9px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.5px; }
+  .msg-agent .msg-bubble { background: var(--bg-input); color: var(--text-primary); border-radius: 2px 12px 12px 12px; padding: 8px 12px; font-size: 11px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .msg-agent .msg-bubble.streaming { opacity: 0.8; }
+  .msg-system { align-self: center; font-size: 10px; color: var(--text-muted); padding: 4px 10px; }
+  .msg-thinking { align-self: center; font-size: 11px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; padding: 8px; }
+
+  /* Chat input */
+  .tch-input { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .tch-input input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 11px; color: var(--text-primary); font-family: var(--font-mono); }
+  .tch-input input:focus { border-color: var(--accent); outline: none; }
+  .tci-send { background: var(--accent); border: none; border-radius: var(--radius-sm); color: #000; font-size: 14px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tci-send:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>

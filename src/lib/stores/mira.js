@@ -53,7 +53,10 @@ export function addMessage(role, content, extra = {}) {
 		timestamp: Date.now(),
 		...extra
 	};
-	miraMessages.update(msgs => [...msgs, msg]);
+	miraMessages.update(msgs => {
+		const updated = [...msgs, msg];
+		return updated.length > 100 ? updated.slice(-100) : updated;
+	});
 
 	if (role === 'assistant' && !get(miraOpen)) {
 		miraUnread.update(n => n + 1);

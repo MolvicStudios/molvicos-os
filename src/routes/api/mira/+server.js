@@ -1,3 +1,5 @@
+import { applyRateLimit } from '$lib/server/rate-limit.js';
+
 /**
  * MIRA Streaming API Proxy
  * Normalizes all providers to SSE stream output.
@@ -12,7 +14,10 @@ const PROVIDER_ENDPOINTS = {
 	anthropic: 'https://api.anthropic.com/v1/messages'
 };
 
-export async function POST({ request }) {
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'mira', maxRequests: 20, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	try {
 		const { provider, apiKey, model, system, messages } = await request.json();
 
@@ -32,7 +37,8 @@ export async function POST({ request }) {
 
 		return streamOpenAICompat(provider, sanitizedKey, model, system, messages);
 	} catch (e) {
-		return new Response(`Server error: ${e.message}`, { status: 500 });
+		console.error('[MIRA Proxy] Internal error:', e);
+		return new Response('Internal proxy error', { status: 500 });
 	}
 }
 
@@ -73,7 +79,8 @@ async function streamOpenAICompat(provider, apiKey, model, system, messages) {
 
 	if (!upstream.ok) {
 		const errText = await upstream.text();
-		return new Response(errText, { status: upstream.status });
+		console.error(`[MIRA Proxy] ${provider} error ${upstream.status}:`, errText);
+		return new Response(`Provider error (${upstream.status})`, { status: upstream.status });
 	}
 
 	// Pass through the SSE stream
@@ -108,7 +115,8 @@ async function streamAnthropic(apiKey, model, system, messages) {
 
 	if (!upstream.ok) {
 		const errText = await upstream.text();
-		return new Response(errText, { status: upstream.status });
+		console.error(`[MIRA Proxy] Anthropic error ${upstream.status}:`, errText);
+		return new Response(`Provider error (${upstream.status})`, { status: upstream.status });
 	}
 
 	// Transform Anthropic's SSE to OpenAI-compatible format

@@ -1,4 +1,5 @@
 <script>
+	import { onMount, onDestroy } from 'svelte';
 	import { closeApp, minimizeApp, maximizeApp, focusApp, updateWindowPosition, updateWindowSize, windowOrder } from '$lib/stores/os.js';
 	import { trackAction, Actions } from '$lib/feedback/tracker.js';
 	import { t } from '$lib/i18n/index.js';
@@ -17,11 +18,25 @@
 	export let maximized = false;
 	export let colorClass = '';
 
+	// Clamp initial size/position to viewport
+	onMount(() => {
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+		width = Math.min(width, vw - 32);
+		height = Math.min(height, vh - 120);
+		x = Math.max(0, Math.min(x, vw - width));
+		y = Math.max(36, Math.min(y, vh - 100));
+	});
+
 	let dragging = false;
 	let resizing = false;
 	let dragOffset = { x: 0, y: 0 };
 	let showClosePanel = false;
 	let closeTimer;
+
+	// Track active listeners for cleanup
+	let activeDragCleanup = null;
+	let activeResizeCleanup = null;
 
 	const SYSTEM_APPS = ['settings', 'dashboard'];
 
@@ -38,16 +53,30 @@
 
 		function onMouseMove(e) {
 			if (!dragging) return;
-			x = e.clientX - dragOffset.x;
-			y = e.clientY - dragOffset.y;
-			updateWindowPosition(id, x, y);
+			const rawX = e.clientX - dragOffset.x;
+			const rawY = e.clientY - dragOffset.y;
+			const clampedX = Math.max(-width + 80, Math.min(rawX, window.innerWidth - 80));
+			const clampedY = Math.max(0, Math.min(rawY, window.innerHeight - 40));
+			requestAnimationFrame(() => {
+				x = clampedX;
+				y = clampedY;
+				updateWindowPosition(id, clampedX, clampedY);
+			});
 		}
 
 		function onMouseUp() {
 			dragging = false;
 			window.removeEventListener('mousemove', onMouseMove);
 			window.removeEventListener('mouseup', onMouseUp);
+			activeDragCleanup = null;
 		}
+
+		// Clean up previous drag if still active
+		activeDragCleanup?.();
+		activeDragCleanup = () => {
+			window.removeEventListener('mousemove', onMouseMove);
+			window.removeEventListener('mouseup', onMouseUp);
+		};
 
 		window.addEventListener('mousemove', onMouseMove);
 		window.addEventListener('mouseup', onMouseUp);
@@ -63,16 +92,30 @@
 
 		function onMouseMove(e) {
 			if (!resizing) return;
-			width = Math.max(300, startW + (e.clientX - startX));
-			height = Math.max(200, startH + (e.clientY - startY));
-			updateWindowSize(id, width, height);
+			const maxW = window.innerWidth - x;
+			const maxH = window.innerHeight - y;
+			const newW = Math.min(maxW, Math.max(300, startW + (e.clientX - startX)));
+			const newH = Math.min(maxH, Math.max(200, startH + (e.clientY - startY)));
+			requestAnimationFrame(() => {
+				width = newW;
+				height = newH;
+				updateWindowSize(id, newW, newH);
+			});
 		}
 
 		function onMouseUp() {
 			resizing = false;
 			window.removeEventListener('mousemove', onMouseMove);
 			window.removeEventListener('mouseup', onMouseUp);
+			activeResizeCleanup = null;
 		}
+
+		// Clean up previous resize if still active
+		activeResizeCleanup?.();
+		activeResizeCleanup = () => {
+			window.removeEventListener('mousemove', onMouseMove);
+			window.removeEventListener('mouseup', onMouseUp);
+		};
 
 		window.addEventListener('mousemove', onMouseMove);
 		window.addEventListener('mouseup', onMouseUp);
@@ -101,6 +144,12 @@
 		trackAction(Actions.CLOSE_APP, id);
 		closeApp(id);
 	}
+
+	onDestroy(() => {
+		clearTimeout(closeTimer);
+		activeDragCleanup?.();
+		activeResizeCleanup?.();
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

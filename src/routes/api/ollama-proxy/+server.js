@@ -1,6 +1,10 @@
 import { json } from '@sveltejs/kit';
+import { applyRateLimit } from '$lib/server/rate-limit.js';
 
-export async function POST({ request }) {
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'ollama', maxRequests: 30, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	try {
 		const { url, method = 'POST', headers = {}, body } = await request.json();
 

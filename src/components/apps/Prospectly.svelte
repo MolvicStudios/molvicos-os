@@ -133,15 +133,15 @@ Context about why I'm reaching out: ${liContext || 'B2B outreach'}`,
 
       {#if activeTab === 'finder'}
         <div class="form-field">
-          <label>Target Role</label>
-          <input bind:value={finderRole} placeholder="e.g. Marketing Director" />
+          <label for="p-finder-role">Target Role</label>
+          <input id="p-finder-role" bind:value={finderRole} placeholder="e.g. Marketing Director" />
         </div>
         <div class="form-field">
-          <label>Industry</label>
-          <input bind:value={finderIndustry} placeholder="e.g. SaaS, E-commerce" />
+          <label for="p-finder-industry">Industry</label>
+          <input id="p-finder-industry" bind:value={finderIndustry} placeholder="e.g. SaaS, E-commerce" />
         </div>
         <div class="form-field">
-          <label>Company Size</label>
+          <span>Company Size</span>
           <div class="radio-group">
             {#each [['startup','Startup'],['smb','SMB'],['enterprise','Enterprise']] as [val, lab]}
               <label class="radio-label">
@@ -152,8 +152,8 @@ Context about why I'm reaching out: ${liContext || 'B2B outreach'}`,
           </div>
         </div>
         <div class="form-field">
-          <label>Location (optional)</label>
-          <input bind:value={finderLocation} placeholder="e.g. United States" />
+          <label for="p-finder-location">Location (optional)</label>
+          <input id="p-finder-location" bind:value={finderLocation} placeholder="e.g. United States" />
         </div>
         <button class="gen-btn" on:click={findProspects} disabled={isGenerating || !finderRole.trim()}>
           {isGenerating ? 'Searching...' : '🔍 Find Prospects — 2 cr'}
@@ -161,15 +161,15 @@ Context about why I'm reaching out: ${liContext || 'B2B outreach'}`,
 
       {:else if activeTab === 'sequence'}
         <div class="form-field">
-          <label>Prospect Info</label>
-          <textarea bind:value={seqProspect} rows="4" placeholder="Name, title, company, pain points..."></textarea>
+          <label for="p-seq-prospect">Prospect Info</label>
+          <textarea id="p-seq-prospect" bind:value={seqProspect} rows="4" placeholder="Name, title, company, pain points..."></textarea>
         </div>
         <div class="form-field">
-          <label>Your Product/Service</label>
-          <textarea bind:value={seqProduct} rows="3" placeholder="What you offer and main value prop..."></textarea>
+          <label for="p-seq-product">Your Product/Service</label>
+          <textarea id="p-seq-product" bind:value={seqProduct} rows="3" placeholder="What you offer and main value prop..."></textarea>
         </div>
         <div class="form-field">
-          <label>Tone</label>
+          <span>Tone</span>
           <div class="radio-group">
             {#each [['professional','Professional'],['casual','Casual'],['direct','Direct']] as [val, lab]}
               <label class="radio-label">
@@ -185,12 +185,12 @@ Context about why I'm reaching out: ${liContext || 'B2B outreach'}`,
 
       {:else if activeTab === 'linkedin'}
         <div class="form-field">
-          <label>Prospect Profile</label>
-          <textarea bind:value={liProfile} rows="4" placeholder="Name, current role, recent activity, interests..."></textarea>
+          <label for="p-li-profile">Prospect Profile</label>
+          <textarea id="p-li-profile" bind:value={liProfile} rows="4" placeholder="Name, current role, recent activity, interests..."></textarea>
         </div>
         <div class="form-field">
-          <label>Your Context</label>
-          <input bind:value={liContext} placeholder="Why are you reaching out?" />
+          <label for="p-li-context">Your Context</label>
+          <input id="p-li-context" bind:value={liContext} placeholder="Why are you reaching out?" />
         </div>
         <button class="gen-btn" on:click={generateLinkedIn} disabled={isGenerating || !liProfile.trim()}>
           {isGenerating ? 'Writing...' : 'in Write Message — 2 cr'}

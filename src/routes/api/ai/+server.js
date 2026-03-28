@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { applyRateLimit } from '$lib/server/rate-limit.js';
 
 const ENDPOINTS = {
 	groq: 'https://api.groq.com/openai/v1/chat/completions',
@@ -8,7 +9,10 @@ const ENDPOINTS = {
 	ollama: 'http://localhost:11434/v1/chat/completions'
 };
 
-export async function POST({ request }) {
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'ai', maxRequests: 20, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	const {
 		messages,
 		system,
@@ -51,7 +55,8 @@ export async function POST({ request }) {
 		});
 		if (!upstream.ok) {
 			const err = await upstream.text();
-			return json({ error: err }, { status: upstream.status });
+			console.error(`[AI Proxy] ${provider} error ${upstream.status}:`, err);
+			return json({ error: `Provider error (${upstream.status})` }, { status: upstream.status });
 		}
 		return new Response(upstream.body, {
 			headers: {
@@ -60,7 +65,8 @@ export async function POST({ request }) {
 			}
 		});
 	} catch (err) {
-		return json({ error: err.message }, { status: 500 });
+		console.error('[AI Proxy] Internal error:', err);
+		return json({ error: 'Internal proxy error' }, { status: 500 });
 	}
 }
 
@@ -84,7 +90,8 @@ async function handleAnthropic({ messages, system, apiKey, model, stream, temper
 	});
 	if (!upstream.ok) {
 		const err = await upstream.text();
-		return new Response(JSON.stringify({ error: err }), {
+		console.error(`[AI Proxy] Anthropic error ${upstream.status}:`, err);
+		return new Response(JSON.stringify({ error: `Provider error (${upstream.status})` }), {
 			status: upstream.status,
 			headers: { 'Content-Type': 'application/json' }
 		});

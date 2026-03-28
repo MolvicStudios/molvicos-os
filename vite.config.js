@@ -22,7 +22,9 @@ export default defineConfig({
 					{ src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
 				]
 			},
-			workbox: {			maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,				globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+			workbox: {
+			maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+			globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
 				runtimeCaching: [
 					{
 						urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,

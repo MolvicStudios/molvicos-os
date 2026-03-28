@@ -221,7 +221,7 @@
 				<div class="setting-row">
 					<div class="sr-info">
 					<span class="sr-label">{$t('settings.licenseKey')}</span>
-						<span class="sr-sub">{$planStore.licenseKey?.slice(0,20)}...</span>
+						<span class="sr-sub">●●●●●●●● Pro {$t('settings.activate')}d</span>
 					</div>
 					<button class="sr-danger-btn" on:click={deactivatePro}>{$t('settings.deactivate')}</button>
 				</div>

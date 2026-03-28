@@ -1,6 +1,6 @@
 <script>
 	import { t } from '$lib/i18n/index.js';
-	export let id = 'appstore';
+	export const id = 'appstore';
 </script>
 
 <div class="coming-soon">

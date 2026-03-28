@@ -1,23 +1,29 @@
 import { writable, derived, get } from 'svelte/store';
 import en from './en.js';
-import es from './es.js';
-import de from './de.js';
-import fr from './fr.js';
-import zh from './zh.js';
 
-const LANGS = { en, es, de, fr, zh };
+const LANGS = { en };
+const LOADERS = {
+	es: () => import('./es.js'),
+	de: () => import('./de.js'),
+	fr: () => import('./fr.js'),
+	zh: () => import('./zh.js'),
+};
+const VALID = new Set(['en', ...Object.keys(LOADERS)]);
 
 export const currentLang = writable('en');
 
-export function setLang(code) {
-	if (LANGS[code]) {
-		currentLang.set(code);
-		if (typeof localStorage !== 'undefined') {
-			localStorage.setItem('ms_lang', code);
-		}
-		if (typeof document !== 'undefined') {
-			document.documentElement.lang = code;
-		}
+export async function setLang(code) {
+	if (!VALID.has(code)) return;
+	if (!LANGS[code] && LOADERS[code]) {
+		const mod = await LOADERS[code]();
+		LANGS[code] = mod.default;
+	}
+	currentLang.set(code);
+	if (typeof localStorage !== 'undefined') {
+		localStorage.setItem('ms_lang', code);
+	}
+	if (typeof document !== 'undefined') {
+		document.documentElement.lang = code;
 	}
 }
 
@@ -39,11 +45,11 @@ export function tGet(key) {
 export function detectLang() {
 	if (typeof localStorage !== 'undefined') {
 		const saved = localStorage.getItem('ms_lang');
-		if (saved && LANGS[saved]) return setLang(saved);
+		if (saved && VALID.has(saved)) return setLang(saved);
 	}
 	if (typeof navigator !== 'undefined') {
 		const browser = navigator.language?.slice(0, 2);
-		if (LANGS[browser]) return setLang(browser);
+		if (VALID.has(browser)) return setLang(browser);
 	}
 	setLang('en');
 }

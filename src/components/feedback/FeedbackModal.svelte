@@ -82,7 +82,7 @@
 				<div class="modal-body">
 					{#if activeTab === 'bug'}
 						<div class="field">
-							<label>{$t('feedback.severity')}</label>
+							<span>{$t('feedback.severity')}</span>
 							<div class="severity-row">
 								{#each SEVERITIES as sev}
 									<button

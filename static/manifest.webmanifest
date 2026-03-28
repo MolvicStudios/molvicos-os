@@ -1,12 +1,12 @@
 {
-	"name": "Molvicos OS",
-	"short_name": "MolvicOS",
-	"description": "AI Operating System — Your intelligent workspace",
+	"name": "Molvicos — AI Operating System",
+	"short_name": "Molvicos",
+	"description": "Your AI OS. Prompt engineering, local models, and productivity tools.",
 	"start_url": "/os",
 	"display": "standalone",
 	"orientation": "landscape",
-	"background_color": "#0a0a0f",
-	"theme_color": "#00ff88",
+	"background_color": "#06090f",
+	"theme_color": "#06090f",
 	"icons": [
 		{
 			"src": "/icons/icon-192.png",

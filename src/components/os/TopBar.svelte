@@ -160,16 +160,6 @@
 		color: var(--text-primary);
 	}
 
-	.plan-badge {
-		font-size: 8px;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-		color: var(--accent);
-		background: var(--accent-dim);
-		padding: 1px 5px;
-		border-radius: 6px;
-	}
-
 	.clock {
 		font-family: var(--font-mono);
 		font-size: 10px;

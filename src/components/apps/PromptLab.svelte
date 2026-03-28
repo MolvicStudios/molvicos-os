@@ -11,7 +11,7 @@
 	import AppShell from './shared/AppShell.svelte';
 	import HistorySidebar from './shared/HistorySidebar.svelte';
 
-	export let id = 'promptlab';
+	export const id = 'promptlab';
 
 	let tab = 'optimizer';
 	let showHistory = false;
@@ -167,10 +167,10 @@
 
 			{#if tab === 'optimizer'}
 				<div class="optimizer">
-					<label class="field-label">{$t('apps.promptlab.inputLabel')}</label>
-					<textarea class="prompt-input" rows="5" bind:value={input} placeholder={$t('apps.promptlab.inputPlaceholder')}></textarea>
+					<label class="field-label" for="pl-input">{$t('apps.promptlab.inputLabel')}</label>
+					<textarea id="pl-input" class="prompt-input" rows="5" bind:value={input} placeholder={$t('apps.promptlab.inputPlaceholder')}></textarea>
 
-					<label class="field-label">{$t('apps.promptlab.targetLabel')}</label>
+					<span class="field-label">{$t('apps.promptlab.targetLabel')}</span>
 					<div class="target-pills">
 						{#each TARGETS as tgt}
 							<button class="pill" class:active={target === tgt} on:click={() => target = tgt}>{tgt}</button>

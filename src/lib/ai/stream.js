@@ -1,6 +1,8 @@
 import { getActiveProvider } from '$lib/providers/active.js';
 import { deductCredits, canAfford } from '$lib/plans/credits.js';
 
+const DEFAULT_TIMEOUT_MS = 30_000;
+
 /**
  * Stream an AI response.
  * @param {object} opts
@@ -11,6 +13,7 @@ import { deductCredits, canAfford } from '$lib/plans/credits.js';
  * @param {function} opts.onDone    - Called with full accumulated text
  * @param {function} opts.onError   - Called with error message string
  * @param {string} opts.action      - Credit action type (e.g. 'mira_message')
+ * @param {number} opts.timeoutMs   - Request timeout in ms (default: 30000)
  */
 export async function streamAI({
 	system,
@@ -19,7 +22,8 @@ export async function streamAI({
 	onChunk,
 	onDone,
 	onError,
-	action = 'mira_message'
+	action = 'mira_message',
+	timeoutMs = DEFAULT_TIMEOUT_MS
 }) {
 	// Check and deduct credits
 	if (!canAfford(action)) {
@@ -37,10 +41,14 @@ export async function streamAI({
 		return;
 	}
 
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
 	try {
 		const res = await fetch('/api/ai', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
+			signal: controller.signal,
 			body: JSON.stringify({
 				system,
 				messages,
@@ -83,6 +91,12 @@ export async function streamAI({
 		}
 		onDone?.(full);
 	} catch (err) {
-		onError?.(err.message);
+		if (err.name === 'AbortError') {
+			onError?.('Request timed out. Please try again.');
+		} else {
+			onError?.(err.message);
+		}
+	} finally {
+		clearTimeout(timeout);
 	}
 }

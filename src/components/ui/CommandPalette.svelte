@@ -117,9 +117,14 @@
 				bind:value={query}
 				class="cmd-input"
 				placeholder={$t('cmd.placeholder')}
+				role="combobox"
+				aria-expanded={results.length > 0}
+				aria-controls="cmd-listbox"
+				aria-activedescendant={results.length > 0 ? `cmd-opt-${selectedIndex}` : undefined}
+				autocomplete="off"
 				on:keydown={handleKeyDown}
 			/>
-			<div class="cmd-results">
+			<div class="cmd-results" id="cmd-listbox" role="listbox">
 				{#if results.length === 0}
 					<div class="cmd-empty">{$t('cmd.noResults')}</div>
 				{:else}
@@ -127,8 +132,12 @@
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
 						<div
+							id="cmd-opt-{i}"
 							class="cmd-result"
 							class:selected={i === selectedIndex}
+							role="option"
+							aria-selected={i === selectedIndex}
+							tabindex="-1"
 							on:click={result.action}
 							on:mouseenter={() => (selectedIndex = i)}
 						>

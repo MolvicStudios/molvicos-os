@@ -1,18 +1,9 @@
-import PromptLab from '../components/apps/PromptLab.svelte';
-import Prospectly from '../components/apps/Prospectly.svelte';
-import AIWorkSuite from '../components/apps/AIWorkSuite.svelte';
-import Repurposer from '../components/apps/Repurposer.svelte';
-import BriefGen from '../components/apps/BriefGen.svelte';
-import WorkflowBuilder from '../components/apps/WorkflowBuilder.svelte';
-import LocalModels from '../components/apps/LocalModels.svelte';
-import AITerminal from '../components/apps/AITerminal.svelte';
-import Dashboard from '../components/apps/Dashboard.svelte';
-import Settings from '../components/apps/Settings.svelte';
+const lazy = (loader) => loader;
 
 export const APPS = [
 	{
 		id: 'promptlab',
-		component: PromptLab,
+		loader: lazy(() => import('../components/apps/PromptLab.svelte')),
 		emoji: '🔧',
 		colorClass: 'icon-purple',
 		dockSlot: 1,
@@ -23,7 +14,7 @@ export const APPS = [
 	},
 	{
 		id: 'prospectly',
-		component: Prospectly,
+		loader: lazy(() => import('../components/apps/Prospectly.svelte')),
 		emoji: '🎯',
 		colorClass: 'icon-cyan',
 		dockSlot: 2,
@@ -34,7 +25,7 @@ export const APPS = [
 	},
 	{
 		id: 'aiworksuite',
-		component: AIWorkSuite,
+		loader: lazy(() => import('../components/apps/AIWorkSuite.svelte')),
 		emoji: '💼',
 		colorClass: 'icon-green',
 		dockSlot: 3,
@@ -45,7 +36,7 @@ export const APPS = [
 	},
 	{
 		id: 'repurposer',
-		component: Repurposer,
+		loader: lazy(() => import('../components/apps/Repurposer.svelte')),
 		emoji: '📝',
 		colorClass: 'icon-amber',
 		dockSlot: 4,
@@ -56,7 +47,7 @@ export const APPS = [
 	},
 	{
 		id: 'briefgen',
-		component: BriefGen,
+		loader: lazy(() => import('../components/apps/BriefGen.svelte')),
 		emoji: '🔍',
 		colorClass: 'icon-pink',
 		dockSlot: 5,
@@ -67,7 +58,7 @@ export const APPS = [
 	},
 	{
 		id: 'workflow',
-		component: WorkflowBuilder,
+		loader: lazy(() => import('../components/apps/WorkflowBuilder.svelte')),
 		emoji: '⚙️',
 		colorClass: 'icon-teal',
 		dockSlot: null,
@@ -78,7 +69,7 @@ export const APPS = [
 	},
 	{
 		id: 'localmodels',
-		component: LocalModels,
+		loader: lazy(() => import('../components/apps/LocalModels.svelte')),
 		emoji: '🤖',
 		colorClass: 'icon-blue',
 		dockSlot: null,
@@ -89,7 +80,7 @@ export const APPS = [
 	},
 	{
 		id: 'terminal',
-		component: AITerminal,
+		loader: lazy(() => import('../components/apps/AITerminal.svelte')),
 		emoji: '💻',
 		colorClass: 'icon-red',
 		dockSlot: null,
@@ -100,7 +91,7 @@ export const APPS = [
 	},
 	{
 		id: 'dashboard',
-		component: Dashboard,
+		loader: lazy(() => import('../components/apps/Dashboard.svelte')),
 		emoji: '📊',
 		colorClass: 'icon-gold',
 		dockSlot: null,
@@ -111,7 +102,7 @@ export const APPS = [
 	},
 	{
 		id: 'settings',
-		component: Settings,
+		loader: lazy(() => import('../components/apps/Settings.svelte')),
 		emoji: '⚙️',
 		colorClass: 'icon-gray',
 		dockSlot: null,

@@ -9,7 +9,7 @@
 	import AppShell from './shared/AppShell.svelte';
 	import HistorySidebar from './shared/HistorySidebar.svelte';
 
-	export let id = 'workflow';
+	export const id = 'workflow';
 
 	let showHistory = false;
 	const history = createAppHistory('workflow');
@@ -114,10 +114,23 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 	// --- n8n JSON helpers ---
 	function extractJSON(text) {
 		const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-		if (fenced) return fenced[1].trim();
+		if (fenced) {
+			const candidate = fenced[1].trim();
+			try {
+				const parsed = JSON.parse(candidate);
+				if (parsed.nodes && Array.isArray(parsed.nodes)) return candidate;
+			} catch {}
+		}
+		// Fallback: find outermost braces and validate structure
 		const braceStart = text.indexOf('{');
 		const braceEnd = text.lastIndexOf('}');
-		if (braceStart !== -1 && braceEnd > braceStart) return text.slice(braceStart, braceEnd + 1);
+		if (braceStart !== -1 && braceEnd > braceStart) {
+			const candidate = text.slice(braceStart, braceEnd + 1);
+			try {
+				const parsed = JSON.parse(candidate);
+				if (parsed.nodes && Array.isArray(parsed.nodes)) return candidate;
+			} catch {}
+		}
 		return text;
 	}
 
@@ -264,18 +277,18 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 			{#if !result && !jsonStr && !loading}
 				<!-- Input Form -->
 				<div class="wb-form">
-					<label class="field-label">{$t('apps.workflow.descLabel')}</label>
-					<textarea class="wb-textarea" rows="4" bind:value={description} placeholder={$t('apps.workflow.descPlaceholder')}></textarea>
+					<label class="field-label" for="wb-desc">{$t('apps.workflow.descLabel')}</label>
+					<textarea id="wb-desc" class="wb-textarea" rows="4" bind:value={description} placeholder={$t('apps.workflow.descPlaceholder')}></textarea>
 
 					{#if activeTab === 'n8n'}
-						<label class="field-label">{$t('apps.workflow.triggerType')}</label>
+						<span class="field-label">{$t('apps.workflow.triggerType')}</span>
 						<div class="type-pills">
 							{#each TRIGGERS as tr}
 								<button class="pill" class:active={triggerType === tr} on:click={() => triggerType = tr}>{tr}</button>
 							{/each}
 						</div>
 
-						<label class="field-label">{$t('apps.workflow.complexity')}</label>
+						<span class="field-label">{$t('apps.workflow.complexity')}</span>
 						<div class="type-pills">
 							{#each COMPLEXITY as c}
 								<button class="pill" class:active={complexity === c} on:click={() => complexity = c}>{c}</button>
@@ -287,14 +300,14 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 							<span>{$t('apps.workflow.errorHandling')}</span>
 						</label>
 					{:else if activeTab === 'make'}
-						<label class="field-label">{$t('apps.workflow.primaryModule')}</label>
+						<span class="field-label">{$t('apps.workflow.primaryModule')}</span>
 						<div class="type-pills">
 							{#each MAKE_MODULES as m}
 								<button class="pill" class:active={makeModules === m} on:click={() => makeModules = m}>{m}</button>
 							{/each}
 						</div>
 					{:else}
-						<label class="field-label">{$t('apps.workflow.resourceType')}</label>
+						<span class="field-label">{$t('apps.workflow.resourceType')}</span>
 						<div class="type-pills">
 							{#each RESOURCE_TYPES as rt}
 								<button class="pill" class:active={resourceType === rt.id} on:click={() => resourceType = rt.id}>
@@ -303,7 +316,7 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 							{/each}
 						</div>
 
-						<label class="field-label">{$t('apps.workflow.level')}</label>
+						<span class="field-label">{$t('apps.workflow.level')}</span>
 						<div class="type-pills">
 							<button class="pill" class:active={resourceLevel === 'basic'} on:click={() => resourceLevel = 'basic'}>
 								📗 {$t('apps.workflow.levelBasic')}
@@ -427,7 +440,6 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 
 	/* Results */
 	.wb-result { display: flex; flex: 1; overflow: hidden; }
-	.wb-split { }
 	.wb-left { width: 60%; display: flex; flex-direction: column; border-right: 1px solid var(--border); }
 	.wb-left.full { width: 100%; border-right: none; }
 	.wb-right { width: 40%; display: flex; flex-direction: column; overflow: auto; }

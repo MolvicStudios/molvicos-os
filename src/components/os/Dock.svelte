@@ -27,7 +27,7 @@
 	$: openIds = new Set($openWindows.map((w) => w.id));
 </script>
 
-<nav class="dock">
+<nav class="dock" aria-label="Application dock">
 	<div class="dock-inner">
 		{#each dockApps as app (app.id)}
 			<button
@@ -37,6 +37,7 @@
 				class:bounce={bounceId === app.id}
 				on:click={() => handleDockClick(app)}
 				title={$t(`apps.${app.id}.name`)}
+				aria-label={$t(`apps.${app.id}.name`)}
 			>
 				<span class="dock-emoji">{app.emoji}</span>
 				{#if openIds.has(app.id)}
@@ -55,6 +56,7 @@
 				class:bounce={bounceId === app.id}
 				on:click={() => handleDockClick(app)}
 				title={$t(`apps.${app.id}.name`)}
+				aria-label={$t(`apps.${app.id}.name`)}
 			>
 				<span class="dock-emoji">{app.emoji}</span>
 				{#if openIds.has(app.id)}
@@ -72,6 +74,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 8000;
+		max-width: calc(100vw - 16px);
 	}
 
 	.dock-inner {
@@ -83,7 +86,12 @@
 		backdrop-filter: blur(20px);
 		border: 1px solid var(--border-accent);
 		border-radius: var(--radius-xl);
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
 	}
+
+	.dock-inner::-webkit-scrollbar { display: none; }
 
 	.dock-icon {
 		position: relative;
@@ -134,5 +142,20 @@
 		height: 24px;
 		background: var(--border-accent);
 		margin: 0 4px;
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 640px) {
+		.dock-icon {
+			width: 34px;
+			height: 34px;
+		}
+		.dock-emoji {
+			font-size: 17px;
+		}
+		.dock-inner {
+			gap: 4px;
+			padding: 5px 8px;
+		}
 	}
 </style>

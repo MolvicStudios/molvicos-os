@@ -192,6 +192,28 @@ select:focus {
 	letter-spacing: 0.08em;
 }
 
+/* --- Loading Spinner Utility --- */
+.loading-spinner {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	border: 2px solid var(--border-accent);
+	border-top-color: var(--accent);
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+	vertical-align: middle;
+}
+.loading-spinner.lg { width: 28px; height: 28px; border-width: 3px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.skeleton {
+	background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-overlay) 50%, var(--bg-elevated) 75%);
+	background-size: 200% 100%;
+	animation: shimmer 1.5s infinite;
+	border-radius: var(--radius-sm);
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 /* --- Animations --- */
 @keyframes fadeIn {
 	from {
@@ -335,4 +357,31 @@ select:focus {
 [data-theme='icaro'] .icon-gray {
 	background: #f0f0f2;
 	border-color: #66668830;
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* --- Responsive Breakpoints --- */
+@media (max-width: 768px) {
+	h1 { font-size: 28px; }
+	h2 { font-size: 20px; }
+	h3 { font-size: 16px; }
+}
+
+@media (max-width: 640px) {
+	h1 { font-size: 22px; }
+	h2 { font-size: 18px; }
+
+	input, textarea, select {
+		font-size: 16px;
+		padding: 10px 12px;
+	}
 }

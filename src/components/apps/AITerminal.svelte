@@ -243,8 +243,8 @@ Current provider: ${provider.provider} · Model: ${provider.model}`,
   }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="terminal" on:click={focusInput}>
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<div class="terminal" role="application" on:click={focusInput}>
 
   <div class="terminal-output" bind:this={outputEl}>
     {#each lines as line (line.id)}

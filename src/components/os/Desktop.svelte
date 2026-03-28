@@ -54,11 +54,27 @@
 		gap: 24px;
 		padding: 16px 0;
 		z-index: 1;
+		overflow-y: auto;
+		scrollbar-width: none;
 	}
+
+	.desktop::-webkit-scrollbar { display: none; }
 
 	.desktop-section {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: 16px;
+	}
+
+	@media (max-width: 640px) {
+		.desktop {
+			left: 8px;
+			right: 8px;
+			gap: 16px;
+		}
+		.desktop-section {
+			grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+			gap: 10px;
+		}
 	}
 </style>

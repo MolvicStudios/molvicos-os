@@ -10,7 +10,7 @@
 	import AppShell from './shared/AppShell.svelte';
 	import HistorySidebar from './shared/HistorySidebar.svelte';
 
-	export let id = 'repurposer';
+	export const id = 'repurposer';
 
 	let showHistory = false;
 	const history = createAppHistory('repurposer');
@@ -104,13 +104,13 @@
 			<div class="rp-split">
 				<!-- Left panel -->
 				<div class="rp-left">
-					<label class="field-label">{$t('apps.repurposer.inputLabel')}</label>
-					<textarea class="rp-input" rows="8" bind:value={input} placeholder={$t('apps.repurposer.inputPlaceholder')}></textarea>
+					<label class="field-label" for="rp-input">{$t('apps.repurposer.inputLabel')}</label>
+					<textarea id="rp-input" class="rp-input" rows="8" bind:value={input} placeholder={$t('apps.repurposer.inputPlaceholder')}></textarea>
 					<div class="word-count" class:warn={wordCount > 400}>
 						{$t('apps.repurposer.wordCount').replace('{n}', wordCount)}
 					</div>
 
-					<label class="field-label">Formats</label>
+					<span class="field-label">Formats</span>
 					<div class="format-select">
 						<div class="fmt-toggle">
 							<button class="link-btn" on:click={selectAll}>{$t('apps.repurposer.selectAll')}</button>
@@ -125,7 +125,7 @@
 						{/each}
 					</div>
 
-					<label class="field-label">{$t('apps.repurposer.outputLang')}</label>
+					<span class="field-label">{$t('apps.repurposer.outputLang')}</span>
 					<div class="lang-pills">
 						{#each ['en', 'es', 'de', 'fr', 'zh'] as lang}
 							<button class="pill" class:active={outputLang === lang} on:click={() => outputLang = lang}>{lang.toUpperCase()}</button>

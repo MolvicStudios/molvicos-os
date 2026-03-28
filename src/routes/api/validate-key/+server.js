@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { applyRateLimit } from '$lib/server/rate-limit.js';
 
 const PROVIDER_URLS = {
 	groq: 'https://api.groq.com/openai/v1/models',
@@ -8,7 +9,10 @@ const PROVIDER_URLS = {
 	mistral: 'https://api.mistral.ai/v1/models'
 };
 
-export async function POST({ request }) {
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'validate-key', maxRequests: 10, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	try {
 		const { provider, key } = await request.json();
 

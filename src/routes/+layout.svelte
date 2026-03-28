@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { theme } from '$lib/stores/os.js';
 	import { apiKeys } from '$lib/stores/models.js';
 	import { userProfile } from '$lib/stores/user.js';
@@ -7,6 +7,8 @@
 	import { detectLang } from '$lib/i18n/index.js';
 	import { initConsoleTrap } from '$lib/feedback/console-trap.js';
 	import '../app.css';
+
+	let unsubs = [];
 
 	onMount(async () => {
 		initConsoleTrap();
@@ -16,20 +18,20 @@
 		const savedTheme = localStorage.getItem('ms_theme') || 'noir';
 		document.documentElement.setAttribute('data-theme', savedTheme);
 		theme.set(savedTheme);
-		theme.subscribe((t) => {
+		unsubs.push(theme.subscribe((t) => {
 			document.documentElement.setAttribute('data-theme', t);
 			storage.set('ms_theme', t);
-		});
+		}));
 
 		// Restore API keys
 		const savedKeys = storage.get('ms_api_keys');
 		if (savedKeys) apiKeys.set(savedKeys);
-		apiKeys.subscribe((keys) => storage.set('ms_api_keys', keys));
+		unsubs.push(apiKeys.subscribe((keys) => storage.set('ms_api_keys', keys)));
 
 		// Restore user profile
 		const savedProfile = storage.get('ms_user_profile');
 		if (savedProfile) userProfile.update((p) => ({ ...p, ...savedProfile }));
-		userProfile.subscribe((p) => storage.set('ms_user_profile', p));
+		unsubs.push(userProfile.subscribe((p) => storage.set('ms_user_profile', p)));
 
 		// Init Clerk (non-blocking, optional)
 		try {
@@ -44,6 +46,8 @@
 			// Clerk not configured — continue without auth
 		}
 	});
+
+	onDestroy(() => unsubs.forEach((fn) => fn()));
 </script>
 
 <slot />

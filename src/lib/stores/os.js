@@ -26,7 +26,7 @@ export const iconPositions = writable({});
 
 let windowCounter = 0;
 
-export function openApp(appDef) {
+export async function openApp(appDef) {
 	const wins = get(openWindows);
 	const existing = wins.find((w) => w.id === appDef.id);
 
@@ -38,11 +38,13 @@ export function openApp(appDef) {
 		return;
 	}
 
+	const mod = await appDef.loader();
+
 	const win = {
 		id: appDef.id,
 		title: appDef.title || appDef.id,
 		icon: appDef.emoji || '📦',
-		component: appDef.component,
+		component: mod.default,
 		width: appDef.defaultSize?.w || 700,
 		height: appDef.defaultSize?.h || 500,
 		x: 80 + (windowCounter % 8) * 30,

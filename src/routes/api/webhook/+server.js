@@ -1,15 +1,22 @@
 import { processWebhookEvent } from '$lib/lemonsqueezy/webhook.js';
+import { applyRateLimit } from '$lib/server/rate-limit.js';
 
-export async function POST({ request }) {
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'webhook', maxRequests: 10, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	const body      = await request.text();
 	const signature = request.headers.get('x-signature') || '';
-	const secret    = import.meta.env.LS_WEBHOOK_SECRET || 'FTy679Ui';
+	const secret    = import.meta.env.LS_WEBHOOK_SECRET;
 
-	if (secret) {
-		const valid = await verifySignature(body, signature, secret);
-		if (!valid) {
-			return new Response('Unauthorized', { status: 401 });
-		}
+	if (!secret) {
+		console.error('[Webhook] LS_WEBHOOK_SECRET not configured');
+		return new Response('Server misconfigured', { status: 500 });
+	}
+
+	const valid = await verifySignature(body, signature, secret);
+	if (!valid) {
+		return new Response('Unauthorized', { status: 401 });
 	}
 
 	try {

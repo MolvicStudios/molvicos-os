@@ -1,19 +1,26 @@
 <script>
+	import DOMPurify from 'dompurify';
+
 	export let msg;
 
 	$: isUser = msg.role === 'user';
 
 	/**
 	 * Basic markdown: **bold**, *italic*, `code`, ```blocks```, and line breaks.
+	 * Sanitized with DOMPurify to prevent XSS.
 	 */
 	function renderMarkdown(text) {
 		if (!text) return '';
-		return text
+		const raw = text
 			.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
 			.replace(/`([^`]+)`/g, '<code>$1</code>')
 			.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
 			.replace(/\*([^*]+)\*/g, '<em>$1</em>')
 			.replace(/\n/g, '<br>');
+		return DOMPurify.sanitize(raw, {
+			ALLOWED_TAGS: ['strong', 'em', 'code', 'pre', 'br'],
+			ALLOWED_ATTR: []
+		});
 	}
 </script>
 

@@ -1,4 +1,9 @@
-export async function POST({ request }) {
+import { applyRateLimit } from '$lib/server/rate-limit.js';
+
+export async function POST({ request, ...event }) {
+	const blocked = applyRateLimit({ request, ...event }, { prefix: 'license', maxRequests: 5, windowMs: 60_000 });
+	if (blocked) return blocked;
+
 	try {
 		const { licenseKey } = await request.json();
 		if (!licenseKey || typeof licenseKey !== 'string') {

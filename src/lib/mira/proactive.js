@@ -2,21 +2,21 @@ import { get } from 'svelte/store';
 import { miraSuggestions, miraContext } from '../stores/mira.js';
 import { openWindows, activeApp, theme } from '../stores/os.js';
 import { currentLang } from '../i18n/index.js';
-import { userProfile } from '../stores/user.js';
+import { planStore } from '../stores/plan.js';
 
 /**
  * Update miraContext from current OS state.
  */
 export function syncContext() {
 	const wins = get(openWindows);
-	const profile = get(userProfile);
+	const plan = get(planStore);
 
 	miraContext.set({
 		theme: get(theme),
 		lang: get(currentLang),
 		openApps: wins.filter(w => !w.minimized).map(w => w.id),
 		activeApp: get(activeApp),
-		credits: profile?.credits ?? 30
+		credits: plan?.credits ?? 30
 	});
 }
 

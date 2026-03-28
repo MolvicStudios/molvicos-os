@@ -5,7 +5,6 @@
 	export let title = '';
 	export let icon = '';
 	export let credits = 0;
-	export let loading = false;
 	export let result = '';
 	export let history = null;
 	export let onExport = null;

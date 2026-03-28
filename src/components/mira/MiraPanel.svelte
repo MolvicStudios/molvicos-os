@@ -1,9 +1,9 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { miraOpen, miraThinking, miraStreaming, clearChat, miraContext } from '$lib/stores/mira.js';
 	import { openWindows, activeApp, theme } from '$lib/stores/os.js';
 	import { currentLang, t } from '$lib/i18n/index.js';
-	import { userProfile } from '$lib/stores/user.js';
+	import { planStore } from '$lib/stores/plan.js';
 	import { initProactive, syncContext } from '$lib/mira/proactive.js';
 	import MiraChat from './MiraChat.svelte';
 	import MiraInput from './MiraInput.svelte';
@@ -11,17 +11,25 @@
 
 	let proactiveInterval;
 
-	onMount(() => {
-		proactiveInterval = initProactive();
-	});
+	function startProactive() {
+		if (!proactiveInterval) proactiveInterval = initProactive();
+	}
 
-	onDestroy(() => {
-		if (proactiveInterval) clearInterval(proactiveInterval);
-	});
+	function stopProactive() {
+		if (proactiveInterval) {
+			clearInterval(proactiveInterval);
+			proactiveInterval = null;
+		}
+	}
+
+	onDestroy(stopProactive);
+
+	// Start/stop proactive engine based on panel visibility
+	$: if ($miraOpen) startProactive(); else stopProactive();
 
 	// Sync OS context reactively
 	$: {
-		if ($openWindows || $activeApp || $theme || $currentLang || $userProfile) {
+		if ($openWindows || $activeApp || $theme || $currentLang || $planStore) {
 			syncContext();
 		}
 	}

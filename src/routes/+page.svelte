@@ -9,6 +9,7 @@
 	let ready = false;
 	let billingToggle = 'monthly';
 	let openFaq = -1;
+	let mobileMenuOpen = false;
 
 	const apps = [
 		{ emoji: '🔧', name: 'Prompt Lab', desc: 'Optimize & save prompts with AI scoring' },
@@ -75,10 +76,15 @@
 		<a href="/" class="logo">
 			<span class="logo-icon">◈</span> Molvicos
 		</a>
-		<div class="nav-links">
-			<a href="#features">Features</a>
-			<a href="#apps">Apps</a>
-			<a href="#pricing">Pricing</a>
+		<button class="hamburger" aria-label="Toggle menu" on:click={() => mobileMenuOpen = !mobileMenuOpen}>
+			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
+			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
+			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
+		</button>
+		<div class="nav-links" class:mobile-open={mobileMenuOpen}>
+			<a href="#features" on:click={() => mobileMenuOpen = false}>Features</a>
+			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
+			<a href="#pricing" on:click={() => mobileMenuOpen = false}>Pricing</a>
 			<a href="/onboarding" class="btn-nav">Start Free →</a>
 		</div>
 	</nav>
@@ -642,10 +648,49 @@
 	.footer-links a:hover { color: var(--lp-accent); }
 
 	/* ─── RESPONSIVE ─── */
+	.hamburger {
+		display: none;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 6px;
+		z-index: 1001;
+	}
+	.hamburger-line {
+		display: block;
+		width: 22px;
+		height: 2px;
+		background: var(--lp-text);
+		margin: 5px 0;
+		transition: transform 0.2s, opacity 0.2s;
+		border-radius: 1px;
+	}
+	.hamburger-line.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+	.hamburger-line.open:nth-child(2) { opacity: 0; }
+	.hamburger-line.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+	@media (max-width: 768px) {
+		.pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
+	}
+
 	@media (max-width: 640px) {
-		.nav-links a:not(.btn-nav) { display: none; }
+		.hamburger { display: block; }
+		.nav-links {
+			display: none;
+			position: fixed;
+			inset: 0;
+			top: 56px;
+			background: rgba(6,9,15,0.96);
+			backdrop-filter: blur(20px);
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 2rem;
+			font-size: 1.1rem;
+			z-index: 1000;
+		}
+		.nav-links.mobile-open { display: flex; }
 		.preview-grid { grid-template-columns: 1fr; }
-		.pricing-cards { grid-template-columns: 1fr; }
 		.hero { padding: 4rem 1rem 2rem; }
 		.footer-inner { flex-direction: column; gap: 0.8rem; text-align: center; }
 	}

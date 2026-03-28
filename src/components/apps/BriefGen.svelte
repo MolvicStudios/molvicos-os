@@ -10,7 +10,7 @@
 	import AppShell from './shared/AppShell.svelte';
 	import HistorySidebar from './shared/HistorySidebar.svelte';
 
-	export let id = 'briefgen';
+	export const id = 'briefgen';
 
 	let showHistory = false;
 	const history = createAppHistory('briefgen');
@@ -153,28 +153,28 @@ ${wordNote}${compNote}`;
 			{#if !result}
 				<!-- Input form -->
 				<div class="bg-form">
-					<label class="field-label">{$t('apps.briefgen.keyword')}</label>
-					<input class="bg-input" type="text" bind:value={keyword} placeholder="e.g. best project management tools" />
+					<label class="field-label" for="bg-keyword">{$t('apps.briefgen.keyword')}</label>
+					<input id="bg-keyword" class="bg-input" type="text" bind:value={keyword} placeholder="e.g. best project management tools" />
 
-					<label class="field-label">{$t('apps.briefgen.secondaryKw')}</label>
-					<input class="bg-input" type="text" bind:value={secondaryKeywords} placeholder="e.g. agile tools, team collaboration, kanban" />
+					<label class="field-label" for="bg-secondary">{$t('apps.briefgen.secondaryKw')}</label>
+					<input id="bg-secondary" class="bg-input" type="text" bind:value={secondaryKeywords} placeholder="e.g. agile tools, team collaboration, kanban" />
 
-					<label class="field-label">{$t('apps.briefgen.contentType')}</label>
+					<span class="field-label">{$t('apps.briefgen.contentType')}</span>
 					<div class="type-pills">
 						{#each CONTENT_TYPES as ct}
 							<button class="pill" class:active={contentType === ct} on:click={() => contentType = ct}>{ct}</button>
 						{/each}
 					</div>
 
-					<label class="field-label">{$t('apps.briefgen.audience')}</label>
-					<input class="bg-input" type="text" bind:value={audience} placeholder="e.g. SaaS founders, 25-45, tech-savvy" />
+					<label class="field-label" for="bg-audience">{$t('apps.briefgen.audience')}</label>
+					<input id="bg-audience" class="bg-input" type="text" bind:value={audience} placeholder="e.g. SaaS founders, 25-45, tech-savvy" />
 
-					<label class="field-label">{$t('apps.briefgen.competitors')}</label>
-					<textarea class="bg-textarea" rows="3" bind:value={competitors} placeholder="https://competitor1.com/article&#10;https://competitor2.com/post"></textarea>
+					<label class="field-label" for="bg-competitors">{$t('apps.briefgen.competitors')}</label>
+					<textarea id="bg-competitors" class="bg-textarea" rows="3" bind:value={competitors} placeholder="https://competitor1.com/article&#10;https://competitor2.com/post"></textarea>
 
 					<div class="form-row">
 						<div class="form-col">
-							<label class="field-label">{$t('apps.briefgen.language')}</label>
+							<span class="field-label">{$t('apps.briefgen.language')}</span>
 							<div class="lang-pills">
 								{#each ['en', 'es', 'de', 'fr', 'zh'] as lang}
 									<button class="pill sm" class:active={outputLang === lang} on:click={() => outputLang = lang}>{lang.toUpperCase()}</button>
@@ -182,7 +182,7 @@ ${wordNote}${compNote}`;
 							</div>
 						</div>
 						<div class="form-col">
-							<label class="field-label">{$t('apps.briefgen.wordTarget')}</label>
+							<span class="field-label">{$t('apps.briefgen.wordTarget')}</span>
 							<div class="lang-pills">
 								{#each WORD_TARGETS as wt}
 									<button class="pill sm" class:active={wordTarget === wt} on:click={() => wordTarget = wt}>{wt}</button>

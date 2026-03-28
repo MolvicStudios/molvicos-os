@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { detectLang } from '$lib/i18n/index.js';
 	import * as storage from '$lib/storage/local.js';
 	import { goto } from '$app/navigation';
 	import { miraOpen } from '$lib/stores/mira.js';
@@ -19,7 +18,6 @@
 	import { checkMonthlyRefill } from '$lib/plans/credits.js';
 
 	onMount(() => {
-		detectLang();
 		checkMonthlyRefill();
 		if (!storage.storage.isOnboardingComplete()) {
 			goto('/onboarding');
