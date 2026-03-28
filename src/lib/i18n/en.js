@@ -178,6 +178,7 @@ export default {
 		ai: 'AI & Models',
 		account: 'Account & Plan',
 		about: 'About',
+		dock: 'Dock',
 		language: 'Language',
 		languageSub: 'OS interface language',
 		keysLocal: 'All keys are stored locally in your browser.',

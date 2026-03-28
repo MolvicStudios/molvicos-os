@@ -178,6 +178,7 @@ export default {
 		ai: 'IA y Modelos',
 		account: 'Cuenta y Plan',
 		about: 'Acerca de',
+		dock: 'Dock',
 		language: 'Idioma',
 		languageSub: 'Idioma de la interfaz del SO',
 		keysLocal: 'Todas las claves se almacenan localmente en tu navegador.',

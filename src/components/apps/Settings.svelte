@@ -1,18 +1,21 @@
 <script>
 	import { theme, tutorialOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
-	import { apiKeys, ollamaStatus } from '$lib/stores/models.js';
+	import { apiKeys, keyStatus, ollamaStatus } from '$lib/stores/models.js';
 	import { planStore, openUpgradeModal, activatePro, deactivatePro } from '$lib/stores/plan.js';
 	import { setLang, currentLang } from '$lib/i18n/index.js';
 	import { validateLicense } from '$lib/lemonsqueezy/client.js';
 	import { canUse } from '$lib/plans/gates.js';
 	import { t } from '$lib/i18n/index.js';
+	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
+	import { APPS } from '$lib/apps.js';
 
 	let activeSection = 'general';
 	const sections = [
 		{ id: 'general',    icon: '⚙️' },
 		{ id: 'appearance', icon: '🎨' },
 		{ id: 'ai',         icon: '🤖' },
+		{ id: 'dock',       icon: '⬇️' },
 		{ id: 'account',    icon: '👤' },
 		{ id: 'about',      icon: 'ℹ️' },
 	];
@@ -65,9 +68,51 @@
 		document.documentElement.setAttribute('data-theme', themeId);
 	}
 
-	function saveApiKey(id) {
+	const PROVIDERS = [
+		{ id: 'groq',      name: 'Groq',      prefix: 'gsk_',    url: 'https://console.groq.com',     free: true },
+		{ id: 'openai',    name: 'OpenAI',    prefix: 'sk-',     url: 'https://platform.openai.com',   free: false },
+		{ id: 'anthropic', name: 'Anthropic', prefix: 'sk-ant-', url: 'https://console.anthropic.com', free: false },
+		{ id: 'gemini',    name: 'Gemini',    prefix: 'AIza',    url: 'https://aistudio.google.com',   free: true },
+		{ id: 'mistral',   name: 'Mistral',   prefix: 'mis_',    url: 'https://console.mistral.ai',    free: true },
+	];
+
+	function saveAllKeys() {
 		localStorage.setItem('ms_api_keys', JSON.stringify($apiKeys));
-		showSaved(`${id} key saved`);
+		showSaved('All API keys saved');
+	}
+
+	async function testApiKey(provider) {
+		const key = $apiKeys[provider.id]?.trim();
+		if (!key) {
+			keyStatus.update(s => ({ ...s, [provider.id]: 'empty' }));
+			return;
+		}
+		keyStatus.update(s => ({ ...s, [provider.id]: 'testing' }));
+		try {
+			const res = await fetch('/api/validate-key', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ provider: provider.id, key })
+			});
+			const data = await res.json();
+			keyStatus.update(s => ({ ...s, [provider.id]: data.valid ? 'valid' : 'invalid' }));
+		} catch {
+			keyStatus.update(s => ({ ...s, [provider.id]: 'invalid' }));
+		}
+	}
+
+	async function testAllKeys() {
+		for (const p of PROVIDERS) {
+			if ($apiKeys[p.id]?.trim()) await testApiKey(p);
+		}
+	}
+
+	function toggleDockApp(appId) {
+		dockConfig.update(cfg => {
+			const ids = cfg.includes(appId) ? cfg.filter(id => id !== appId) : [...cfg, appId];
+			return ids;
+		});
+		saveDockConfig();
 	}
 </script>
 
@@ -151,27 +196,39 @@
 				{$t('settings.keysLocal')}
 			</div>
 
-			{#each [
-				['groq',      'Groq',      'gsk_',    'https://console.groq.com',          true],
-				['openai',    'OpenAI',    'sk-',     'https://platform.openai.com',        false],
-				['anthropic', 'Anthropic', 'sk-ant-', 'https://console.anthropic.com',      false],
-				['gemini',    'Gemini',    'AIza',    'https://aistudio.google.com',         true],
-				['mistral',   'Mistral',   'mis_',    'https://console.mistral.ai',          true],
-			] as [id, name, prefix, url, free]}
+			{#each PROVIDERS as provider (provider.id)}
 				<div class="api-key-row">
 					<div class="akr-info">
-						<span class="akr-name">{name}</span>
-						{#if free}<span class="akr-free">free tier</span>{/if}
+						<span class="akr-name">{provider.name}</span>
+						{#if provider.free}<span class="akr-free">free tier</span>{/if}
 					</div>
 					<input
 						type="password"
-						placeholder="{prefix}..."
-						bind:value={$apiKeys[id]}
-						on:change={() => saveApiKey(id)}
+						placeholder="{provider.prefix}..."
+						bind:value={$apiKeys[provider.id]}
 					/>
-					<a href={url} target="_blank" rel="noopener noreferrer" class="akr-link">Get key →</a>
+					<button
+						class="akr-test"
+						class:valid={$keyStatus[provider.id] === 'valid'}
+						class:invalid={$keyStatus[provider.id] === 'invalid'}
+						class:testing={$keyStatus[provider.id] === 'testing'}
+						on:click={() => testApiKey(provider)}
+						disabled={$keyStatus[provider.id] === 'testing'}
+						title="Test API key"
+					>
+						{#if $keyStatus[provider.id] === 'testing'}⏳
+						{:else if $keyStatus[provider.id] === 'valid'}✓
+						{:else if $keyStatus[provider.id] === 'invalid'}✗
+						{:else}Test{/if}
+					</button>
+					<a href={provider.url} target="_blank" rel="noopener noreferrer" class="akr-link">Get key →</a>
 				</div>
 			{/each}
+
+			<div class="api-actions">
+				<button class="sr-save-btn" on:click={saveAllKeys}>💾 {$t('common.save')}</button>
+				<button class="sr-save-btn" on:click={testAllKeys}>🧪 Test All</button>
+			</div>
 
 			<div class="setting-row" style="margin-top:16px">
 				<div class="sr-info">
@@ -181,6 +238,32 @@
 				<span class="ollama-status" class:online={$ollamaStatus === 'online'}>
 					{$ollamaStatus === 'online' ? '● Online' : '○ Offline'}
 				</span>
+			</div>
+
+		{:else if activeSection === 'dock'}
+			<div class="settings-section-title">Dock</div>
+			<div class="sr-sub" style="margin-bottom:14px">
+				Choose which apps appear in the Dock. Click to toggle.
+			</div>
+
+			<div class="dock-config-grid">
+				{#each APPS as app (app.id)}
+					<button
+						class="dock-config-item"
+						class:active={$dockConfig.includes(app.id)}
+						on:click={() => toggleDockApp(app.id)}
+					>
+						<span class="dci-emoji">{app.emoji}</span>
+						<span class="dci-label">{$t(`apps.${app.id}.name`)}</span>
+						{#if $dockConfig.includes(app.id)}
+							<span class="dci-check">✓</span>
+						{/if}
+					</button>
+				{/each}
+			</div>
+
+			<div class="api-actions" style="margin-top:12px">
+				<button class="sr-save-btn" on:click={resetDockConfig}>↺ Reset default</button>
 			</div>
 
 		{:else if activeSection === 'account'}
@@ -349,6 +432,39 @@
 	}
 	.api-key-row input:focus { border-color: var(--accent); }
 	.akr-link { font-size: 10px; color: var(--accent); text-decoration: none; white-space: nowrap; }
+
+	.akr-test {
+		background: var(--bg-input, var(--bg-base)); border: 1px solid var(--border);
+		border-radius: var(--radius-sm); font-size: 10px; padding: 4px 10px;
+		cursor: pointer; font-family: var(--font-mono); color: var(--text-secondary);
+		min-width: 42px; transition: all var(--transition);
+	}
+	.akr-test:disabled { opacity: 0.5; cursor: not-allowed; }
+	.akr-test.valid   { border-color: var(--accent2, #00cc88); color: var(--accent2, #00cc88); background: color-mix(in srgb, var(--accent2, #00cc88) 10%, transparent); }
+	.akr-test.invalid { border-color: var(--danger, #ff4444); color: var(--danger, #ff4444); background: color-mix(in srgb, var(--danger, #ff4444) 10%, transparent); }
+	.akr-test.testing { border-color: var(--accent); color: var(--accent); }
+
+	.api-actions {
+		display: flex; gap: 8px; margin-top: 12px; padding-top: 10px;
+		border-top: 0.5px solid var(--border);
+	}
+
+	.dock-config-grid {
+		display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+		gap: 8px;
+	}
+	.dock-config-item {
+		display: flex; flex-direction: column; align-items: center; gap: 4px;
+		padding: 10px 8px; border-radius: var(--radius-md);
+		background: var(--bg-input, var(--bg-base)); border: 1px solid var(--border);
+		cursor: pointer; font-family: var(--font-mono); position: relative;
+		transition: all var(--transition);
+	}
+	.dock-config-item:hover { border-color: var(--accent-border); }
+	.dock-config-item.active { border-color: var(--accent); background: var(--accent-dim); }
+	.dci-emoji { font-size: 20px; }
+	.dci-label { font-size: 10px; color: var(--text-secondary); text-align: center; }
+	.dci-check { position: absolute; top: 4px; right: 6px; font-size: 10px; color: var(--accent); }
 
 	.ollama-status { font-size: 11px; color: var(--text-secondary); }
 	.ollama-status.online { color: var(--accent2, #00cc88); }

@@ -1,10 +1,11 @@
 <script>
 	import { openWindows, focusedWindow, openApp, minimizeApp, focusApp } from '$lib/stores/os.js';
-	import { getDockApps, APPS } from '$lib/apps.js';
+	import { APPS, getApp } from '$lib/apps.js';
+	import { dockConfig } from '$lib/stores/dock.js';
 	import { t } from '$lib/i18n/index.js';
 
-	const dockApps = getDockApps();
-	const powerApps = APPS.filter((a) => a.section === 'power');
+	$: pinnedApps = $dockConfig.map(id => getApp(id)).filter(Boolean);
+	$: unpinnedApps = APPS.filter(a => !$dockConfig.includes(a.id));
 
 	let bounceId = null;
 
@@ -29,7 +30,7 @@
 
 <nav class="dock" aria-label="Application dock">
 	<div class="dock-inner">
-		{#each dockApps as app (app.id)}
+		{#each pinnedApps as app (app.id)}
 			<button
 				class="dock-icon {app.colorClass}"
 				class:active={openIds.has(app.id)}
@@ -46,24 +47,26 @@
 			</button>
 		{/each}
 
-		<span class="dock-separator"></span>
+		{#if unpinnedApps.length}
+			<span class="dock-separator"></span>
 
-		{#each powerApps as app (app.id)}
-			<button
-				class="dock-icon {app.colorClass}"
-				class:active={openIds.has(app.id)}
-				class:focused={$focusedWindow === app.id}
-				class:bounce={bounceId === app.id}
-				on:click={() => handleDockClick(app)}
-				title={$t(`apps.${app.id}.name`)}
-				aria-label={$t(`apps.${app.id}.name`)}
-			>
-				<span class="dock-emoji">{app.emoji}</span>
-				{#if openIds.has(app.id)}
-					<span class="dock-indicator"></span>
-				{/if}
-			</button>
-		{/each}
+			{#each unpinnedApps as app (app.id)}
+				<button
+					class="dock-icon {app.colorClass}"
+					class:active={openIds.has(app.id)}
+					class:focused={$focusedWindow === app.id}
+					class:bounce={bounceId === app.id}
+					on:click={() => handleDockClick(app)}
+					title={$t(`apps.${app.id}.name`)}
+					aria-label={$t(`apps.${app.id}.name`)}
+				>
+					<span class="dock-emoji">{app.emoji}</span>
+					{#if openIds.has(app.id)}
+						<span class="dock-indicator"></span>
+					{/if}
+				</button>
+			{/each}
+		{/if}
 	</div>
 </nav>
 

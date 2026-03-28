@@ -178,6 +178,7 @@ export default {
 		ai: 'AI 和模型',
 		account: '账户和计划',
 		about: '关于',
+		dock: 'Dock',
 		language: '语言',
 		languageSub: '系统界面语言',
 		keysLocal: '所有密钥均存储在您浏览器本地。',

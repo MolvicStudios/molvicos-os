@@ -178,6 +178,7 @@ export default {
 		ai: 'KI & Modelle',
 		account: 'Konto & Plan',
 		about: 'Über',
+		dock: 'Dock',
 		language: 'Sprache',
 		languageSub: 'Sprache der OS-Oberfläche',
 		keysLocal: 'Alle Schlüssel werden lokal in deinem Browser gespeichert.',
