@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-const DEFAULT_DOCK = ['promptlab', 'prospectly', 'aiworksuite', 'repurposer', 'briefgen'];
+const DEFAULT_DOCK = ['promptlab', 'prospectly', 'aiworksuite'];
 
 function loadDock() {
 	if (typeof localStorage === 'undefined') return DEFAULT_DOCK;

@@ -1,14 +1,18 @@
 <script>
 	import { openWindows, focusedWindow, openApp, minimizeApp, focusApp } from '$lib/stores/os.js';
-	import { APPS, getApp } from '$lib/apps.js';
+	import { getApp } from '$lib/apps.js';
 	import { dockConfig } from '$lib/stores/dock.js';
 	import { t } from '$lib/i18n/index.js';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
-	$: pinnedApps = $dockConfig.map(id => getApp(id)).filter(Boolean);
-	$: unpinnedApps = APPS.filter(a => !$dockConfig.includes(a.id));
+	// Fixed dock apps (always visible)
+	const FIXED_IDS = ['appstore', 'settings'];
+	$: fixedApps = FIXED_IDS.map(id => getApp(id)).filter(Boolean);
+
+	// User-pinned apps (selected via AppStore ★), excluding fixed ones
+	$: pinnedApps = $dockConfig.filter(id => !FIXED_IDS.includes(id)).map(id => getApp(id)).filter(Boolean);
 
 	let bounceId = null;
 
@@ -61,26 +65,24 @@
 			</button>
 		{/each}
 
-		{#if unpinnedApps.length}
-			<span class="dock-separator"></span>
+		<span class="dock-separator"></span>
 
-			{#each unpinnedApps as app (app.id)}
-				<button
-					class="dock-icon {app.colorClass}"
-					class:active={openIds.has(app.id)}
-					class:focused={$focusedWindow === app.id}
-					class:bounce={bounceId === app.id}
-					on:click={() => handleDockClick(app)}
-					title={$t(`apps.${app.id}.name`)}
-					aria-label={$t(`apps.${app.id}.name`)}
-				>
-					<span class="dock-emoji">{app.emoji}</span>
-					{#if openIds.has(app.id)}
-						<span class="dock-indicator"></span>
-					{/if}
-				</button>
-			{/each}
-		{/if}
+		{#each fixedApps as app (app.id)}
+			<button
+				class="dock-icon {app.colorClass}"
+				class:active={openIds.has(app.id)}
+				class:focused={$focusedWindow === app.id}
+				class:bounce={bounceId === app.id}
+				on:click={() => handleDockClick(app)}
+				title={$t(`apps.${app.id}.name`)}
+				aria-label={$t(`apps.${app.id}.name`)}
+			>
+				<span class="dock-emoji">{app.emoji}</span>
+				{#if openIds.has(app.id)}
+					<span class="dock-indicator"></span>
+				{/if}
+			</button>
+		{/each}
 	</div>
 </nav>
 
