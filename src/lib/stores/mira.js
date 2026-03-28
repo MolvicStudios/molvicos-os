@@ -37,8 +37,12 @@ export const miraContext = writable({
 	bridgedAppState: {}
 });
 
-/** Selected provider for MIRA */
-export const miraProvider = writable('groq');
+/** Selected provider for MIRA (persisted) */
+const savedMiraProvider = typeof localStorage !== 'undefined' ? localStorage.getItem('ms_mira_provider') : null;
+export const miraProvider = writable(savedMiraProvider || 'auto');
+miraProvider.subscribe(v => {
+	if (typeof localStorage !== 'undefined') localStorage.setItem('ms_mira_provider', v);
+});
 
 /** Web research mode toggle */
 export const miraWebMode = writable(false);

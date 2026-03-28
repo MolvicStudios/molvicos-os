@@ -110,6 +110,83 @@ export const APPS = [
 		credits: 0,
 		section: 'power',
 		status: 'active'
+	},
+	{
+		id: 'mailcraft',
+		loader: lazy(() => import('../components/apps/MailCraft.svelte')),
+		emoji: '✉️',
+		colorClass: 'icon-cyan',
+		dockSlot: null,
+		defaultSize: { w: 760, h: 520 },
+		credits: 2,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'dafo',
+		loader: lazy(() => import('../components/apps/DAFOAnalysis.svelte')),
+		emoji: '📋',
+		colorClass: 'icon-amber',
+		dockSlot: null,
+		defaultSize: { w: 720, h: 560 },
+		credits: 2,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'brandname',
+		loader: lazy(() => import('../components/apps/BrandName.svelte')),
+		emoji: '💡',
+		colorClass: 'icon-purple',
+		dockSlot: null,
+		defaultSize: { w: 700, h: 520 },
+		credits: 2,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'summarizer',
+		loader: lazy(() => import('../components/apps/Summarizer.svelte')),
+		emoji: '📄',
+		colorClass: 'icon-teal',
+		dockSlot: null,
+		defaultSize: { w: 740, h: 520 },
+		credits: 1,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'toneshifter',
+		loader: lazy(() => import('../components/apps/ToneShifter.svelte')),
+		emoji: '🔄',
+		colorClass: 'icon-pink',
+		dockSlot: null,
+		defaultSize: { w: 760, h: 520 },
+		credits: 2,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'analytics',
+		loader: lazy(() => import('../components/apps/Analytics.svelte')),
+		emoji: '📈',
+		colorClass: 'icon-green',
+		dockSlot: null,
+		defaultSize: { w: 800, h: 600 },
+		credits: 0,
+		section: 'power',
+		status: 'active'
+	},
+	{
+		id: 'appstore',
+		loader: lazy(() => import('../components/apps/AppStore.svelte')),
+		emoji: '🏪',
+		colorClass: 'icon-blue',
+		dockSlot: null,
+		defaultSize: { w: 700, h: 560 },
+		credits: 0,
+		section: 'power',
+		status: 'active'
 	}
 ];
 
@@ -118,3 +195,4 @@ export const getDockApps = () =>
 	APPS.filter((a) => a.dockSlot !== null).sort((a, b) => a.dockSlot - b.dockSlot);
 export const getCoreApps = () => APPS.filter((a) => a.section === 'core');
 export const getPowerApps = () => APPS.filter((a) => a.section === 'power');
+export const getToolsApps = () => APPS.filter((a) => a.section === 'tools');

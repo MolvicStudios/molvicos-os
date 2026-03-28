@@ -25,9 +25,16 @@ export const MIRA_MODELS = {
 
 /**
  * Detect best available provider based on stored API keys.
+ * Respects user's explicit choice from Settings if the key is available.
  */
 export function detectProvider() {
 	const keys = get(apiKeys);
+	const userChoice = get(miraProvider);
+
+	// If user has explicitly selected a provider (not 'auto') and has a valid key, use it
+	if (userChoice && userChoice !== 'auto' && keys[userChoice]) return userChoice;
+
+	// Otherwise, fall back to priority-based auto-detection
 	const priority = ['groq', 'gemini', 'mistral', 'openai', 'anthropic'];
 	for (const p of priority) {
 		if (keys[p]) return p;

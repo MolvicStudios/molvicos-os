@@ -8,6 +8,7 @@
 	import { canUse } from '$lib/plans/gates.js';
 	import { t } from '$lib/i18n/index.js';
 	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
+	import { miraProvider } from '$lib/stores/mira.js';
 	import { APPS } from '$lib/apps.js';
 
 	let activeSection = 'general';
@@ -240,6 +241,19 @@
 				</span>
 			</div>
 
+			<div class="setting-row" style="margin-top:8px">
+				<div class="sr-info">
+					<span class="sr-label">🧠 MIRA Provider</span>
+					<span class="sr-sub">Choose which AI provider MIRA uses</span>
+				</div>
+				<div class="mira-provider-pills">
+					<button class="lang-pill" class:active={$miraProvider === 'auto'} on:click={() => miraProvider.set('auto')}>Auto</button>
+					{#each PROVIDERS as p}
+						<button class="lang-pill" class:active={$miraProvider === p.id} on:click={() => miraProvider.set(p.id)}>{p.name}</button>
+					{/each}
+				</div>
+			</div>
+
 		{:else if activeSection === 'dock'}
 			<div class="settings-section-title">Dock</div>
 			<div class="sr-sub" style="margin-bottom:14px">
@@ -390,7 +404,8 @@
 		border-radius: var(--radius-sm); cursor: pointer; font-family: var(--font-mono);
 	}
 
-	.lang-pills { display: flex; gap: 4px; }
+	.lang-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+	.mira-provider-pills { display: flex; gap: 4px; flex-wrap: wrap; }
 	.lang-pill {
 		background: none; border: 1px solid var(--border);
 		border-radius: var(--radius-sm); font-size: 10px; padding: 4px 8px;

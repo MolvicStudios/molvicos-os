@@ -21,7 +21,7 @@ export const MIRA_TOOLS = [
 	{
 		name: 'change_theme',
 		description: 'Switch OS theme',
-		params: { theme: 'string — "noir" or "icaro"' }
+		params: { theme: 'string — "noir", "icaro", "synthwave", "ocean", or "matrix"' }
 	},
 	{
 		name: 'change_language',
