@@ -48,6 +48,7 @@
 		position: fixed;
 		top: 44px;
 		left: 16px;
+		right: 16px;
 		bottom: 70px;
 		display: flex;
 		flex-direction: column;
@@ -55,6 +56,7 @@
 		padding: 16px 0;
 		z-index: 1;
 		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;
 	}
 

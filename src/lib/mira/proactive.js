@@ -1,8 +1,9 @@
 import { get } from 'svelte/store';
-import { miraSuggestions, miraContext } from '../stores/mira.js';
+import { miraSuggestions, miraContext, addMessage, miraOpen } from '../stores/mira.js';
 import { openWindows, activeApp, theme } from '../stores/os.js';
 import { currentLang } from '../i18n/index.js';
 import { planStore } from '../stores/plan.js';
+import { apiKeys } from '../stores/models.js';
 
 /**
  * Update miraContext from current OS state.
@@ -26,7 +27,15 @@ export function syncContext() {
 export function updateSuggestions() {
 	syncContext();
 	const ctx = get(miraContext);
+	const keys = get(apiKeys);
 	const suggestions = [];
+
+	// Check if any API key is configured
+	const hasAnyKey = Object.values(keys).some(k => k && k.trim());
+
+	if (!hasAnyKey) {
+		suggestions.push({ id: 's0', text: '🔑 Configure API keys', action: 'open_app:settings' });
+	}
 
 	if (ctx.openApps.length === 0) {
 		suggestions.push({ id: 's1', text: 'Open PromptLab', action: 'open_app:promptlab' });
@@ -50,7 +59,28 @@ export function updateSuggestions() {
 /**
  * Start proactive suggestion engine — updates every 30s.
  */
+let apiKeyAlerted = false;
+
+/**
+ * Check for missing API keys and proactively alert via MIRA.
+ */
+export function checkApiKeys() {
+	if (apiKeyAlerted) return;
+	const keys = get(apiKeys);
+	const hasAnyKey = Object.values(keys).some(k => k && k.trim());
+	if (!hasAnyKey) {
+		apiKeyAlerted = true;
+		addMessage('assistant',
+			'👋 Welcome! I noticed you don\'t have any API keys configured yet. ' +
+			'To use AI features, add at least one key in **Settings → AI & Models**. ' +
+			'Groq and Gemini offer free tiers! Alternatively, install **Ollama** for free local AI.'
+		);
+	}
+}
+
 export function initProactive() {
 	updateSuggestions();
+	// Alert about missing API keys after a short delay
+	setTimeout(checkApiKeys, 3000);
 	return setInterval(updateSuggestions, 30000);
 }
