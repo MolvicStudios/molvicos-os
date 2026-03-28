@@ -3,6 +3,9 @@
 	import { APPS, getApp } from '$lib/apps.js';
 	import { dockConfig } from '$lib/stores/dock.js';
 	import { t } from '$lib/i18n/index.js';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	$: pinnedApps = $dockConfig.map(id => getApp(id)).filter(Boolean);
 	$: unpinnedApps = APPS.filter(a => !$dockConfig.includes(a.id));
@@ -30,6 +33,17 @@
 
 <nav class="dock" aria-label="Application dock">
 	<div class="dock-inner">
+		<button
+			class="dock-icon dock-home"
+			on:click={() => dispatch('launcher')}
+			title="All Apps"
+			aria-label="All Apps"
+		>
+			<span class="dock-emoji">◈</span>
+		</button>
+
+		<span class="dock-separator"></span>
+
 		{#each pinnedApps as app (app.id)}
 			<button
 				class="dock-icon {app.colorClass}"
@@ -146,6 +160,22 @@
 		background: var(--border-accent);
 		margin: 0 4px;
 		flex-shrink: 0;
+	}
+
+	.dock-home {
+		background: var(--accent-dim);
+		border: 1px solid var(--accent-border);
+	}
+	.dock-home .dock-emoji {
+		color: var(--accent);
+		font-family: var(--font-display);
+		font-size: 18px;
+	}
+	.dock-home:hover {
+		background: var(--accent);
+	}
+	.dock-home:hover .dock-emoji {
+		color: #000;
 	}
 
 	@media (max-width: 640px) {

@@ -7,6 +7,7 @@
 	import TopBar from '../../components/os/TopBar.svelte';
 	import WindowManager from '../../components/os/WindowManager.svelte';
 	import Dock from '../../components/os/Dock.svelte';
+	import AppLauncher from '../../components/os/AppLauncher.svelte';
 	import CommandPalette from '../../components/ui/CommandPalette.svelte';
 	import Notification from '../../components/ui/Notification.svelte';
 	import MiraButton from '../../components/mira/MiraButton.svelte';
@@ -20,6 +21,7 @@
 	import * as storage from '$lib/storage/local.js';
 
 	let showLangPicker = false;
+	let showLauncher = false;
 
 	onMount(() => {
 		checkMonthlyRefill();
@@ -49,7 +51,8 @@
 	<Wallpaper />
 	<TopBar />
 	<WindowManager />
-	<Dock />
+	<Dock on:launcher={() => showLauncher = true} />
+	<AppLauncher open={showLauncher} on:close={() => showLauncher = false} />
 	<CommandPalette />
 	<Notification />
 </div>
