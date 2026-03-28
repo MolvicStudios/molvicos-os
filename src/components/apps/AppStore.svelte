@@ -2,6 +2,7 @@
 	import { t } from '$lib/i18n/index.js';
 	import { APPS } from '$lib/apps.js';
 	import { openApp } from '$lib/stores/os.js';
+	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
 	export const id = 'appstore';
 
 	let search = '';
@@ -24,6 +25,11 @@
 		return matchSearch && matchFilter;
 	});
 
+	function toggleDock(appId) {
+		dockConfig.update(cfg => cfg.includes(appId) ? cfg.filter(id => id !== appId) : [...cfg, appId]);
+		saveDockConfig();
+	}
+
 	async function launch(app) {
 		await openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 	}
@@ -34,30 +40,38 @@
 		<div class="as-search-row">
 			<input class="as-search" bind:value={search} placeholder="🔍 Search apps..." />
 		</div>
-		<div class="as-filters">
-			{#each SECTIONS as s}
-				<button class="as-filter" class:active={filter === s.id} on:click={() => filter = s.id}>{s.label}</button>
-			{/each}
+		<div class="as-top-row">
+			<div class="as-filters">
+				{#each SECTIONS as s}
+					<button class="as-filter" class:active={filter === s.id} on:click={() => filter = s.id}>{s.label}</button>
+				{/each}
+			</div>
+			<button class="as-reset" on:click={resetDockConfig}>↺ Reset Dock</button>
 		</div>
 	</div>
 
 	<div class="as-grid">
 		{#each filteredApps as app (app.id)}
-			<button class="as-card" on:click={() => launch(app)}>
-				<div class="as-icon {app.colorClass}">{app.emoji}</div>
-				<div class="as-info">
-					<span class="as-name">{$t(`apps.${app.id}.name`)}</span>
-					<span class="as-desc">{$t(`apps.${app.id}.desc`)}</span>
-				</div>
-				<div class="as-meta">
-					{#if app.credits > 0}
-						<span class="as-credits">{app.credits} cr</span>
-					{:else}
-						<span class="as-free">Free</span>
-					{/if}
-					<span class="as-section">{app.section}</span>
-				</div>
-			</button>
+			<div class="as-card" class:docked={$dockConfig.includes(app.id)}>
+				<button class="as-dock-toggle" on:click|stopPropagation={() => toggleDock(app.id)} title={$dockConfig.includes(app.id) ? 'Remove from Dock' : 'Add to Dock'}>
+					{$dockConfig.includes(app.id) ? '★' : '☆'}
+				</button>
+				<button class="as-body" on:click={() => launch(app)}>
+					<div class="as-icon {app.colorClass}">{app.emoji}</div>
+					<div class="as-info">
+						<span class="as-name">{$t(`apps.${app.id}.name`)}</span>
+						<span class="as-desc">{$t(`apps.${app.id}.desc`)}</span>
+					</div>
+					<div class="as-meta">
+						{#if app.credits > 0}
+							<span class="as-credits">{app.credits} cr</span>
+						{:else}
+							<span class="as-free">Free</span>
+						{/if}
+						<span class="as-section">{app.section}</span>
+					</div>
+				</button>
+			</div>
 		{/each}
 		{#if filteredApps.length === 0}
 			<div class="as-empty">No apps match your search</div>
@@ -76,6 +90,7 @@
 		font-family: var(--font-mono); outline: none;
 	}
 	.as-search:focus { border-color: var(--accent); }
+	.as-top-row { display: flex; justify-content: space-between; align-items: center; }
 	.as-filters { display: flex; gap: 4px; }
 	.as-filter {
 		padding: 4px 10px; font-size: 10px; background: none;
@@ -83,6 +98,12 @@
 		cursor: pointer; color: var(--text-secondary); font-family: var(--font-mono);
 	}
 	.as-filter.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+	.as-reset {
+		font-size: 9px; padding: 3px 8px; background: none;
+		border: 1px solid var(--border); border-radius: var(--radius-sm);
+		cursor: pointer; color: var(--text-muted); font-family: var(--font-mono);
+	}
+	.as-reset:hover { color: var(--text-secondary); border-color: var(--accent-border); }
 
 	.as-grid {
 		flex: 1; overflow-y: auto; padding: 12px 16px;
@@ -90,13 +111,27 @@
 		gap: 10px; align-content: start;
 	}
 	.as-card {
-		display: flex; flex-direction: column; align-items: center; gap: 8px;
-		padding: 16px 12px; border-radius: var(--radius-md);
+		position: relative; border-radius: var(--radius-md);
 		background: var(--bg-surface); border: 1px solid var(--border);
-		cursor: pointer; transition: border-color var(--transition);
-		text-align: center;
+		transition: border-color var(--transition);
 	}
 	.as-card:hover { border-color: var(--accent-border); }
+	.as-card.docked { border-color: var(--accent-border); background: var(--accent-glow); }
+	.as-dock-toggle {
+		position: absolute; top: 6px; right: 6px; z-index: 1;
+		background: var(--bg-elevated); border: 1px solid var(--border);
+		border-radius: 50%; width: 24px; height: 24px;
+		font-size: 12px; cursor: pointer; color: var(--text-muted);
+		display: flex; align-items: center; justify-content: center;
+		transition: all var(--transition);
+	}
+	.as-dock-toggle:hover { border-color: var(--accent); color: var(--accent); }
+	.as-card.docked .as-dock-toggle { color: var(--accent); border-color: var(--accent-border); }
+	.as-body {
+		display: flex; flex-direction: column; align-items: center; gap: 8px;
+		padding: 16px 12px; width: 100%; background: none; border: none;
+		cursor: pointer; text-align: center;
+	}
 	.as-icon {
 		width: 44px; height: 44px; border-radius: var(--radius-md);
 		display: flex; align-items: center; justify-content: center;
