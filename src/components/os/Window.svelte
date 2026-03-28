@@ -21,11 +21,11 @@
 	// Clamp initial size/position to viewport
 	onMount(() => {
 		const vw = window.innerWidth;
-		const vh = window.innerHeight;
+		const vh = window.innerHeight - 36; // account for window-area offset
 		width = Math.min(width, vw - 32);
-		height = Math.min(height, vh - 120);
+		height = Math.min(height, vh - 80);
 		x = Math.max(0, Math.min(x, vw - width));
-		y = Math.max(36, Math.min(y, vh - 100));
+		y = Math.max(0, Math.min(y, vh - 60));
 	});
 
 	let dragging = false;
@@ -47,16 +47,21 @@
 		if (e.target.closest('button')) return;
 		if (e.button !== 0) return;
 		dragging = true;
-		dragOffset = { x: e.clientX - x, y: e.clientY - y };
+		const container = e.target.closest('.window')?.parentElement;
+		const containerRect = container?.getBoundingClientRect();
+		const containerTop = containerRect ? containerRect.top : 36;
+		dragOffset = { x: e.clientX - x, y: (e.clientY - containerTop + (container?.scrollTop || 0)) - y };
 		focusApp(id);
 		e.preventDefault();
 
 		function onMouseMove(e) {
 			if (!dragging) return;
+			const scrollTop = container?.scrollTop || 0;
+			const mouseContainerY = e.clientY - containerTop + scrollTop;
 			const rawX = e.clientX - dragOffset.x;
-			const rawY = e.clientY - dragOffset.y;
+			const rawY = mouseContainerY - dragOffset.y;
 			const clampedX = Math.max(-width + 80, Math.min(rawX, window.innerWidth - 80));
-			const clampedY = Math.max(0, Math.min(rawY, window.innerHeight - 40));
+			const clampedY = Math.max(scrollTop, rawY);
 			requestAnimationFrame(() => {
 				x = clampedX;
 				y = clampedY;
@@ -158,7 +163,7 @@
 	class:minimized
 	class:maximized
 	style={maximized
-		? `top: 36px; left: 0; width: 100vw; height: calc(100vh - 36px - 60px); z-index: ${zIndex};`
+		? `position: fixed; top: 36px; left: 0; width: 100vw; height: calc(100vh - 36px - 60px); z-index: ${zIndex};`
 		: `left: ${x}px; top: ${y}px; width: ${width}px; height: ${height}px; z-index: ${zIndex};`}
 	on:mousedown={handleWindowClick}
 >
@@ -198,7 +203,7 @@
 
 <style>
 	.window {
-		position: fixed;
+		position: absolute;
 		display: flex;
 		flex-direction: column;
 		background: var(--bg-surface);

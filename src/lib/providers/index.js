@@ -44,6 +44,15 @@ export const PROVIDERS = {
 		keyPrefix: 'sk-ant-',
 		docsUrl: 'https://console.anthropic.com',
 		tier: 'paid'
+	},
+	github: {
+		id: 'github',
+		name: 'GitHub Models',
+		logo: '🐙',
+		desc: 'GPT-4o, Llama, Phi via GitHub. Free tier.',
+		keyPrefix: 'ghp_',
+		docsUrl: 'https://github.com/marketplace/models',
+		tier: 'free'
 	}
 };
 

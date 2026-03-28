@@ -6,7 +6,8 @@ const PROVIDER_URLS = {
 	openai: 'https://api.openai.com/v1/models',
 	anthropic: 'https://api.anthropic.com/v1/messages',
 	gemini: 'https://generativelanguage.googleapis.com/v1beta/models',
-	mistral: 'https://api.mistral.ai/v1/models'
+	mistral: 'https://api.mistral.ai/v1/models',
+	github: 'https://models.inference.ai.azure.com/models'
 };
 
 export async function POST({ request, ...event }) {

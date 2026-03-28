@@ -84,6 +84,7 @@ export default {
 		localmodels: { name: 'Local Models', desc: 'Ollama Bridge' },
 		terminal: { name: 'AI Terminal', desc: 'Conversational CLI' },
 		appstore: { name: 'App Store', desc: 'Marketplace' },
+		extensions: { name: 'Extensions', desc: 'Connect services to MIRA' },
 		mailcraft: { name: 'MailCraft', desc: 'AI Email Writer', input: 'Recipient & context' },
 		dafo: { name: 'DAFO Analysis', desc: 'SWOT Strategy AI' },
 		brandname: { name: 'Brand Name', desc: 'Name Generator AI' },
@@ -254,6 +255,30 @@ export default {
 			title: '🤖 Local Models',
 			desc: 'Run AI models privately on your machine via Ollama. No API keys needed, no credits consumed. Full privacy, zero cost.'
 		},
+		mailcraft: {
+			title: '✉️ MailCraft',
+			desc: 'Generate professional emails with AI. Set recipient, context, and tone — get perfectly crafted messages in seconds.'
+		},
+		dafo: {
+			title: '📋 DAFO Analysis',
+			desc: 'AI-powered SWOT/DAFO analysis for your business or project. Get insights on Strengths, Weaknesses, Opportunities, and Threats.'
+		},
+		brandname: {
+			title: '💡 BrandName',
+			desc: 'Generate creative brand names for your business. Set industry, values, and style — get unique naming suggestions with domain availability.'
+		},
+		summarizer: {
+			title: '📄 Summarizer',
+			desc: 'Paste any long text and get a concise summary. Perfect for articles, reports, documentation, and meeting notes.'
+		},
+		toneshifter: {
+			title: '🔄 ToneShifter',
+			desc: 'Rewrite any text in a different tone: professional, casual, friendly, formal, humorous, or technical.'
+		},
+		extensions: {
+			title: '🔌 Extensions',
+			desc: 'Connect external services (GitHub, Cloudflare, Stripe, Telegram, etc.) so MIRA can control them with natural language commands.'
+		},
 		mira: {
 			title: '🧠 MIRA Assistant',
 			desc: 'Your intelligent OS assistant. MIRA can open apps, change settings, search the web, and answer questions. Click the floating button to chat.'
@@ -264,7 +289,7 @@ export default {
 		},
 		settings: {
 			title: '⚙️ Settings',
-			desc: 'Configure API keys (Groq, OpenAI, Anthropic, Gemini, Mistral), change themes, manage your license, and connect n8n automation.'
+			desc: 'Configure API keys (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), change themes, manage your license, and customize your Dock.'
 		},
 		ready: {
 			title: 'You\'re all set!',

@@ -20,8 +20,12 @@ h1{font-size:20px;border-bottom:2px solid #000;padding-bottom:8px}pre{white-spac
 }
 
 export function generateShareLink(appId, data) {
-	const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ appId, data, ts: Date.now() }))));
-	return `${window.location.origin}/share?d=${payload}`;
+	const text = JSON.stringify({ appId, data, ts: Date.now() });
+	const bytes = new TextEncoder().encode(text);
+	const obfuscated = new Uint8Array(bytes.length);
+	for (let i = 0; i < bytes.length; i++) obfuscated[i] = bytes[i] ^ 42;
+	const payload = btoa(String.fromCharCode(...obfuscated));
+	return `${window.location.origin}/share?d=${encodeURIComponent(payload)}&s=${encodeURIComponent(appId)}`;
 }
 
 export function copyToClipboard(text) {

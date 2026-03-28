@@ -84,6 +84,7 @@ export default {
 		localmodels: { name: 'Modelos Locales', desc: 'Puente Ollama' },
 		terminal: { name: 'Terminal IA', desc: 'CLI Conversacional' },
 		appstore: { name: 'Tienda de Apps', desc: 'Marketplace' },
+		extensions: { name: 'Extensiones', desc: 'Conecta servicios a MIRA' },
 		mailcraft: { name: 'MailCraft', desc: 'Escritor de Emails IA', input: 'Destinatario y contexto' },
 		dafo: { name: 'Análisis DAFO', desc: 'Estrategia DAFO IA' },
 		brandname: { name: 'Brand Name', desc: 'Generador de Nombres IA' },
@@ -214,9 +215,15 @@ export default {
 		workflow: { title: '⚙️ Automatizaciones', desc: 'Genera workflows de n8n y Make, más scripts personalizados. Describe lo que quieres automatizar y obtén código listo para usar.' },
 		terminal: { title: '💻 AI Terminal', desc: 'Interfaz de línea de comandos conversacional. Haz preguntas, genera código o conversa con la IA — estilo terminal.' },
 		localmodels: { title: '🤖 Modelos Locales', desc: 'Ejecuta modelos de IA privadamente en tu máquina con Ollama. Sin API keys, sin créditos. Privacidad total, coste cero.' },
+		mailcraft: { title: '✉️ MailCraft', desc: 'Genera emails profesionales con IA. Define destinatario, contexto y tono — obtén mensajes perfectos en segundos.' },
+		dafo: { title: '📋 Análisis DAFO', desc: 'Análisis DAFO/SWOT con IA para tu negocio o proyecto. Obtén insights sobre Debilidades, Amenazas, Fortalezas y Oportunidades.' },
+		brandname: { title: '💡 BrandName', desc: 'Genera nombres creativos para tu marca. Define industria, valores y estilo — obtén sugerencias únicas con disponibilidad de dominio.' },
+		summarizer: { title: '📄 Resumidor', desc: 'Pega cualquier texto largo y obtén un resumen conciso. Perfecto para artículos, informes, documentación y actas.' },
+		toneshifter: { title: '🔄 ToneShifter', desc: 'Reescribe cualquier texto en otro tono: profesional, casual, amigable, formal, humorístico o técnico.' },
+		extensions: { title: '🔌 Extensiones', desc: 'Conecta servicios externos (GitHub, Cloudflare, Stripe, Telegram, etc.) para que MIRA los controle con lenguaje natural.' },
 		mira: { title: '🧠 Asistente MIRA', desc: 'Tu asistente inteligente del SO. MIRA puede abrir apps, cambiar ajustes, buscar en la web y responder preguntas.' },
 		credits: { title: '💎 Sistema de Créditos', desc: 'Cada acción de IA consume créditos. Plan gratuito: 30 créditos/mes. Modelos locales: cero créditos. Mejora a Pro para ilimitados.' },
-		settings: { title: '⚙️ Ajustes', desc: 'Configura API keys (Groq, OpenAI, Anthropic, Gemini, Mistral), cambia temas, gestiona tu licencia y conecta n8n.' },
+		settings: { title: '⚙️ Ajustes', desc: 'Configura API keys (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), cambia temas, gestiona tu licencia y personaliza tu Dock.' },
 		ready: { title: '¡Todo listo!', desc: 'Empieza a explorar tu SO con IA. Abre cualquier app desde el Escritorio o el Dock. Recuerda: Cmd+K para acceso rápido.' }
 	}
 };

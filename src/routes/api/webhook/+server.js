@@ -9,8 +9,8 @@ export async function POST({ request, ...event }) {
 	const signature = request.headers.get('x-signature') || '';
 	const secret    = import.meta.env.LS_WEBHOOK_SECRET;
 
-	if (!secret) {
-		console.error('[Webhook] LS_WEBHOOK_SECRET not configured');
+	if (!secret || secret.length < 20) {
+		console.error('[Webhook] LS_WEBHOOK_SECRET not configured or too weak (min 20 chars)');
 		return new Response('Server misconfigured', { status: 500 });
 	}
 

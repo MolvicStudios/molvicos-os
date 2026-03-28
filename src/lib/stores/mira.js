@@ -59,7 +59,22 @@ export function addMessage(role, content, extra = {}) {
 	};
 	miraMessages.update(msgs => {
 		const updated = [...msgs, msg];
-		return updated.length > 100 ? updated.slice(-100) : updated;
+		if (updated.length > 100) {
+			// Warn the user about truncation
+			const warningExists = updated.some(m => m._truncationWarning);
+			const trimmed = updated.slice(-100);
+			if (!warningExists) {
+				trimmed.unshift({
+					id: `mira-truncation-${Date.now()}`,
+					role: 'assistant',
+					content: '⚠️ Chat history was trimmed to the last 100 messages to maintain performance.',
+					timestamp: Date.now(),
+					_truncationWarning: true
+				});
+			}
+			return trimmed;
+		}
+		return updated;
 	});
 
 	if (role === 'assistant' && !get(miraOpen)) {

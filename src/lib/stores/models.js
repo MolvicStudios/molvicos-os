@@ -5,7 +5,8 @@ export const apiKeys = writable({
 	openai: '',
 	anthropic: '',
 	gemini: '',
-	mistral: ''
+	mistral: '',
+	github: ''
 });
 
 export const keyStatus = writable({
@@ -13,7 +14,8 @@ export const keyStatus = writable({
 	openai: 'unchecked',
 	anthropic: 'unchecked',
 	gemini: 'unchecked',
-	mistral: 'unchecked'
+	mistral: 'unchecked',
+	github: 'unchecked'
 });
 
 export const ollamaStatus = writable('offline');

@@ -11,7 +11,8 @@ const PROVIDER_ENDPOINTS = {
 	openai: 'https://api.openai.com/v1/chat/completions',
 	mistral: 'https://api.mistral.ai/v1/chat/completions',
 	gemini: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-	anthropic: 'https://api.anthropic.com/v1/messages'
+	anthropic: 'https://api.anthropic.com/v1/messages',
+	github: 'https://models.inference.ai.azure.com/chat/completions'
 };
 
 export async function POST({ request, ...event }) {

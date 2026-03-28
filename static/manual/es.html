@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molvicos OS — Manual de Usuario</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0e14;color:#c5cdd9;line-height:1.7;padding:2rem;max-width:900px;margin:0 auto}
+h1{font-size:2rem;color:#39ffa0;margin-bottom:.5rem;border-bottom:2px solid #1a2332}
+h2{font-size:1.5rem;color:#39ffa0;margin:2rem 0 .8rem;padding-bottom:.3rem;border-bottom:1px solid #1a2332}
+h3{font-size:1.15rem;color:#7dd3fc;margin:1.5rem 0 .5rem}
+p{margin:.5rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th{background:#131a24;color:#39ffa0;text-align:left;padding:.5rem .7rem;border:1px solid #1a2332}
+td{padding:.5rem .7rem;border:1px solid #1a2332}
+tr:nth-child(even){background:#0d1219}
+code{background:#131a24;padding:.15rem .4rem;border-radius:3px;font-size:.88em;color:#7dd3fc}
+kbd{background:#1a2332;padding:.15rem .5rem;border-radius:4px;font-size:.85em;border:1px solid #2a3442;color:#c5cdd9}
+ul,ol{margin:.5rem 0 .5rem 1.5rem}
+li{margin:.3rem 0}
+.badge{display:inline-block;padding:.1rem .5rem;border-radius:10px;font-size:.75rem;font-weight:700}
+.free{background:#164e3a;color:#39ffa0}
+.pro{background:#3b2170;color:#c084fc}
+.header{text-align:center;padding:2rem 0;border-bottom:2px solid #1a2332;margin-bottom:2rem}
+.header .logo{font-size:2.5rem;color:#39ffa0}
+.header .subtitle{color:#7a8a9e;font-size:1rem;margin-top:.3rem}
+.dl-btn{display:inline-block;margin:1rem .5rem 0 0;padding:.6rem 1.2rem;background:#39ffa0;color:#0a0e14;border-radius:6px;text-decoration:none;font-weight:700;font-size:.9rem}
+.dl-btn:hover{opacity:.85}
+.toc{background:#0d1219;padding:1.2rem 1.5rem;border-radius:8px;margin:1.5rem 0;border:1px solid #1a2332}
+.toc a{color:#7dd3fc;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.toc ol{margin:.5rem 0 0 1.2rem}
+.toc li{margin:.2rem 0}
+.note{background:#1a1a0d;border-left:3px solid #facc15;padding:.7rem 1rem;margin:1rem 0;border-radius:0 6px 6px 0;font-size:.9rem}
+@media print{body{background:#fff;color:#111}h1,h2,h3{color:#111}th{background:#eee;color:#111}td,th{border-color:#ccc}code,kbd{background:#eee;color:#333}.dl-btn{display:none}}
+@media(max-width:600px){body{padding:1rem}table{font-size:.8rem}}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="logo">◈ MOLVICOS OS</div>
+<h1>Manual de Usuario</h1>
+<div class="subtitle">Sistema Operativo IA · v0.1.0-beta</div>
+<a class="dl-btn" href="javascript:window.print()">📄 Imprimir / Guardar como PDF</a>
+<a class="dl-btn" href="en.html">🇬🇧 English Version</a>
+</div>
+
+<nav class="toc">
+<strong>Índice</strong>
+<ol>
+<li><a href="#overview">Descripción General</a></li>
+<li><a href="#getting-started">Primeros Pasos</a></li>
+<li><a href="#desktop">Escritorio y Ventanas</a></li>
+<li><a href="#apps">Aplicaciones (18)</a></li>
+<li><a href="#mira">Asistente MIRA</a></li>
+<li><a href="#extensions">Extensiones (11)</a></li>
+<li><a href="#providers">Proveedores de IA (6)</a></li>
+<li><a href="#credits">Créditos y Planes</a></li>
+<li><a href="#themes">Temas</a></li>
+<li><a href="#settings">Ajustes</a></li>
+<li><a href="#shortcuts">Atajos de Teclado</a></li>
+<li><a href="#local">Modelos Locales (Ollama)</a></li>
+<li><a href="#export">Exportar y Compartir</a></li>
+<li><a href="#storage">Almacenamiento de Datos</a></li>
+<li><a href="#faq">Preguntas Frecuentes</a></li>
+</ol>
+</nav>
+
+<h2 id="overview">1. Descripción General</h2>
+<p>Molvicos OS es un sistema operativo de IA basado en navegador que reúne 18 aplicaciones impulsadas por IA, un asistente inteligente (MIRA), 11 extensiones de servicios externos y 6 proveedores de IA — todo en una interfaz tipo escritorio accesible desde cualquier navegador.</p>
+<p>Características principales:</p>
+<ul>
+<li>18 apps para creación de contenido, SEO, freelancing, email, estrategia y automatización</li>
+<li>MIRA — tu asistente inteligente del OS que puede controlar el sistema y responder preguntas</li>
+<li>6 proveedores de IA en la nube + modelos locales vía Ollama (coste cero, privacidad total)</li>
+<li>11 extensiones para conectar GitHub, Cloudflare, Stripe, Telegram, Notion y más</li>
+<li>5 temas, 5 idiomas (EN, ES, DE, FR, ZH)</li>
+<li>Escritorio con drag & drop, ventanas redimensionables, Dock, Paleta de Comandos</li>
+</ul>
+
+<h2 id="getting-started">2. Primeros Pasos</h2>
+<h3>Onboarding (5 pasos)</h3>
+<ol>
+<li><strong>Idioma</strong> — Elige tu idioma preferido (EN, ES, DE, FR, ZH)</li>
+<li><strong>Escaneo de Hardware</strong> — Detección automática de CPU, RAM y GPU para recomendar modelos IA óptimos</li>
+<li><strong>Claves API</strong> — Conecta al menos un proveedor de IA. Se recomienda Groq (tier gratuito, ultrarrápido)</li>
+<li><strong>Modelos Locales</strong> — Opcionalmente instala Ollama para inferencia privada y sin coste</li>
+<li><strong>Tutorial</strong> — Tour interactivo guiado de la interfaz del OS</li>
+</ol>
+<div class="note">💡 Puedes reabrir el tutorial en cualquier momento desde Ajustes → General → Abrir Tutorial</div>
+
+<h2 id="desktop">3. Escritorio y Gestión de Ventanas</h2>
+<h3>Escritorio</h3>
+<ul>
+<li>Haz doble clic en cualquier icono de app para abrirla</li>
+<li>Arrastra los iconos para reorganizarlos (las posiciones se guardan automáticamente)</li>
+</ul>
+<h3>Ventanas</h3>
+<ul>
+<li>Arrastra la barra de título para mover una ventana</li>
+<li>Redimensiona desde los bordes y esquinas</li>
+<li>Haz clic en una ventana para traerla al frente</li>
+<li><strong>Minimizar</strong> — Oculta la ventana (clic en el icono del Dock para restaurar)</li>
+<li><strong>Maximizar</strong> — Ocupa toda la pantalla</li>
+<li><strong>Cerrar</strong> — Cierra la ventana de la app</li>
+</ul>
+<h3>Dock</h3>
+<ul>
+<li>Fijo en la parte inferior de la pantalla</li>
+<li>Clic en una app para abrirla/enfocarla; clic de nuevo para minimizar</li>
+<li>Las apps activas muestran un indicador de punto</li>
+<li>Personaliza qué apps aparecen en el Dock desde Ajustes → Dock</li>
+</ul>
+<h3>Barra Superior</h3>
+<ul>
+<li>Izquierda: Logo MolvicOS</li>
+<li>Centro: Reloj</li>
+<li>Derecha: Selector de idioma, contador de créditos, alternador de tema, menú de cuenta</li>
+</ul>
+
+<h2 id="apps">4. Aplicaciones</h2>
+
+<h3>Apps Principales</h3>
+<table>
+<tr><th>App</th><th>Descripción</th><th>Créditos</th></tr>
+<tr><td>🔧 Prompt Lab</td><td>Optimiza cualquier prompt para mejores resultados de IA. Incluye una biblioteca personal de prompts para guardar y reutilizar.</td><td>2</td></tr>
+<tr><td>🎯 Prospectly</td><td>Herramienta de prospección B2B con IA. Analiza prospectos, genera emails personalizados, gestiona tu pipeline.</td><td>2</td></tr>
+<tr><td>💼 AIWorkSuite</td><td>Kit completo para freelancers: crea Equipos IA (auto-detecta roles colaboradores), genera facturas, propuestas, contratos y calcula tu tarifa ideal por hora.</td><td>1</td></tr>
+<tr><td>📝 Repurposer</td><td>Transforma un contenido en 6 formatos: tweets, posts de LinkedIn, emails, intros de blog, guiones de vídeo y más. Elige idioma de salida.</td><td>3</td></tr>
+<tr><td>🔍 Brief Gen</td><td>Genera briefings de contenido SEO completos con keywords primarios/secundarios, tipo de contenido, audiencia, análisis de competencia y objetivos de palabras.</td><td>3</td></tr>
+</table>
+
+<h3>Apps Avanzadas</h3>
+<table>
+<tr><th>App</th><th>Descripción</th><th>Créditos</th></tr>
+<tr><td>⚙️ Automatizaciones</td><td>Genera workflows de n8n y Make más scripts personalizados. Especifica tipo de trigger, complejidad y gestión de errores.</td><td>5</td></tr>
+<tr><td>🤖 Modelos Locales</td><td>Puente a Ollama para ejecutar modelos IA localmente. Gestiona, descarga y usa modelos sin coste de servidor.</td><td>0</td></tr>
+<tr><td>💻 AI Terminal</td><td>CLI conversacional. Haz preguntas, genera código o chatea con IA en estilo terminal.</td><td>1</td></tr>
+<tr><td>📊 Dashboard</td><td>Visualiza uso de créditos (hoy/semana/mes), acciones totales realizadas y tu app más usada.</td><td>0</td></tr>
+<tr><td>📈 Analytics</td><td>Conecta con tu Worker Analytics de MolvicStudios para analítica web.</td><td>0</td></tr>
+<tr><td>🏪 App Store</td><td>Marketplace para descubrir e instalar aplicaciones adicionales.</td><td>0</td></tr>
+<tr><td>🔌 Extensiones</td><td>Conecta servicios externos (GitHub, Cloudflare, Stripe…) a MIRA.</td><td>0</td></tr>
+<tr><td>⚙️ Ajustes</td><td>Configura claves API, temas, Dock, idioma, licencia y más.</td><td>0</td></tr>
+</table>
+
+<h3>Apps de Herramientas</h3>
+<table>
+<tr><th>App</th><th>Descripción</th><th>Créditos</th></tr>
+<tr><td>✉️ MailCraft</td><td>Redacta emails profesionales con IA. Indica destinatario y contexto, obtén un email perfecto en segundos.</td><td>2</td></tr>
+<tr><td>📋 Análisis DAFO</td><td>Estrategia SWOT con IA. Introduce tu negocio o proyecto y obtén fortalezas, debilidades, oportunidades y amenazas.</td><td>2</td></tr>
+<tr><td>💡 Brand Name</td><td>Genera nombres de marca creativos con IA. Describe tu proyecto y obtén sugerencias únicas y disponibles.</td><td>2</td></tr>
+<tr><td>📄 Resumidor</td><td>Resume textos largos con IA. Pega cualquier artículo, informe o documento y obtén un resumen conciso.</td><td>1</td></tr>
+<tr><td>🔄 ToneShifter</td><td>Traduce el tono de cualquier texto. Convierte formal a casual, técnico a simple o cualquier cambio de estilo.</td><td>2</td></tr>
+</table>
+
+<h2 id="mira">5. MIRA — Asistente Inteligente de Investigación de Molvicos</h2>
+<p>MIRA es tu asistente de IA integrado, accesible desde el botón flotante en la esquina inferior derecha del OS.</p>
+
+<h3>Qué puede hacer MIRA</h3>
+<ul>
+<li><strong>Control del OS</strong> — Abrir/cerrar apps, cambiar temas, cambiar idioma (mediante llamadas a herramientas)</li>
+<li><strong>Investigación</strong> — Responder preguntas, explicar conceptos, ayudar con cualquier tarea</li>
+<li><strong>Guía de Apps</strong> — Explicar cómo usar cualquier función de Molvicos OS</li>
+<li><strong>Acciones de Extensiones</strong> — Ejecutar acciones en servicios conectados (crear repos en GitHub, enviar mensajes por Telegram, consultar Supabase, etc.)</li>
+<li><strong>Sugerencias Proactivas</strong> — Chips de sugerencias contextuales que se actualizan cada 30 segundos</li>
+</ul>
+
+<h3>Herramientas Core de MIRA</h3>
+<table>
+<tr><th>Herramienta</th><th>Descripción</th></tr>
+<tr><td><code>open_app</code></td><td>Abre cualquier aplicación por su ID</td></tr>
+<tr><td><code>close_app</code></td><td>Cierra una aplicación abierta</td></tr>
+<tr><td><code>change_theme</code></td><td>Cambia el tema (noir, icaro, synthwave, ocean, matrix)</td></tr>
+<tr><td><code>suggest_prompt</code></td><td>Sugiere un prompt para Prompt Lab</td></tr>
+<tr><td><code>change_language</code></td><td>Cambia el idioma del OS (en, es, de, fr, zh)</td></tr>
+<tr><td><code>report_feedback</code></td><td>Abre el formulario de feedback/reporte de errores</td></tr>
+</table>
+
+<h3>Configuración de Proveedor MIRA</h3>
+<p>MIRA usa un modelo separado del de las apps principales. Ve a <strong>Ajustes → IA y Modelos</strong> para seleccionar un proveedor específico para MIRA, o déjalo en "Auto" para usar la primera clave disponible.</p>
+<p>Prioridad de auto-detección: Groq → Gemini → Mistral → OpenAI → Anthropic → GitHub Models</p>
+
+<h3>Límites del Chat</h3>
+<ul>
+<li>Ventana de contexto: últimos 20 mensajes</li>
+<li>Máximo de mensajes almacenados: 100 (aparece una advertencia al acercarse al límite)</li>
+<li>Cada mensaje a MIRA cuesta <strong>1 crédito</strong></li>
+</ul>
+
+<h2 id="extensions">6. Extensiones</h2>
+<p>Las extensiones conectan servicios externos a MIRA, permitiéndole ejecutar acciones reales en tu nombre.</p>
+<p>Configura las extensiones en la app <strong>Extensiones</strong>. Cada una requiere su propia clave API o token.</p>
+
+<table>
+<tr><th>Extensión</th><th>Herramientas</th><th>Config Requerida</th></tr>
+<tr><td>🐙 GitHub</td><td>create_repo, list_repos, create_issue, create_pr, get_repo</td><td>Token de Acceso Personal</td></tr>
+<tr><td>☁️ Cloudflare</td><td>list_pages, list_workers, purge_cache, list_domains, list_kv</td><td>Token API, ID de Cuenta</td></tr>
+<tr><td>▲ Vercel</td><td>list_projects, list_deployments, get_project</td><td>Token API</td></tr>
+<tr><td>⚡ Supabase</td><td>list_tables, run_query (solo SELECT), get_schema</td><td>URL del Proyecto, Service Role Key</td></tr>
+<tr><td>📝 Notion</td><td>search, create_page</td><td>Token de Integración</td></tr>
+<tr><td>🔗 n8n</td><td>list_workflows, activate_workflow, execute_workflow, get_executions</td><td>URL de Instancia, Clave API</td></tr>
+<tr><td>⚙️ Make</td><td>list_scenarios, run_scenario, toggle_scenario</td><td>Token API, Team ID, Zona</td></tr>
+<tr><td>💳 Stripe</td><td>list_products, create_product, get_balance, list_subs, create_checkout</td><td>Clave Secreta</td></tr>
+<tr><td>📧 Resend</td><td>send_email, list_domains</td><td>Clave API</td></tr>
+<tr><td>✈️ Telegram</td><td>send_message, get_updates</td><td>Token del Bot, ID de Chat/Grupo</td></tr>
+<tr><td>🍋 Lemon Squeezy</td><td>list_products, list_orders, list_subscriptions, get_store</td><td>Clave API</td></tr>
+</table>
+
+<h2 id="providers">7. Proveedores de IA</h2>
+<p>Molvicos OS soporta 6 proveedores de IA en la nube más inferencia local vía Ollama.</p>
+
+<table>
+<tr><th>Proveedor</th><th>Tier</th><th>Modelo Apps</th><th>Modelo MIRA</th></tr>
+<tr><td>⚡ Groq <span class="badge free">RECOMENDADO</span></td><td><span class="badge free">Gratis</span></td><td>llama-3.3-70b-versatile</td><td>llama-3.1-8b-instant</td></tr>
+<tr><td>✦ Gemini</td><td><span class="badge free">Gratis</span></td><td>gemini-1.5-flash</td><td>gemini-1.5-flash</td></tr>
+<tr><td>◈ Mistral</td><td><span class="badge free">Gratis</span></td><td>mistral-small-latest</td><td>mistral-small-latest</td></tr>
+<tr><td>🐙 GitHub Models</td><td><span class="badge free">Gratis</span></td><td>gpt-4o-mini</td><td>gpt-4o-mini</td></tr>
+<tr><td>○ OpenAI</td><td><span class="badge pro">De pago</span></td><td>gpt-4o-mini</td><td>gpt-4o-mini</td></tr>
+<tr><td>△ Anthropic</td><td><span class="badge pro">De pago</span></td><td>claude-haiku-4-5</td><td>claude-3-haiku</td></tr>
+<tr><td>🤖 Ollama</td><td><span class="badge free">Gratis</span></td><td>(seleccionado por usuario)</td><td>—</td></tr>
+</table>
+
+<div class="note">💡 Solo necesitas UN proveedor para usar Molvicos OS. Se recomienda Groq por su tier gratuito e inferencia ultrarrápida.</div>
+
+<h2 id="credits">8. Créditos y Planes</h2>
+<h3>Planes</h3>
+<table>
+<tr><th>Característica</th><th>Gratis</th><th>Pro ($24/mes o $199/año)</th></tr>
+<tr><td>Créditos/mes</td><td>50</td><td>Ilimitados</td></tr>
+<tr><td>Biblioteca de Prompts</td><td>25 máx</td><td>Ilimitada</td></tr>
+<tr><td>Temas</td><td>Noir, Ícaro</td><td>Los 5</td></tr>
+<tr><td>Espacios de trabajo</td><td>1</td><td>Hasta 5</td></tr>
+<tr><td>Control total MIRA</td><td>—</td><td>✓</td></tr>
+<tr><td>Acceso a app móvil</td><td>—</td><td>✓</td></tr>
+</table>
+<p><strong>Modo beta</strong> está activo actualmente — todos los usuarios reciben créditos virtualmente ilimitados durante el período beta.</p>
+
+<h3>Coste de Créditos por Acción</h3>
+<table>
+<tr><th>Acción</th><th>Créditos</th></tr>
+<tr><td>Mensaje a MIRA</td><td>1</td></tr>
+<tr><td>Prompt Lab, Prospectly, MailCraft, DAFO, Brand Name, ToneShifter</td><td>2</td></tr>
+<tr><td>Repurposer, Brief Gen</td><td>3</td></tr>
+<tr><td>Automatizaciones (Workflow Builder)</td><td>5</td></tr>
+<tr><td>AIWorkSuite, AI Terminal, Resumidor</td><td>1</td></tr>
+<tr><td>Modelos Locales (Ollama)</td><td>0 (gratis)</td></tr>
+<tr><td>Dashboard, Ajustes, Analytics, App Store, Extensiones</td><td>0</td></tr>
+</table>
+
+<h2 id="themes">9. Temas</h2>
+<table>
+<tr><th>Tema</th><th>Estilo</th><th>Disponible</th></tr>
+<tr><td>Neural Noir</td><td>Oscuro con acentos verdes</td><td><span class="badge free">Gratis</span></td></tr>
+<tr><td>Ícaro</td><td>Tema claro cálido</td><td><span class="badge free">Gratis</span></td></tr>
+<tr><td>Synthwave</td><td>Neon púrpura/magenta</td><td><span class="badge pro">Pro</span></td></tr>
+<tr><td>Deep Ocean</td><td>Azul profundo</td><td><span class="badge pro">Pro</span></td></tr>
+<tr><td>Matrix</td><td>Verde sobre negro</td><td><span class="badge pro">Pro</span></td></tr>
+</table>
+
+<h2 id="settings">10. Ajustes</h2>
+<h3>General</h3>
+<ul>
+<li><strong>Idioma</strong> — EN, ES, DE, FR, ZH</li>
+<li><strong>URL de Instancia n8n</strong> — Conecta una instancia n8n autoalojada</li>
+<li><strong>Abrir Tutorial</strong> — Reabre el tutorial interactivo</li>
+</ul>
+<h3>Apariencia</h3>
+<ul><li>Selecciona entre 5 temas (2 gratis, 3 Pro)</li></ul>
+<h3>IA y Modelos</h3>
+<ul>
+<li>Introduce claves API para cada proveedor</li>
+<li>Botón "Probar" valida cada clave</li>
+<li>"Guardar Todas las Claves" persiste en almacenamiento local</li>
+<li>Indicador de estado de conexión Ollama</li>
+<li>Selector de proveedor MIRA (Auto o específico)</li>
+</ul>
+<h3>Dock</h3>
+<ul>
+<li>Activa/desactiva qué apps aparecen en el Dock</li>
+<li>Restaurar configuración predeterminada</li>
+</ul>
+<h3>Cuenta y Plan</h3>
+<ul>
+<li>Ver estado del plan actual</li>
+<li>Introducir clave de licencia para activar Pro</li>
+<li>Botones de Upgrade / Desactivar</li>
+</ul>
+
+<h2 id="shortcuts">11. Atajos de Teclado</h2>
+<table>
+<tr><th>Atajo</th><th>Acción</th></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd> / <kbd>Cmd</kbd>+<kbd>K</kbd></td><td>Abrir/cerrar Paleta de Comandos</td></tr>
+<tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Navegar resultados de la Paleta</td></tr>
+<tr><td><kbd>Enter</kbd></td><td>Ejecutar elemento seleccionado</td></tr>
+<tr><td><kbd>Escape</kbd></td><td>Cerrar Paleta de Comandos o modal activo</td></tr>
+</table>
+<h3>Paleta de Comandos</h3>
+<p>La Paleta de Comandos te permite buscar todas las apps, cambiar idiomas, alternar temas y ejecutar acciones — todo desde el teclado. Pulsa <kbd>Ctrl</kbd>+<kbd>K</kbd> para abrirla.</p>
+
+<h2 id="local">12. Modelos Locales (Ollama)</h2>
+<p>Ejecuta modelos de IA de forma privada en tu máquina con coste cero y privacidad total.</p>
+<h3>Configuración</h3>
+<ol>
+<li>Descarga e instala Ollama desde <strong>ollama.com</strong></li>
+<li>Inicia Ollama (se ejecuta automáticamente tras la instalación)</li>
+<li>Molvicos OS auto-detecta Ollama en <code>localhost:11434</code></li>
+</ol>
+<h3>Modelos Recomendados por Hardware</h3>
+<table>
+<tr><th>Perfil</th><th>RAM</th><th>Modelos Recomendados</th></tr>
+<tr><td>Alto</td><td>32GB+</td><td>llama3.3:70b (43GB), qwen2.5:32b (20GB), deepseek-r1:14b (9GB)</td></tr>
+<tr><td>Medio</td><td>16GB</td><td>llama3.2:8b (5GB), mistral:7b (4GB), qwen2.5:7b (4.7GB)</td></tr>
+<tr><td>Bajo</td><td>≤8GB</td><td>llama3.2:3b (2GB), phi3.5:mini</td></tr>
+</table>
+<div class="note">💡 La inferencia local cuesta 0 créditos — ideal para uso ilimitado sin costes de API.</div>
+
+<h2 id="export">13. Exportar y Compartir</h2>
+<ul>
+<li><strong>Exportar como TXT</strong> — Descarga cualquier contenido como archivo de texto plano</li>
+<li><strong>Exportar como PDF</strong> — Abre diálogo de impresión con documento estilizado</li>
+<li><strong>Enlace para Compartir</strong> — Genera una URL ofuscada para compartir contenido (accesible en <code>/share</code>)</li>
+<li><strong>Copiar al Portapapeles</strong> — Copia instantánea al portapapeles</li>
+</ul>
+
+<h2 id="storage">14. Almacenamiento de Datos</h2>
+<p>Todos los datos se almacenan localmente en tu navegador:</p>
+<ul>
+<li><strong>localStorage</strong> — Ajustes, claves API, créditos, registros de uso, historial de apps, configuración del Dock, configs de extensiones</li>
+<li><strong>IndexedDB</strong> — Prompts, conversaciones, archivos (base de datos: <code>molvicos_db</code>)</li>
+</ul>
+<div class="note">⚠️ Las claves API nunca salen de tu navegador. Se envían solo a las rutas servidor de Molvicos que hacen proxy de las peticiones a los proveedores de IA. Las claves nunca se exponen a código de terceros del lado del cliente.</div>
+
+<h2 id="faq">15. Preguntas Frecuentes</h2>
+<h3>P: ¿Necesito pagar para usar Molvicos OS?</h3>
+<p>No. El plan gratuito incluye 50 créditos/mes y acceso a funciones principales. Durante el período beta, los créditos son virtualmente ilimitados.</p>
+
+<h3>P: ¿Qué proveedor de IA debería elegir?</h3>
+<p>Se recomienda Groq — ofrece un tier gratuito generoso con inferencia ultrarrápida. Gemini y Mistral también tienen tiers gratuitos. Solo necesitas un proveedor.</p>
+
+<h3>P: ¿Puedo usar Molvicos OS sin conexión?</h3>
+<p>Parcialmente. La PWA funciona offline para la interfaz, y los modelos locales vía Ollama funcionan sin internet. Las funciones de IA en la nube requieren conexión a internet.</p>
+
+<h3>P: ¿Dónde se almacenan mis datos?</h3>
+<p>Todo se queda en tu navegador (localStorage + IndexedDB). Nada se envía a servidores externos excepto las solicitudes de inferencia IA que pasan por los proxies servidor de Molvicos.</p>
+
+<h3>P: ¿Cómo obtengo más créditos?</h3>
+<p>Los créditos se reinician mensualmente. Actualiza a Pro para créditos ilimitados, o usa modelos locales (Ollama) que cuestan 0 créditos.</p>
+
+<h3>P: ¿Cómo conecto extensiones?</h3>
+<p>Abre la app Extensiones, activa la extensión deseada, introduce la clave API/token requerido y guarda. MIRA podrá entonces usar esas herramientas de la extensión.</p>
+
+<h3>P: ¿Puede MIRA controlar mi GitHub/Cloudflare/etc.?</h3>
+<p>Sí, una vez configures la extensión correspondiente, MIRA puede ejecutar acciones mediante llamadas a herramientas (ej: crear un repo, listar despliegues, enviar un mensaje por Telegram).</p>
+
+<p style="text-align:center;margin-top:3rem;color:#4a5568;font-size:.85rem">◈ Molvicos OS v0.1.0-beta — MolvicStudios — molvicos.pro</p>
+</body>
+</html>

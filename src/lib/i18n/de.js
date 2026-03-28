@@ -84,6 +84,7 @@ export default {
 		localmodels: { name: 'Lokale Modelle', desc: 'Ollama-Brücke' },
 		terminal: { name: 'KI-Terminal', desc: 'Konversations-CLI' },
 		appstore: { name: 'App Store', desc: 'Marktplatz' },
+		extensions: { name: 'Erweiterungen', desc: 'Dienste mit MIRA verbinden' },
 		mailcraft: { name: 'MailCraft', desc: 'KI-E-Mail-Schreiber', input: 'Empfänger & Kontext' },
 		dafo: { name: 'DAFO-Analyse', desc: 'SWOT-Strategie KI' },
 		brandname: { name: 'Brand Name', desc: 'KI-Namensgenerator' },
@@ -214,9 +215,15 @@ export default {
 		workflow: { title: '⚙️ Automatisierungen', desc: 'Generiere n8n- und Make-Workflows sowie benutzerdefinierte Skripte. Beschreibe was du automatisieren möchtest.' },
 		terminal: { title: '💻 AI Terminal', desc: 'Konversationelle Kommandozeile. Stelle Fragen, generiere Code oder unterhalte dich mit KI — im Terminal-Stil.' },
 		localmodels: { title: '🤖 Lokale Modelle', desc: 'Führe KI-Modelle privat auf deinem Rechner über Ollama aus. Keine API-Keys, keine Credits. Volle Privatsphäre.' },
+		mailcraft: { title: '✉️ MailCraft', desc: 'Professionelle E-Mails mit KI schreiben. Gib Empfänger und Kontext an — erhalte eine perfekte E-Mail in Sekunden.' },
+		dafo: { title: '📊 DAFO-Analyse', desc: 'SWOT-Strategieanalyse mit KI. Gib dein Unternehmen oder Projekt ein und erhalte Stärken, Schwächen, Chancen und Risiken.' },
+		brandname: { title: '💡 Brand Name', desc: 'Generiere kreative Markennamen mit KI. Beschreibe dein Projekt und erhalte einzigartige, verfügbare Namensvorschläge.' },
+		summarizer: { title: '📋 Zusammenfasser', desc: 'Fasse lange Texte mit KI zusammen. Füge einen Artikel, einen Bericht oder ein beliebiges Dokument ein und erhalte eine prägnante Zusammenfassung.' },
+		toneshifter: { title: '🎭 ToneShifter', desc: 'Übersetze den Ton eines Textes mit KI. Wandle formell in lässig, technisch in einfach oder jeden beliebigen Stilwechsel um.' },
+		extensions: { title: '🔌 Erweiterungen', desc: 'Verbinde externe Dienste mit MIRA: GitHub, Cloudflare, Vercel, Supabase, Notion, Stripe, Telegram und mehr.' },
 		mira: { title: '🧠 MIRA Assistent', desc: 'Dein intelligenter OS-Assistent. MIRA kann Apps öffnen, Einstellungen ändern, im Web suchen und Fragen beantworten.' },
 		credits: { title: '💎 Credits-System', desc: 'Jede KI-Aktion verbraucht Credits. Kostenloser Plan: 30 Credits/Monat. Lokale Modelle: null Credits. Upgrade auf Pro für unbegrenzt.' },
-		settings: { title: '⚙️ Einstellungen', desc: 'API-Keys konfigurieren (Groq, OpenAI, Anthropic, Gemini, Mistral), Themes ändern, Lizenz verwalten und n8n verbinden.' },
+		settings: { title: '⚙️ Einstellungen', desc: 'API-Keys konfigurieren (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), Themes ändern, Lizenz verwalten und dein Dock anpassen.' },
 		ready: { title: 'Alles bereit!', desc: 'Erkunde dein KI-Betriebssystem. Öffne jede App vom Desktop oder Dock. Denke daran: Cmd+K für Schnellzugriff.' }
 	}
 };

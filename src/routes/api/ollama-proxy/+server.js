@@ -17,14 +17,22 @@ export async function POST({ request, ...event }) {
 			return json({ error: 'Only localhost allowed' }, { status: 403 });
 		}
 
-		const resp = await fetch(url, {
-			method,
-			headers: { 'Content-Type': 'application/json', ...headers },
-			body: body ? JSON.stringify(body) : undefined
-		});
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), 30_000);
 
-		const data = await resp.json();
-		return json(data, { status: resp.status });
+		try {
+			const resp = await fetch(url, {
+				method,
+				headers: { 'Content-Type': 'application/json', ...headers },
+				body: body ? JSON.stringify(body) : undefined,
+				signal: controller.signal
+			});
+
+			const data = await resp.json();
+			return json(data, { status: resp.status });
+		} finally {
+			clearTimeout(timeout);
+		}
 	} catch (e) {
 		return json({ error: e.message }, { status: 502 });
 	}

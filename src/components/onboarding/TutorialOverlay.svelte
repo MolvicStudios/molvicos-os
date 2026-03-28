@@ -8,23 +8,29 @@
 	let step = 0;
 
 	const steps = [
-		{ key: 'welcome',    icon: '◈',  area: null },
-		{ key: 'desktop',    icon: '🖥️', area: 'desktop' },
-		{ key: 'dock',       icon: '⬇️', area: 'dock' },
-		{ key: 'topbar',     icon: '⬆️', area: 'topbar' },
-		{ key: 'cmdk',       icon: '⌨️', area: null },
-		{ key: 'promptlab',  icon: '🔧', area: null },
-		{ key: 'prospectly', icon: '🎯', area: null },
-		{ key: 'aiworksuite',icon: '💼', area: null },
-		{ key: 'repurposer', icon: '📝', area: null },
-		{ key: 'briefgen',   icon: '🔍', area: null },
-		{ key: 'workflow',   icon: '⚙️', area: null },
-		{ key: 'terminal',   icon: '💻', area: null },
-		{ key: 'localmodels',icon: '🤖', area: null },
-		{ key: 'mira',       icon: '🧠', area: null },
-		{ key: 'credits',    icon: '💎', area: null },
-		{ key: 'settings',   icon: '⚙️', area: null },
-		{ key: 'ready',      icon: '🚀', area: null }
+		{ key: 'welcome',     icon: '◈',  area: null },
+		{ key: 'desktop',     icon: '🖥️', area: 'desktop' },
+		{ key: 'dock',        icon: '⬇️', area: 'dock' },
+		{ key: 'topbar',      icon: '⬆️', area: 'topbar' },
+		{ key: 'cmdk',        icon: '⌨️', area: null },
+		{ key: 'promptlab',   icon: '🔧', area: null },
+		{ key: 'prospectly',  icon: '🎯', area: null },
+		{ key: 'aiworksuite', icon: '💼', area: null },
+		{ key: 'repurposer',  icon: '📝', area: null },
+		{ key: 'briefgen',    icon: '🔍', area: null },
+		{ key: 'workflow',    icon: '⚙️', area: null },
+		{ key: 'terminal',    icon: '💻', area: null },
+		{ key: 'localmodels', icon: '🤖', area: null },
+		{ key: 'mailcraft',   icon: '✉️', area: null },
+		{ key: 'dafo',        icon: '📋', area: null },
+		{ key: 'brandname',   icon: '💡', area: null },
+		{ key: 'summarizer',  icon: '📄', area: null },
+		{ key: 'toneshifter', icon: '🔄', area: null },
+		{ key: 'extensions',  icon: '🔌', area: null },
+		{ key: 'mira',        icon: '🧠', area: null },
+		{ key: 'credits',     icon: '💎', area: null },
+		{ key: 'settings',    icon: '⚙️', area: null },
+		{ key: 'ready',       icon: '🚀', area: null }
 	];
 
 	$: current = steps[step];

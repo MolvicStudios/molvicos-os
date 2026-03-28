@@ -187,6 +187,17 @@ export const APPS = [
 		credits: 0,
 		section: 'power',
 		status: 'active'
+	},
+	{
+		id: 'extensions',
+		loader: lazy(() => import('../components/apps/Extensions.svelte')),
+		emoji: '🔌',
+		colorClass: 'icon-teal',
+		dockSlot: null,
+		defaultSize: { w: 820, h: 560 },
+		credits: 0,
+		section: 'power',
+		status: 'active'
 	}
 ];
 

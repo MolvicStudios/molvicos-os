@@ -14,10 +14,24 @@ export async function scanHardware() {
 		// GPU detection not available
 	}
 
-	const start = performance.now();
-	let n = 0;
-	for (let i = 0; i < 5_000_000; i++) n += Math.sqrt(i);
-	const benchMs = Math.round(performance.now() - start);
+	// Non-blocking benchmark using chunked setTimeout
+	const benchMs = await new Promise(resolve => {
+		const start = performance.now();
+		let n = 0;
+		let i = 0;
+		const CHUNK = 500_000;
+		const TOTAL = 5_000_000;
+		function tick() {
+			const end = Math.min(i + CHUNK, TOTAL);
+			for (; i < end; i++) n += Math.sqrt(i);
+			if (i < TOTAL) {
+				setTimeout(tick, 0);
+			} else {
+				resolve(Math.round(performance.now() - start));
+			}
+		}
+		tick();
+	});
 
 	let profile;
 	if (memory >= 32 && cores >= 8 && benchMs < 200) profile = 'high';

@@ -3,6 +3,8 @@ import { setLang } from '../i18n/index.js';
 import { getApp, APPS } from '../apps.js';
 import { addMessage } from '../stores/mira.js';
 import { canUse } from '../plans/gates.js';
+import { EXTENSIONS, getExtensionByTool } from '../extensions/index.js';
+import { isExtensionEnabled, getExtensionConfig } from '../extensions/store.js';
 
 /**
  * MIRA tool definitions.
@@ -39,6 +41,16 @@ export const MIRA_TOOLS = [
 		params: { mode: 'string — bug, feedback, or feature', title: 'string (optional prefill)', description: 'string (optional prefill)' }
 	}
 ];
+
+/**
+ * Get all active tool definitions (MIRA core + enabled extensions).
+ */
+export function getActiveTools() {
+	const extensionTools = EXTENSIONS
+		.filter(e => isExtensionEnabled(e.id))
+		.flatMap(e => e.tools.map(t => ({ ...t, extension: e.id })));
+	return [...MIRA_TOOLS, ...extensionTools];
+}
 
 /**
  * Execute a MIRA tool call and return a result object.
@@ -97,8 +109,15 @@ export async function executeTool(toolName, args) {
 				return { success: true, data: `Opened ${labels[mode]} form` };
 			}
 
-			default:
+			default: {
+				// Check extension tools
+				const ext = getExtensionByTool(toolName);
+				if (ext && isExtensionEnabled(ext.id)) {
+					const result = await ext.execute(toolName, args);
+					return result || { success: false, data: 'No response from extension' };
+				}
 				return { success: false, data: `Unknown tool: ${toolName}` };
+			}
 		}
 	} catch (e) {
 		return { success: false, data: e.message };
@@ -131,7 +150,7 @@ export function parseToolCalls(text) {
 export async function processToolCalls(text) {
 	const calls = parseToolCalls(text);
 	for (const call of calls) {
-		const result = executeTool(call.name, call.args);
+		const result = await executeTool(call.name, call.args);
 		addMessage('tool', result.data, {
 			toolCall: call,
 			toolResult: result

@@ -1,6 +1,8 @@
 import { get } from 'svelte/store';
 import { miraContext } from '../stores/mira.js';
 import { t, currentLang } from '../i18n/index.js';
+import { getActiveTools } from './tools.js';
+import { MANUAL_KNOWLEDGE } from './knowledge.js';
 
 /**
  * Build the MIRA system prompt using current OS state.
@@ -39,8 +41,33 @@ You can help users with:
 - If asked to perform an OS action, use the appropriate tool
 
 ## Tools Available
-When the user requests an OS action, respond with a tool call in this format:
+When the user requests an OS action or external service action, respond with a tool call in this format:
 [TOOL: tool_name({"param": "value"})]
 
-Available tools: open_app, close_app, change_theme, change_language, suggest_prompt, report_feedback`;
+${buildToolList()}
+
+## OS Knowledge Base
+${MANUAL_KNOWLEDGE}`;
+}
+
+function buildToolList() {
+	const tools = getActiveTools();
+	const coreTools = tools.filter(t => !t.extension);
+	const extTools = tools.filter(t => t.extension);
+
+	let list = 'Core tools: ' + coreTools.map(t => t.name).join(', ');
+
+	if (extTools.length > 0) {
+		const grouped = {};
+		for (const t of extTools) {
+			if (!grouped[t.extension]) grouped[t.extension] = [];
+			grouped[t.extension].push(t.name);
+		}
+		list += '\n\nExtension tools (connected services):';
+		for (const [ext, names] of Object.entries(grouped)) {
+			list += `\n- ${ext}: ${names.join(', ')}`;
+		}
+	}
+
+	return list;
 }

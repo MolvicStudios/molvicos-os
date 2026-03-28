@@ -70,11 +70,12 @@
 	}
 
 	const PROVIDERS = [
-		{ id: 'groq',      name: 'Groq',      prefix: 'gsk_',    url: 'https://console.groq.com',     free: true },
-		{ id: 'openai',    name: 'OpenAI',    prefix: 'sk-',     url: 'https://platform.openai.com',   free: false },
-		{ id: 'anthropic', name: 'Anthropic', prefix: 'sk-ant-', url: 'https://console.anthropic.com', free: false },
-		{ id: 'gemini',    name: 'Gemini',    prefix: 'AIza',    url: 'https://aistudio.google.com',   free: true },
-		{ id: 'mistral',   name: 'Mistral',   prefix: 'mis_',    url: 'https://console.mistral.ai',    free: true },
+		{ id: 'groq',      name: 'Groq',           prefix: 'gsk_',    url: 'https://console.groq.com',           free: true },
+		{ id: 'openai',    name: 'OpenAI',         prefix: 'sk-',     url: 'https://platform.openai.com',        free: false },
+		{ id: 'anthropic', name: 'Anthropic',      prefix: 'sk-ant-', url: 'https://console.anthropic.com',      free: false },
+		{ id: 'gemini',    name: 'Gemini',         prefix: 'AIza',    url: 'https://aistudio.google.com',        free: true },
+		{ id: 'mistral',   name: 'Mistral',        prefix: 'mis_',    url: 'https://console.mistral.ai',         free: true },
+		{ id: 'github',    name: 'GitHub Models',  prefix: 'ghp_',    url: 'https://github.com/marketplace/models', free: true },
 	];
 
 	function saveAllKeys() {

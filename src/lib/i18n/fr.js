@@ -84,6 +84,7 @@ export default {
 		localmodels: { name: 'Modèles Locaux', desc: 'Pont Ollama' },
 		terminal: { name: 'Terminal IA', desc: 'CLI Conversationnel' },
 		appstore: { name: 'App Store', desc: 'Marketplace' },
+		extensions: { name: 'Extensions', desc: 'Connecter des services à MIRA' },
 		mailcraft: { name: 'MailCraft', desc: 'Rédacteur d\'e-mails IA', input: 'Destinataire et contexte' },
 		dafo: { name: 'Analyse DAFO', desc: 'Stratégie SWOT IA' },
 		brandname: { name: 'Brand Name', desc: 'Générateur de noms IA' },
@@ -214,9 +215,15 @@ export default {
 		workflow: { title: '⚙️ Automatisations', desc: 'Générez des workflows n8n et Make, plus des scripts personnalisés. Décrivez ce que vous voulez automatiser.' },
 		terminal: { title: '💻 AI Terminal', desc: 'Interface en ligne de commande conversationnelle. Posez des questions, générez du code ou conversez avec l\'IA.' },
 		localmodels: { title: '🤖 Modèles Locaux', desc: 'Exécutez des modèles IA en privé sur votre machine via Ollama. Pas de clés API, pas de crédits. Confidentialité totale.' },
+		mailcraft: { title: '✉️ MailCraft', desc: 'Rédigez des e-mails professionnels avec l\'IA. Indiquez le destinataire et le contexte — obtenez un e-mail parfait en secondes.' },
+		dafo: { title: '📊 Analyse DAFO', desc: 'Analyse stratégique SWOT avec l\'IA. Entrez votre entreprise ou projet et obtenez forces, faiblesses, opportunités et menaces.' },
+		brandname: { title: '💡 Brand Name', desc: 'Générez des noms de marque créatifs avec l\'IA. Décrivez votre projet et obtenez des suggestions uniques et disponibles.' },
+		summarizer: { title: '📋 Résumeur', desc: 'Résumez de longs textes avec l\'IA. Collez un article, un rapport ou tout document et obtenez un résumé concis.' },
+		toneshifter: { title: '🎭 ToneShifter', desc: 'Traduisez le ton de n\'importe quel texte avec l\'IA. Convertissez formel en décontracté, technique en simple, ou tout changement de style.' },
+		extensions: { title: '🔌 Extensions', desc: 'Connectez des services externes à MIRA : GitHub, Cloudflare, Vercel, Supabase, Notion, Stripe, Telegram et plus.' },
 		mira: { title: '🧠 Assistant MIRA', desc: 'Votre assistant OS intelligent. MIRA peut ouvrir des apps, modifier les paramètres, chercher sur le web et répondre à vos questions.' },
 		credits: { title: '💎 Système de Crédits', desc: 'Chaque action IA consomme des crédits. Plan gratuit : 30 crédits/mois. Modèles locaux : zéro crédit. Passez à Pro pour illimité.' },
-		settings: { title: '⚙️ Paramètres', desc: 'Configurez les clés API (Groq, OpenAI, Anthropic, Gemini, Mistral), changez de thèmes, gérez votre licence et connectez n8n.' },
+		settings: { title: '⚙️ Paramètres', desc: 'Configurez les clés API (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), changez de thèmes, gérez votre licence et personnalisez votre Dock.' },
 		ready: { title: 'Tout est prêt !', desc: 'Explorez votre OS IA. Ouvrez une app depuis le Bureau ou le Dock. Rappel : Cmd+K pour l\'accès rapide.' }
 	}
 };

@@ -1,14 +1,41 @@
 import { writable } from 'svelte/store';
 import { storage } from '$lib/storage/local.js';
 
+// HMAC integrity key for plan store (prevents localStorage.setItem('ms_plan','pro') bypass)
+const INTEGRITY_KEY = 'ms_plan_sig';
+const HMAC_SECRET = 'molvicos-plan-integrity-2026';
+
+function computeSignature(plan, license) {
+	const data = `${plan}:${license || 'none'}:${HMAC_SECRET}`;
+	let hash = 0;
+	for (let i = 0; i < data.length; i++) {
+		hash = ((hash << 5) - hash + data.charCodeAt(i)) | 0;
+	}
+	return 'sig_' + Math.abs(hash).toString(36);
+}
+
+function verifyPlan(plan, license) {
+	if (plan === 'free') return true;
+	const saved = storage.get(INTEGRITY_KEY);
+	return saved === computeSignature(plan, license);
+}
+
 const savedPlan    = storage.get('ms_plan')    || 'free';
 const savedCredits = storage.get('ms_credits') ?? 999999;
 const savedLicense = storage.get('ms_license') || null;
 
+// Verify integrity — if tampered, reset to free
+const planValid = verifyPlan(savedPlan, savedLicense);
+const initialPlan = planValid ? savedPlan : 'free';
+if (!planValid && savedPlan === 'pro') {
+	storage.set('ms_plan', 'free');
+	console.warn('[Security] Plan integrity check failed — reset to free');
+}
+
 export const planStore = writable({
-	plan:           savedPlan,
-	credits:        savedCredits,
-	creditsMax:     savedPlan === 'pro' ? null : 50,
+	plan:           initialPlan,
+	credits:        planValid ? savedCredits : 50,
+	creditsMax:     initialPlan === 'pro' ? null : 50,
 	licenseKey:     savedLicense,
 	licenseValid:   false,
 	billingPeriod:  storage.get('ms_billing_period') || null,
@@ -34,6 +61,7 @@ export function closeUpgradeModal() {
 }
 
 export function activatePro(licenseKey, billingPeriod = 'monthly') {
+	const sig = computeSignature('pro', licenseKey);
 	planStore.update(s => ({
 		...s,
 		plan:          'pro',
@@ -43,6 +71,7 @@ export function activatePro(licenseKey, billingPeriod = 'monthly') {
 		licenseValid:  true,
 		billingPeriod,
 	}));
+	storage.set(INTEGRITY_KEY, sig);
 	storage.set('ms_billing_period', billingPeriod);
 }
 
@@ -54,4 +83,5 @@ export function deactivatePro() {
 		creditsMax:   50,
 		licenseValid: false,
 	}));
+	storage.set(INTEGRITY_KEY, null);
 }

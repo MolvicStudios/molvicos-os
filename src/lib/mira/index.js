@@ -20,7 +20,8 @@ export const MIRA_MODELS = {
 	openai: 'gpt-4o-mini',
 	anthropic: 'claude-3-haiku-20240307',
 	gemini: 'gemini-1.5-flash',
-	mistral: 'mistral-small-latest'
+	mistral: 'mistral-small-latest',
+	github: 'gpt-4o-mini'
 };
 
 /**
@@ -35,7 +36,7 @@ export function detectProvider() {
 	if (userChoice && userChoice !== 'auto' && keys[userChoice]) return userChoice;
 
 	// Otherwise, fall back to priority-based auto-detection
-	const priority = ['groq', 'gemini', 'mistral', 'openai', 'anthropic'];
+	const priority = ['groq', 'gemini', 'mistral', 'openai', 'anthropic', 'github'];
 	for (const p of priority) {
 		if (keys[p]) return p;
 	}

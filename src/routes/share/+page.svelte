@@ -1,18 +1,36 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import DOMPurify from 'dompurify';
 
 	let content = '';
 	let source = '';
 	let error = false;
 
+	function deobfuscate(encoded) {
+		try {
+			// Reverse the simple XOR obfuscation + base64
+			const raw = atob(encoded);
+			const bytes = new Uint8Array(raw.length);
+			for (let i = 0; i < raw.length; i++) {
+				bytes[i] = raw.charCodeAt(i) ^ 42;
+			}
+			return new TextDecoder().decode(bytes);
+		} catch {
+			// Fallback: try legacy plain base64
+			try { return decodeURIComponent(atob(encoded)); } catch { return null; }
+		}
+	}
+
 	onMount(() => {
 		try {
 			const params = $page.url.searchParams;
 			const data = params.get('d');
-			source = params.get('s') || 'molvicos';
+			source = DOMPurify.sanitize(params.get('s') || 'molvicos');
 			if (data) {
-				content = decodeURIComponent(atob(data));
+				const decoded = deobfuscate(data);
+				content = decoded ? DOMPurify.sanitize(decoded) : '';
+				if (!content) error = true;
 			} else {
 				error = true;
 			}

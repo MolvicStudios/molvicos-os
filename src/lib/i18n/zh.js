@@ -84,6 +84,7 @@ export default {
 		localmodels: { name: '本地模型', desc: 'Ollama 桥接' },
 		terminal: { name: 'AI 终端', desc: '对话式 CLI' },
 		appstore: { name: '应用商店', desc: '应用市场' },
+		extensions: { name: '扩展', desc: '将服务连接到MIRA' },
 		mailcraft: { name: 'MailCraft', desc: 'AI邮件撰写器', input: '收件人和上下文' },
 		dafo: { name: 'DAFO分析', desc: 'SWOT策略AI' },
 		brandname: { name: '品牌命名', desc: 'AI名称生成器' },
@@ -214,9 +215,15 @@ export default {
 		workflow: { title: '⚙️ 自动化', desc: '生成 n8n 和 Make 自动化工作流，加上自定义脚本。描述您想自动化的内容。' },
 		terminal: { title: '💻 AI 终端', desc: '对话式命令行界面。提问、生成代码或与AI聊天 — 终端风格。' },
 		localmodels: { title: '🤖 本地模型', desc: '通过 Ollama 在本地私密运行AI模型。无需API密钥，不消耗积分。完全隐私，零成本。' },
+		mailcraft: { title: '✉️ MailCraft', desc: '用AI撰写专业邮件。输入收件人和上下文 — 几秒钟内获得完美邮件。' },
+		dafo: { title: '📊 DAFO分析', desc: 'AI驱动的SWOT战略分析。输入您的企业或项目，获取优势、劣势、机会和威胁分析。' },
+		brandname: { title: '💡 品牌命名', desc: '用AI生成创意品牌名称。描述您的项目，获取独特且可用的名称建议。' },
+		summarizer: { title: '📋 摘要器', desc: '用AI总结长文本。粘贴文章、报告或任何文档，获取简洁摘要。' },
+		toneshifter: { title: '🎭 语调转换', desc: '用AI翻译任何文本的语调。将正式转换为随意、技术转换为简单，或任何风格变化。' },
+		extensions: { title: '🔌 扩展', desc: '将外部服务连接到MIRA：GitHub、Cloudflare、Vercel、Supabase、Notion、Stripe、Telegram等。' },
 		mira: { title: '🧠 MIRA 助手', desc: '您的智能OS助手。MIRA可以打开应用、更改设置、搜索网络和回答问题。' },
 		credits: { title: '💎 积分系统', desc: '每个AI操作消耗积分。免费计划：每月30积分。本地模型：零积分。升级Pro享受无限。' },
-		settings: { title: '⚙️ 设置', desc: '配置API密钥（Groq、OpenAI、Anthropic、Gemini、Mistral），更改主题，管理许可证，连接n8n。' },
+		settings: { title: '⚙️ 设置', desc: '配置API密钥（Groq、OpenAI、Anthropic、Gemini、Mistral、GitHub Models），更改主题，管理许可证，自定义Dock。' },
 		ready: { title: '一切就绪！', desc: '开始探索您的AI操作系统。从桌面或程序坞打开任何应用。记住：Cmd+K快速访问。' }
 	}
 };
