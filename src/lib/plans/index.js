@@ -7,7 +7,7 @@ export const PLANS = {
 		betaUnlimited:   false,
 		workspaces:      1,
 		promptLibMax:    25,
-		themes:          ['noir', 'icaro'],
+		themes:          ['noir', 'icaro', 'synthwave'],
 		miraFull:        false,
 		mobileApp:       false,
 		earlyAccess:     false,
@@ -37,6 +37,9 @@ export const CREDIT_COSTS = {
 	ollama:            0,
 	prospectly:        2,
 	aiworksuite:       1,
+	quoteforge:        3,
+	contractgen:       3,
+	invoiceai:         2,
 };
 
 export function getPlan(planId) {
@@ -50,3 +53,9 @@ export function isPro(planId) {
 export function isBetaMode() {
 	return PLANS.free.betaUnlimited;
 }
+
+// Prevent runtime mutation of plan definitions
+Object.freeze(PLANS.free);
+Object.freeze(PLANS.pro);
+Object.freeze(PLANS);
+Object.freeze(CREDIT_COSTS);

@@ -10,19 +10,28 @@
 
 	let clock = '';
 	let interval;
+	let isOffline = false;
 
 	function updateClock() {
 		const now = new Date();
 		clock = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 	}
 
+	function handleOnline() { isOffline = false; }
+	function handleOffline() { isOffline = true; }
+
 	onMount(() => {
 		updateClock();
 		interval = setInterval(updateClock, 1000);
+		isOffline = !navigator.onLine;
+		window.addEventListener('online', handleOnline);
+		window.addEventListener('offline', handleOffline);
 	});
 
 	onDestroy(() => {
 		clearInterval(interval);
+		window.removeEventListener('online', handleOnline);
+		window.removeEventListener('offline', handleOffline);
 	});
 
 	$: activeAppDef = $activeApp ? APPS.find((a) => a.id === $activeApp) : null;
@@ -38,6 +47,9 @@
 </script>
 
 <header class="topbar">
+	{#if isOffline}
+		<div class="offline-banner">📡 Offline — local models still available</div>
+	{/if}
 	<div class="topbar-left">
 		<span class="logo">MOLVICOS</span>
 		<div class="lang-badges">
@@ -71,6 +83,24 @@
 </header>
 
 <style>
+	.offline-banner {
+		position: absolute;
+		top: 36px;
+		left: 0;
+		right: 0;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--danger, #ef4444);
+		color: #fff;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 600;
+		z-index: 9001;
+		letter-spacing: 0.5px;
+	}
+
 	.topbar {
 		position: fixed;
 		top: 0;

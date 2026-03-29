@@ -19,6 +19,13 @@ export const Actions = {
 	CMD_PALETTE:  (query)   => trackAction({ type: 'cmd_palette',  detail: query?.slice(0, 40) }),
 	MIRA_MSG:     (snippet) => trackAction({ type: 'mira_message', detail: snippet?.slice(0, 40) }),
 	NAV:          (route)   => trackAction({ type: 'navigate',     detail: route }),
+	// Funnel conversion events
+	ONBOARDING_START:  ()       => trackAction({ type: 'onboarding_started',  detail: '' }),
+	ONBOARDING_STEP:   (step)   => trackAction({ type: 'onboarding_step',     detail: step }),
+	ONBOARDING_DONE:   ()       => trackAction({ type: 'onboarding_complete', detail: '' }),
+	FIRST_AI_CALL:     (appId)  => trackAction({ type: 'first_ai_call',       detail: appId }),
+	CREDIT_DEPLETED:   ()       => trackAction({ type: 'credit_depleted',     detail: '' }),
+	UPGRADE_MODAL:     (reason) => trackAction({ type: 'upgrade_modal',       detail: reason?.slice(0, 40) }),
 };
 
 export function formatActionLog() {

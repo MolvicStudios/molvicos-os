@@ -2,10 +2,13 @@ import { get } from 'svelte/store';
 import { planStore } from '$lib/stores/plan.js';
 import { CREDIT_COSTS, getPlan, isBetaMode } from './index.js';
 import { storage } from '$lib/storage/local.js';
+import { notify } from '$lib/stores/os.js';
 
 const CREDITS_KEY   = 'ms_credits';
 const RESET_KEY     = 'ms_credits_reset';
 const USAGE_LOG_KEY = 'ms_usage_log';
+const LOW_CREDIT_THRESHOLD = 5;
+let lowCreditWarned = false;
 
 export function canAfford(action) {
 	const { plan, credits } = get(planStore);
@@ -32,6 +35,16 @@ export function deductCredits(action) {
 	planStore.update(s => ({ ...s, credits: s.credits - cost }));
 	storage.set(CREDITS_KEY, get(planStore).credits);
 	logUsage(action, cost);
+
+	// Low credit warning
+	const remaining = get(planStore).credits;
+	if (remaining <= LOW_CREDIT_THRESHOLD && remaining > 0 && !lowCreditWarned) {
+		lowCreditWarned = true;
+		notify(`⚡ ${remaining} credits remaining this month`, 'warning');
+	} else if (remaining <= 0) {
+		notify('⚡ No credits left — upgrade to Pro or wait for monthly reset', 'error');
+	}
+
 	return true;
 }
 

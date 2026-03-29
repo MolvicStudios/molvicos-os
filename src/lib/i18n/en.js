@@ -91,6 +91,9 @@ export default {
 		summarizer: { name: 'Summarizer', desc: 'Text Summarizer AI' },
 		toneshifter: { name: 'ToneShifter', desc: 'Tone Translator AI', input: 'Original text' },
 		analytics: { name: 'Analytics', desc: 'Site Analytics', connectDesc: 'Connect to your MolvicStudios Analytics Worker' },
+		quoteforge: { name: 'QuoteForge', desc: 'AI Quote Generator', projectType: 'Project type', projectDesc: 'Project description', projectDescPh: 'Describe the project you need a quote for...', complexity: 'Complexity', currency: 'Currency', region: 'Region', clientType: 'Client type', timeline: 'Estimated timeline', generateBtn: 'Generate Quote', generating: 'Generating', newQuote: 'New Quote' },
+		contractgen: { name: 'ContractGen', desc: 'AI Contract Generator', serviceType: 'Service type', projectDesc: 'Project description', projectDescPh: 'Describe the project scope for the contract...', price: 'Price', deadline: 'Deadline', deliverables: 'Deliverables', deliverablesPh: 'List key deliverables...', payment: 'Payment terms', jurisdiction: 'Jurisdiction', tone: 'Tone', generateBtn: 'Generate Contract', generating: 'Generating', newContract: 'New Contract', disclaimer: 'This document is a template and NOT a substitute for professional legal advice.' },
+		invoiceai: { name: 'InvoiceAI', desc: 'AI Invoice Generator', providerInfo: 'Provider details', providerName: 'Name / Company', taxId: 'Tax ID', address: 'Address', clientInfo: 'Client details', clientName: 'Client name', clientCompany: 'Company', clientAddress: 'Client address', invoiceDetails: 'Invoice details', invoiceNum: 'Invoice #', currency: 'Currency', taxRegime: 'Tax regime', services: 'Services / Items', servicesPh: 'Describe services rendered and prices...', generateBtn: 'Generate Invoice', generating: 'Generating', newInvoice: 'New Invoice' },
 		comingSoon: 'Coming Soon',
 		comingSoonHint: 'This app is being integrated into the OS.'
 	},
@@ -278,6 +281,18 @@ export default {
 		extensions: {
 			title: '🔌 Extensions',
 			desc: 'Connect external services (GitHub, Cloudflare, Stripe, Telegram, etc.) so MIRA can control them with natural language commands.'
+		},
+		quoteforge: {
+			title: '💰 QuoteForge',
+			desc: 'Generate professional project quotes with AI. Set project type, complexity, and region — get a phase-by-phase breakdown with market pricing.'
+		},
+		contractgen: {
+			title: '📑 ContractGen',
+			desc: 'Generate contracts and legal proposals with AI. Choose jurisdiction, payment terms, and tone — get a complete contract ready to sign.'
+		},
+		invoiceai: {
+			title: '🧾 InvoiceAI',
+			desc: 'Create professional invoices with AI. Save your tax details, add client and services — invoice ready with automatic tax calculations.'
 		},
 		mira: {
 			title: '🧠 MIRA Assistant',

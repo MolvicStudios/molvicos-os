@@ -57,7 +57,7 @@ export function getActiveTools() {
  */
 export async function executeTool(toolName, args) {
 	try {
-		const proActions = ['open_app', 'close_app', 'change_theme', 'change_language'];
+		const proActions = ['close_app', 'change_theme', 'change_language'];
 		if (proActions.includes(toolName) && !canUse('mira_full')) {
 			return { success: false, data: 'OS actions require Pro plan. Upgrade to unlock MIRA full control.' };
 		}

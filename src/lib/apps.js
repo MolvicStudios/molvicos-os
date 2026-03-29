@@ -198,6 +198,39 @@ export const APPS = [
 		credits: 0,
 		section: 'power',
 		status: 'active'
+	},
+	{
+		id: 'quoteforge',
+		loader: lazy(() => import('../components/apps/QuoteForge.svelte')),
+		emoji: '💰',
+		colorClass: 'icon-gold',
+		dockSlot: null,
+		defaultSize: { w: 760, h: 580 },
+		credits: 3,
+		section: 'core',
+		status: 'active'
+	},
+	{
+		id: 'contractgen',
+		loader: lazy(() => import('../components/apps/ContractGen.svelte')),
+		emoji: '📑',
+		colorClass: 'icon-amber',
+		dockSlot: null,
+		defaultSize: { w: 780, h: 600 },
+		credits: 3,
+		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'invoiceai',
+		loader: lazy(() => import('../components/apps/InvoiceAI.svelte')),
+		emoji: '🧾',
+		colorClass: 'icon-green',
+		dockSlot: null,
+		defaultSize: { w: 760, h: 600 },
+		credits: 2,
+		section: 'tools',
+		status: 'active'
 	}
 ];
 

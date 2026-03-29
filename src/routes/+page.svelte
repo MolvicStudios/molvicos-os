@@ -21,19 +21,22 @@
 		{ emoji: '🤖', name: 'Local Models', desc: 'Run AI locally via Ollama bridge' },
 		{ emoji: '💻', name: 'AI Terminal', desc: 'Conversational CLI for power users' },
 		{ emoji: '📊', name: 'Dashboard', desc: 'Track credits, usage & plan status' },
+		{ emoji: '💰', name: 'QuoteForge', desc: 'Generate professional project quotes with AI' },
+		{ emoji: '📑', name: 'ContractGen', desc: 'AI-powered freelance contracts in seconds' },
+		{ emoji: '🧾', name: 'InvoiceAI', desc: 'Smart invoices with tax-aware formatting' },
 	];
 
 	const features = [
 		{ icon: '🧠', title: 'AI-Native Desktop', desc: 'Every app is built around AI — not bolted on. Your entire workflow, reimagined.' },
 		{ icon: '🔒', title: 'Privacy First', desc: 'Runs in your browser. API keys stay local. No data leaves your machine.' },
-		{ icon: '⚡', title: '9+ Built-in Apps', desc: 'From prompt engineering to outreach to SEO — everything in one OS.' },
+		{ icon: '⚡', title: '12+ Built-in Apps', desc: 'From prompt engineering to outreach to invoicing — everything in one OS.' },
 		{ icon: '🌍', title: '5 Languages', desc: 'Full i18n support: English, Español, Deutsch, Français, 中文.' },
 		{ icon: '🎨', title: 'Themeable', desc: 'Cyberpunk dark mode, warm light mode, and more themes for Pro users.' },
 		{ icon: '🤖', title: 'MIRA Assistant', desc: 'Built-in AI copilot that understands your OS and helps across all apps.' },
 	];
 
 	const faqs = [
-		{ q: 'Is Molvicos really free?', a: 'Yes. The Free plan gives you 50 AI credits/month and full access to all core apps. During beta, credits are unlimited.' },
+		{ q: 'Is Molvicos really free?', a: 'Yes. The Free plan gives you 30 AI credits/month and full access to all core apps. Local models via Ollama use zero credits.' },
 		{ q: 'What happens to my data?', a: 'Everything stays in your browser\'s localStorage. API keys never leave your device. We don\'t collect or store any of your data.' },
 		{ q: 'Can I use my own API keys?', a: 'Absolutely. Bring your OpenAI, Groq, Anthropic, or Ollama keys. You\'re always in control.' },
 		{ q: 'What do I get with Pro?', a: 'Unlimited credits, 5 workspaces, premium themes, full MIRA assistant, mobile app access, and early access to new features.' },
@@ -60,12 +63,20 @@
 
 <svelte:head>
 	<title>Molvicos — AI Operating System for Creators & Freelancers</title>
-	<meta name="description" content="The AI-powered operating system with 9+ built-in apps for prompt engineering, outreach, SEO, content repurposing, and more. Free to start." />
-	<meta property="og:title" content="Molvicos — AI Operating System" />
-	<meta property="og:description" content="9+ AI apps in one cyberpunk desktop. Free." />
-	<meta property="og:image" content="/og-image.png" />
+	<meta name="description" content="The AI-powered operating system with 12+ built-in apps for prompt engineering, outreach, SEO, content repurposing, invoicing and more. Free to start." />
+	<meta property="og:title" content="Molvicos — AI Operating System for Creators & Freelancers" />
+	<meta property="og:description" content="12+ AI apps in one cyberpunk desktop. Prompt engineering, outreach, invoicing & more. Free." />
+	<meta property="og:image" content="https://molvicos.pro/og-image.png" />
+	<meta property="og:url" content="https://molvicos.pro" />
 	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Molvicos" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:locale:alternate" content="es_ES" />
 	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Molvicos — AI Operating System" />
+	<meta name="twitter:description" content="12+ AI apps in one cyberpunk desktop. Free to start." />
+	<meta name="twitter:image" content="https://molvicos.pro/og-image.png" />
+	{@html '<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Molvicos","description":"AI Operating System with 12+ built-in apps for creators and freelancers","url":"https://molvicos.pro","applicationCategory":"ProductivityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Free plan — 30 credits/month"},"creator":{"@type":"Organization","name":"MolvicStudios","url":"https://molvicstudios.pro"}}</script>'}
 </svelte:head>
 
 {#if ready}
@@ -91,10 +102,10 @@
 
 	<!-- HERO -->
 	<section class="hero">
-		<div class="hero-badge">✦ Beta — Unlimited credits for all users</div>
+		<div class="hero-badge">✦ 30 free credits/month — Start building now</div>
 		<h1>Your AI Operating System</h1>
 		<p class="hero-sub">
-			9+ built-in apps for prompt engineering, outreach, SEO, content &amp; automation.
+			12+ built-in apps for prompt engineering, outreach, SEO, invoicing &amp; automation.
 			<br/>Runs in your browser. Privacy-first. Free to start.
 		</p>
 		<div class="hero-ctas">
@@ -155,7 +166,7 @@
 
 	<!-- APPS -->
 	<section id="apps" class="apps-section">
-		<h2>9+ Apps. One Desktop.</h2>
+		<h2>12+ Apps. One Desktop.</h2>
 		<p class="section-sub">Every tool you need — integrated, not scattered.</p>
 		<div class="apps-grid">
 			{#each apps as app}
@@ -190,12 +201,11 @@
 				</div>
 				<ul class="price-features">
 					<li>✓ {PLANS.free.creditsPerMonth} AI credits / month</li>
-					<li>✓ All 9+ apps</li>
+					<li>✓ All 12+ apps</li>
 					<li>✓ {PLANS.free.workspaces} workspace</li>
 					<li>✓ {PLANS.free.promptLibMax} saved prompts</li>
 					<li>✓ 2 themes</li>
 					<li>✓ MIRA basic</li>
-					<li class="beta-note">★ Beta: unlimited credits</li>
 				</ul>
 				<a href="/onboarding" class="btn btn-outline full-w">Get Started</a>
 			</div>
@@ -210,7 +220,7 @@
 				</div>
 				<ul class="price-features">
 					<li>✓ Unlimited AI credits</li>
-					<li>✓ All 9+ apps</li>
+					<li>✓ All 12+ apps</li>
 					<li>✓ {PLANS.pro.workspaces} workspaces</li>
 					<li>✓ Unlimited saved prompts</li>
 					<li>✓ {PLANS.pro.themes.length} themes</li>
