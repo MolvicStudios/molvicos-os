@@ -21,7 +21,7 @@
 		{ id: 'about',      icon: 'ℹ️' },
 	];
 
-	let n8nUrl = localStorage.getItem('ms_n8n_url') || 'https://molvicstudios.app.n8n.cloud';
+	let n8nUrl = localStorage.getItem('ms_n8n_url') || '';
 	function saveN8nUrl() {
 		localStorage.setItem('ms_n8n_url', n8nUrl);
 		showSaved('n8n URL saved');

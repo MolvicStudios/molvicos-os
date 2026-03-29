@@ -21,7 +21,7 @@ function verifyPlan(plan, license) {
 }
 
 const savedPlan    = storage.get('ms_plan')    || 'free';
-const savedCredits = storage.get('ms_credits') ?? 999999;
+const savedCredits = storage.get('ms_credits') ?? 30;
 const savedLicense = storage.get('ms_license') || null;
 
 // Verify integrity — if tampered, reset to free
@@ -34,8 +34,8 @@ if (!planValid && savedPlan === 'pro') {
 
 export const planStore = writable({
 	plan:           initialPlan,
-	credits:        planValid ? savedCredits : 50,
-	creditsMax:     initialPlan === 'pro' ? null : 50,
+	credits:        planValid ? savedCredits : 30,
+	creditsMax:     initialPlan === 'pro' ? null : 30,
 	licenseKey:     savedLicense,
 	licenseValid:   false,
 	billingPeriod:  storage.get('ms_billing_period') || null,
@@ -79,8 +79,8 @@ export function deactivatePro() {
 	planStore.update(s => ({
 		...s,
 		plan:         'free',
-		credits:      50,
-		creditsMax:   50,
+		credits:      30,
+		creditsMax:   30,
 		licenseValid: false,
 	}));
 	storage.set(INTEGRITY_KEY, null);
