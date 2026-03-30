@@ -200,6 +200,17 @@ export const APPS = [
 		status: 'active'
 	},
 	{
+		id: 'itineraries',
+		loader: lazy(() => import('../components/apps/Itineraries.svelte')),
+		emoji: '🗺️',
+		colorClass: 'icon-teal',
+		dockSlot: 6,
+		defaultSize: { w: 560, h: 520 },
+		credits: 0,
+		section: 'core',
+		status: 'active'
+	},
+	{
 		id: 'quoteforge',
 		loader: lazy(() => import('../components/apps/QuoteForge.svelte')),
 		emoji: '💰',
