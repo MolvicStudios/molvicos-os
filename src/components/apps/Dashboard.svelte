@@ -105,7 +105,7 @@
 	</div>
 
 	<div class="dash-tabs">
-		{#each [['overview','Overview'],['apps','By App'],['history','History']] as [id, label]}
+		{#each [['overview','Overview'],['itineraries', '🗺️ ' + $t('dashboard.itineraries')],['apps','By App'],['history','History']] as [id, label]}
 			<button class="dash-tab" class:active={activeTab === id} on:click={() => activeTab = id}>
 				{label}
 			</button>
@@ -146,6 +146,73 @@
 				</div>
 			{/if}
 
+		{:else if activeTab === 'itineraries'}
+			<div class="itin-header">
+				<span class="itin-sub">{$t('dashboard.itinerariesSub')}</span>
+			</div>
+
+			<div class="itin-grid">
+				{#each ITINERARIES as itin (itin.id)}
+					{@const done = getStepsDone(itin.id, itin.steps.length)}
+					{@const isComplete = done === itin.steps.length}
+					{@const isExpanded = expandedItinerary === itin.id}
+					<div class="itin-card" class:expanded={isExpanded} class:complete={isComplete}>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<!-- svelte-ignore a11y-no-static-element-interactions -->
+						<div class="itin-card-header" on:click={() => toggleItinerary(itin.id)}>
+							<span class="itin-icon">{itin.icon}</span>
+							<div class="itin-info">
+								<span class="itin-name">{$t(`dashboard.itin.${itin.id}.name`)}</span>
+								<span class="itin-desc">{$t(`dashboard.itin.${itin.id}.desc`)}</span>
+							</div>
+							<div class="itin-meta">
+								<span class="itin-badge">{$t(`dashboard.${itin.difficulty}`)}</span>
+								<span class="itin-time">⏱ {itin.estimatedMinutes} {$t('dashboard.min')}</span>
+								{#if isComplete}
+									<span class="itin-complete-badge">✓</span>
+								{:else if done > 0}
+									<span class="itin-progress-text">{done}/{itin.steps.length}</span>
+								{/if}
+							</div>
+							<span class="itin-chevron" class:open={isExpanded}>›</span>
+						</div>
+
+						{#if isExpanded}
+							<div class="itin-steps">
+								{#each itin.steps as step, i}
+									{@const stepDone = (progress[itin.id] || []).includes(i)}
+									<div class="itin-step" class:done={stepDone}>
+										<span class="step-num">{i + 1}</span>
+										<div class="step-info">
+											<span class="step-action">{$t(`dashboard.itin.${itin.id}.steps.${i}`)}</span>
+											<span class="step-app">{getApp(step.appId)?.emoji} {$t(`apps.${step.appId}.name`)}</span>
+										</div>
+										<div class="step-actions">
+											<button class="step-open" on:click|stopPropagation={() => handleOpenStepApp(step.appId)}>
+												{$t('dashboard.openApp')} →
+											</button>
+											{#if !stepDone}
+												<button class="step-done-btn" on:click|stopPropagation={() => handleStepDone(itin.id, i)}>
+													✓
+												</button>
+											{/if}
+										</div>
+									</div>
+								{/each}
+								{#if isComplete}
+									<div class="itin-complete-row">
+										<span>🎉 {$t('dashboard.completed')}</span>
+										<button class="step-open" on:click|stopPropagation={() => handleReset(itin.id)}>
+											↺ {$t('dashboard.reset')}
+										</button>
+									</div>
+								{/if}
+							</div>
+						{/if}
+					</div>
+				{/each}
+			</div>
+
 		{:else if activeTab === 'apps'}
 			<div class="by-app-list">
 				{#each Object.entries(stats.byApp).sort((a,b) => b[1]-a[1]) as [action, count]}
@@ -181,75 +248,6 @@
 	{:else}
 		<p class="loading-state">Loading stats...</p>
 	{/if}
-
-	<div class="itineraries-section">
-		<div class="itin-header">
-			<span class="itin-title">🗺️ {$t('dashboard.itineraries')}</span>
-			<span class="itin-sub">{$t('dashboard.itinerariesSub')}</span>
-		</div>
-
-		<div class="itin-grid">
-			{#each ITINERARIES as itin (itin.id)}
-				{@const done = getStepsDone(itin.id, itin.steps.length)}
-				{@const isComplete = done === itin.steps.length}
-				{@const isExpanded = expandedItinerary === itin.id}
-				<div class="itin-card" class:expanded={isExpanded} class:complete={isComplete}>
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<!-- svelte-ignore a11y-no-static-element-interactions -->
-					<div class="itin-card-header" on:click={() => toggleItinerary(itin.id)}>
-						<span class="itin-icon">{itin.icon}</span>
-						<div class="itin-info">
-							<span class="itin-name">{$t(`dashboard.itin.${itin.id}.name`)}</span>
-							<span class="itin-desc">{$t(`dashboard.itin.${itin.id}.desc`)}</span>
-						</div>
-						<div class="itin-meta">
-							<span class="itin-badge">{$t(`dashboard.${itin.difficulty}`)}</span>
-							<span class="itin-time">⏱ {itin.estimatedMinutes} {$t('dashboard.min')}</span>
-							{#if isComplete}
-								<span class="itin-complete-badge">✓</span>
-							{:else if done > 0}
-								<span class="itin-progress-text">{done}/{itin.steps.length}</span>
-							{/if}
-						</div>
-						<span class="itin-chevron" class:open={isExpanded}>›</span>
-					</div>
-
-					{#if isExpanded}
-						<div class="itin-steps">
-							{#each itin.steps as step, i}
-								{@const stepDone = (progress[itin.id] || []).includes(i)}
-								<div class="itin-step" class:done={stepDone}>
-									<span class="step-num">{i + 1}</span>
-									<div class="step-info">
-										<span class="step-action">{$t(`dashboard.itin.${itin.id}.steps.${i}`)}</span>
-										<span class="step-app">{getApp(step.appId)?.emoji} {$t(`apps.${step.appId}.name`)}</span>
-									</div>
-									<div class="step-actions">
-										<button class="step-open" on:click|stopPropagation={() => handleOpenStepApp(step.appId)}>
-											{$t('dashboard.openApp')} →
-										</button>
-										{#if !stepDone}
-											<button class="step-done-btn" on:click|stopPropagation={() => handleStepDone(itin.id, i)}>
-												✓
-											</button>
-										{/if}
-									</div>
-								</div>
-							{/each}
-							{#if isComplete}
-								<div class="itin-complete-row">
-									<span>🎉 {$t('dashboard.completed')}</span>
-									<button class="step-open" on:click|stopPropagation={() => handleReset(itin.id)}>
-										↺ {$t('dashboard.reset')}
-									</button>
-								</div>
-							{/if}
-						</div>
-					{/if}
-				</div>
-			{/each}
-		</div>
-	</div>
 </div>
 
 <style>
