@@ -189,6 +189,7 @@
 		overflow: hidden;
 		animation: slideUp 0.2s ease;
 		transition: opacity 0.15s ease;
+		pointer-events: auto;
 	}
 
 	.window.minimized {

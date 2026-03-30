@@ -6,6 +6,7 @@
 
 	import Wallpaper from '../../components/os/Wallpaper.svelte';
 	import TopBar from '../../components/os/TopBar.svelte';
+	import Desktop from '../../components/os/Desktop.svelte';
 	import WindowManager from '../../components/os/WindowManager.svelte';
 	import Dock from '../../components/os/Dock.svelte';
 	import AppLauncher from '../../components/os/AppLauncher.svelte';
@@ -53,6 +54,7 @@
 <div class="os-viewport" class:mira-shift={panelOpen}>
 	<Wallpaper />
 	<TopBar />
+	<Desktop />
 	<div class="window-area">
 		<WindowManager />
 	</div>
@@ -105,8 +107,9 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		overflow: auto;
+		overflow: visible;
 		z-index: 50;
+		pointer-events: none;
 	}
 
 	.welcome-banner {
