@@ -3,7 +3,6 @@
 	import { closeApp, minimizeApp, maximizeApp, focusApp, updateWindowPosition, updateWindowSize, windowOrder } from '$lib/stores/os.js';
 	import { trackAction, Actions } from '$lib/feedback/tracker.js';
 	import { t } from '$lib/i18n/index.js';
-	import AppClosePanel from '../feedback/AppClosePanel.svelte';
 
 	export let id;
 	export let title = '';
@@ -31,14 +30,10 @@
 	let dragging = false;
 	let resizing = false;
 	let dragOffset = { x: 0, y: 0 };
-	let showClosePanel = false;
-	let closeTimer;
 
 	// Track active listeners for cleanup
 	let activeDragCleanup = null;
 	let activeResizeCleanup = null;
-
-	const SYSTEM_APPS = ['settings', 'dashboard'];
 
 	$: zIndex = $windowOrder.indexOf(id) + 100;
 
@@ -131,27 +126,11 @@
 	}
 
 	function requestClose() {
-		if (SYSTEM_APPS.includes(id)) {
-			trackAction(Actions.CLOSE_APP, id);
-			closeApp(id);
-			return;
-		}
-		showClosePanel = true;
-		clearTimeout(closeTimer);
-		closeTimer = setTimeout(() => {
-			if (showClosePanel) confirmClose();
-		}, 4000);
-	}
-
-	function confirmClose() {
-		clearTimeout(closeTimer);
-		showClosePanel = false;
 		trackAction(Actions.CLOSE_APP, id);
 		closeApp(id);
 	}
 
 	onDestroy(() => {
-		clearTimeout(closeTimer);
 		activeDragCleanup?.();
 		activeResizeCleanup?.();
 	});
@@ -191,9 +170,6 @@
 	</div>
 	<div class="window-body">
 		<svelte:component this={component} {id} />
-		{#if showClosePanel}
-			<AppClosePanel appName={title} onDismiss={confirmClose} />
-		{/if}
 	</div>
 	{#if !maximized}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->

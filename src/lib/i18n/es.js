@@ -179,7 +179,26 @@ export default {
 		thisWeek: 'Esta semana',
 		thisMonth: 'Este mes',
 		totalActions: 'Acciones totales',
-		favoriteApp: 'App favorita'
+		favoriteApp: 'App favorita',
+		itineraries: 'Itinerarios',
+		itinerariesSub: 'Guías paso a paso para sacar el máximo a tus apps',
+		steps: 'pasos',
+		min: 'min',
+		beginner: 'Principiante',
+		intermediate: 'Intermedio',
+		openApp: 'Abrir',
+		done: 'Hecho',
+		completed: 'Completado',
+		reset: 'Reiniciar',
+		itin: {
+			'freelance-launch': { name: 'Lanza tu Freelance', desc: 'Marca, presupuesto, contrato y factura — todo para empezar.', steps: ['Genera el nombre de tu marca', 'Crea tu primer presupuesto', 'Redacta un contrato base', 'Prepara tu primera factura'] },
+			'outreach-campaign': { name: 'Campaña de Outreach', desc: 'Encuentra prospectos, escribe emails y ajusta el tono.', steps: ['Busca y analiza prospectos', 'Escribe emails personalizados', 'Ajusta el tono para cada audiencia'] },
+			'content-multiplatform': { name: 'Contenido Multiplataforma', desc: 'Optimiza prompts, reutiliza y resume para cada canal.', steps: ['Optimiza tu prompt base', 'Reutiliza en 6 formatos', 'Resume para compartir rápido'] },
+			'business-strategy': { name: 'Estrategia de Negocio', desc: 'Análisis DAFO, brief SEO y workflow de automatización.', steps: ['Haz un análisis DAFO', 'Genera un brief SEO', 'Crea un workflow de automatización'] },
+			'local-ai-setup': { name: 'Configura tu IA Local', desc: 'Configura proveedores, instala modelos y prueba en terminal.', steps: ['Configura claves API en Ajustes', 'Instala modelos locales con Ollama', 'Prueba tus modelos en el terminal'] },
+			'first-automation': { name: 'Tu Primera Automatización', desc: 'Crea un prompt, genera un workflow y conecta servicios.', steps: ['Crea el prompt perfecto', 'Genera un workflow desde él', 'Conecta servicios externos'] },
+			'first-ai-team': { name: 'Lanza tu Equipo IA', desc: 'Crea un equipo colaborativo, envía emails y firma un contrato.', steps: ['Crea tu equipo IA en AIWorkSuite', 'Redacta emails de contacto', 'Genera el contrato de colaboración'] },
+		},
 	},
 	settings: {
 		title: 'Ajustes',
@@ -200,7 +219,9 @@ export default {
 		n8nUrl: 'URL de instancia n8n',
 		n8nUrlSub: 'Conecta tu n8n autoalojado',
 		saved: 'Guardado',
-		openTutorial: 'Abrir Tutorial'
+		openTutorial: 'Abrir Tutorial',
+		feedback: 'Feedback y Errores',
+		desktops: 'Escritorios'
 	},
 	tutorial: {
 		skip: 'Saltar',

@@ -179,7 +179,26 @@ export default {
 		thisWeek: 'This week',
 		thisMonth: 'This month',
 		totalActions: 'Total actions',
-		favoriteApp: 'Favorite app'
+		favoriteApp: 'Favorite app',
+		itineraries: 'Itineraries',
+		itinerariesSub: 'Step-by-step guides to get the most out of your apps',
+		steps: 'steps',
+		min: 'min',
+		beginner: 'Beginner',
+		intermediate: 'Intermediate',
+		openApp: 'Open',
+		done: 'Done',
+		completed: 'Completed',
+		reset: 'Restart',
+		itin: {
+			'freelance-launch': { name: 'Launch your Freelance', desc: 'Brand, quote, contract and invoice — everything to start.', steps: ['Generate your brand name', 'Create your first quote', 'Draft a base contract', 'Prepare your first invoice'] },
+			'outreach-campaign': { name: 'Outreach Campaign', desc: 'Find prospects, write emails and adjust your tone.', steps: ['Find and analyze prospects', 'Write personalized emails', 'Adjust tone for each audience'] },
+			'content-multiplatform': { name: 'Multi-platform Content', desc: 'Optimize prompts, repurpose and summarize for every channel.', steps: ['Optimize your base prompt', 'Repurpose into 6 formats', 'Summarize for quick sharing'] },
+			'business-strategy': { name: 'Business Strategy', desc: 'SWOT analysis, SEO brief and automation workflow.', steps: ['Run a SWOT analysis', 'Generate an SEO brief', 'Create an automation workflow'] },
+			'local-ai-setup': { name: 'Set up Local AI', desc: 'Configure providers, install models and test in the terminal.', steps: ['Configure AI keys in Settings', 'Install local models with Ollama', 'Test your models in the terminal'] },
+			'first-automation': { name: 'Your First Automation', desc: 'Craft a prompt, generate a workflow and connect services.', steps: ['Craft the perfect prompt', 'Generate a workflow from it', 'Connect external services'] },
+			'first-ai-team': { name: 'Launch your AI Team', desc: 'Create a collaborative team, send emails and sign a contract.', steps: ['Create your AI team in AIWorkSuite', 'Draft outreach emails', 'Generate the collaboration contract'] },
+		},
 	},
 	settings: {
 		title: 'Settings',
@@ -200,7 +219,9 @@ export default {
 		n8nUrl: 'n8n Instance URL',
 		n8nUrlSub: 'Connect your self-hosted n8n',
 		saved: 'Saved',
-		openTutorial: 'Open Tutorial'
+		openTutorial: 'Open Tutorial',
+		feedback: 'Feedback & Bugs',
+		desktops: 'Desktops'
 	},
 	tutorial: {
 		skip: 'Skip',

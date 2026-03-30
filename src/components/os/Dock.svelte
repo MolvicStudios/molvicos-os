@@ -1,5 +1,5 @@
 <script>
-	import { openWindows, focusedWindow, openApp, minimizeApp, focusApp } from '$lib/stores/os.js';
+	import { openWindows, focusedWindow, openApp, minimizeApp, focusApp, activeDesktop, desktopCount, switchDesktop, windowDesktops } from '$lib/stores/os.js';
 	import { getApp } from '$lib/apps.js';
 	import { dockConfig } from '$lib/stores/dock.js';
 	import { t } from '$lib/i18n/index.js';
@@ -33,6 +33,17 @@
 	}
 
 	$: openIds = new Set($openWindows.map((w) => w.id));
+
+	// Count windows per desktop
+	$: desktopWindows = (() => {
+		const counts = {};
+		for (let i = 1; i <= $desktopCount; i++) counts[i] = 0;
+		for (const w of $openWindows) {
+			const d = $windowDesktops[w.id] || 1;
+			if (counts[d] !== undefined) counts[d]++;
+		}
+		return counts;
+	})();
 </script>
 
 <nav class="dock" aria-label="Application dock">
@@ -83,6 +94,22 @@
 				{/if}
 			</button>
 		{/each}
+		<span class="dock-separator"></span>
+
+		<div class="desktop-selector">
+			{#each Array($desktopCount) as _, i}
+				<button
+					class="desktop-btn"
+					class:active={$activeDesktop === i + 1}
+					class:has-windows={desktopWindows[i + 1] > 0}
+					on:click={() => switchDesktop(i + 1)}
+					title="Desktop {i + 1}"
+					aria-label="Desktop {i + 1}"
+				>
+					{i + 1}
+				</button>
+			{/each}
+		</div>
 	</div>
 </nav>
 
@@ -178,6 +205,56 @@
 	}
 	.dock-home:hover .dock-emoji {
 		color: #000;
+	}
+
+	.desktop-selector {
+		display: flex;
+		gap: 3px;
+		align-items: center;
+	}
+
+	.desktop-btn {
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--radius-sm);
+		border: 1px solid transparent;
+		background: none;
+		color: var(--text-muted);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		cursor: pointer;
+		transition: all var(--transition);
+		position: relative;
+	}
+
+	.desktop-btn:hover {
+		background: var(--bg-elevated);
+		color: var(--text-primary);
+	}
+
+	.desktop-btn.active {
+		background: var(--accent-dim);
+		border-color: var(--accent-border);
+		color: var(--accent);
+	}
+
+	.desktop-btn.has-windows::after {
+		content: '';
+		position: absolute;
+		bottom: 1px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 3px;
+		height: 3px;
+		border-radius: 50%;
+		background: var(--text-muted);
+	}
+
+	.desktop-btn.active.has-windows::after {
+		background: var(--accent);
 	}
 
 	@media (max-width: 640px) {

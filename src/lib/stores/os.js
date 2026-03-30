@@ -27,6 +27,13 @@ export const iconPositions = writable({});
 /** Tutorial overlay state */
 export const tutorialOpen = writable(false);
 
+/** Virtual desktops */
+export const activeDesktop = writable(1);
+export const desktopCount = writable(4);
+
+/** Map windowId → desktopNumber */
+export const windowDesktops = writable({});
+
 let windowCounter = 0;
 
 export async function openApp(appDef) {
@@ -60,12 +67,18 @@ export async function openApp(appDef) {
 
 	windowCounter++;
 	openWindows.update((ws) => [...ws, win]);
+	windowDesktops.update((d) => ({ ...d, [appDef.id]: get(activeDesktop) }));
 	focusApp(appDef.id);
 }
 
 export function closeApp(id) {
 	openWindows.update((ws) => ws.filter((w) => w.id !== id));
 	windowOrder.update((order) => order.filter((wid) => wid !== id));
+	windowDesktops.update((d) => {
+		const next = { ...d };
+		delete next[id];
+		return next;
+	});
 	const order = get(windowOrder);
 	if (order.length > 0) {
 		focusApp(order[order.length - 1]);
@@ -114,4 +127,26 @@ export function notify(message, type = 'info') {
 	setTimeout(() => {
 		notifications.update((n) => n.filter((item) => item.id !== id));
 	}, 4000);
+}
+
+export function switchDesktop(num) {
+	activeDesktop.set(num);
+	// Focus the top window on this desktop
+	const order = get(windowOrder);
+	const desktops = get(windowDesktops);
+	const wins = get(openWindows);
+	const topOnDesktop = [...order].reverse().find((wid) => {
+		const w = wins.find((w) => w.id === wid);
+		return desktops[wid] === num && w && !w.minimized;
+	});
+	if (topOnDesktop) {
+		focusApp(topOnDesktop);
+	} else {
+		focusedWindow.set(null);
+		activeApp.set(null);
+	}
+}
+
+export function moveWindowToDesktop(windowId, desktopNum) {
+	windowDesktops.update((d) => ({ ...d, [windowId]: desktopNum }));
 }

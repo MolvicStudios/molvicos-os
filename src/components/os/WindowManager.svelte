@@ -1,8 +1,13 @@
 <script>
-	import { openWindows } from '$lib/stores/os.js';
+	import { openWindows, activeDesktop, windowDesktops } from '$lib/stores/os.js';
 	import Window from './Window.svelte';
 
 	let crashedWindows = {};
+
+	$: visibleWindows = $openWindows.filter((w) => {
+		const desk = $windowDesktops[w.id];
+		return desk === undefined || desk === $activeDesktop;
+	});
 
 	function handleWindowError(winId, error) {
 		console.error(`[WindowManager] App "${winId}" crashed:`, error);
@@ -16,7 +21,7 @@
 	}
 </script>
 
-{#each $openWindows as win (win.id)}
+{#each visibleWindows as win (win.id)}
 	{#if crashedWindows[win.id]}
 		<Window
 			id={win.id}

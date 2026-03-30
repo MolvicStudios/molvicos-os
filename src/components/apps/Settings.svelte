@@ -10,6 +10,10 @@
 	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
 	import { miraProvider } from '$lib/stores/mira.js';
 	import { APPS } from '$lib/apps.js';
+	import { submitFeedback } from '$lib/feedback/index.js';
+	import { getActionLog } from '$lib/feedback/tracker.js';
+	import { getErrorLog } from '$lib/feedback/console-trap.js';
+	import { feedbackSubmitting, feedbackSuccess } from '$lib/stores/feedback.js';
 
 	let activeSection = 'general';
 	const sections = [
@@ -17,6 +21,7 @@
 		{ id: 'appearance', icon: '🎨' },
 		{ id: 'ai',         icon: '🤖' },
 		{ id: 'dock',       icon: '⬇️' },
+		{ id: 'feedback',   icon: '💬' },
 		{ id: 'account',    icon: '👤' },
 		{ id: 'about',      icon: 'ℹ️' },
 	];
@@ -115,6 +120,35 @@
 			return ids;
 		});
 		saveDockConfig();
+	}
+
+	// Feedback form state
+	const FB_TABS = ['bug', 'feedback', 'feature'];
+	const FB_SEVERITIES = ['low', 'medium', 'high', 'critical'];
+	let fbTab = 'bug';
+	let fbTitle = '';
+	let fbDescription = '';
+	let fbSeverity = 'medium';
+	let fbSent = false;
+
+	$: fbErrorCount = getErrorLog().length;
+	$: fbActionCount = getActionLog().length;
+
+	async function handleFbSubmit() {
+		if (!fbTitle.trim()) return;
+		try {
+			await submitFeedback({
+				type: fbTab,
+				title: fbTitle.trim(),
+				description: fbDescription.trim(),
+				severity: fbTab === 'bug' ? fbSeverity : null,
+			});
+			fbSent = true;
+			fbTitle = '';
+			fbDescription = '';
+			fbSeverity = 'medium';
+			setTimeout(() => { fbSent = false; }, 3000);
+		} catch {}
 	}
 </script>
 
@@ -280,6 +314,80 @@
 			<div class="api-actions" style="margin-top:12px">
 				<button class="sr-save-btn" on:click={resetDockConfig}>↺ Reset default</button>
 			</div>
+
+		{:else if activeSection === 'feedback'}
+			<div class="settings-section-title">{$t('settings.feedback')}</div>
+
+			<div class="tabs" style="margin-bottom:14px">
+				{#each FB_TABS as tab}
+					<button
+						class="lang-pill"
+						class:active={fbTab === tab}
+						on:click={() => fbTab = tab}
+					>{$t(`feedback.tab_${tab}`)}</button>
+				{/each}
+			</div>
+
+			{#if fbSent}
+				<div class="fb-success">
+					<span class="fb-success-icon">✓</span>
+					<span>{$t('feedback.thankYou')}</span>
+				</div>
+			{:else}
+				{#if fbTab === 'bug'}
+					<div class="setting-row">
+						<span class="sr-label">{$t('feedback.severity')}</span>
+						<div class="lang-pills">
+							{#each FB_SEVERITIES as sev}
+								<button
+									class="lang-pill"
+									class:active={fbSeverity === sev}
+									on:click={() => fbSeverity = sev}
+								>{$t(`feedback.sev_${sev}`)}</button>
+							{/each}
+						</div>
+					</div>
+				{/if}
+
+				<div class="setting-row" style="flex-direction:column;align-items:stretch">
+					<label class="sr-label" for="fb-s-title">{$t('feedback.titleLabel')}</label>
+					<input
+						id="fb-s-title"
+						type="text"
+						bind:value={fbTitle}
+						placeholder={$t('feedback.titlePlaceholder')}
+						disabled={$feedbackSubmitting}
+						style="margin-top:6px"
+					/>
+				</div>
+
+				<div class="setting-row" style="flex-direction:column;align-items:stretch">
+					<label class="sr-label" for="fb-s-desc">{$t('feedback.descLabel')}</label>
+					<textarea
+						id="fb-s-desc"
+						bind:value={fbDescription}
+						placeholder={$t('feedback.descPlaceholder')}
+						rows="4"
+						disabled={$feedbackSubmitting}
+						style="margin-top:6px;resize:vertical"
+					></textarea>
+				</div>
+
+				<div class="auto-capture-row">
+					<span class="sr-sub">{$t('feedback.autoCapture')}</span>
+					<div class="capture-pills">
+						<span class="capture-pill">📋 {fbActionCount} {$t('feedback.actions')}</span>
+						<span class="capture-pill">{fbErrorCount > 0 ? '⚠️' : '✓'} {fbErrorCount} {$t('feedback.errors')}</span>
+						<span class="capture-pill">🎨 {$theme}</span>
+					</div>
+				</div>
+
+				<div class="api-actions">
+					<button class="sr-save-btn" on:click={handleFbSubmit} disabled={$feedbackSubmitting || !fbTitle.trim()}>
+						{$feedbackSubmitting ? $t('feedback.sending') : $t('feedback.submit')}
+					</button>
+				</div>
+			{/if}
 
 		{:else if activeSection === 'account'}
 			<div class="settings-section-title">{$t('settings.account')}</div>
@@ -531,6 +639,37 @@
 		font-size: 11px; padding: 7px 16px;
 		border-radius: var(--radius-sm); font-family: var(--font-mono);
 		animation: slideUp 0.2s ease;
+	}
+
+	.settings-content input[type="text"],
+	.settings-content textarea {
+		width: 100%; padding: 6px 8px; font-size: 11px;
+		background: var(--bg-input, var(--bg-base)); border: 1px solid var(--border);
+		border-radius: var(--radius-sm); color: var(--text-primary);
+		font-family: var(--font-mono); outline: none; box-sizing: border-box;
+	}
+	.settings-content input[type="text"]:focus,
+	.settings-content textarea:focus { border-color: var(--accent); }
+	.settings-content textarea { min-height: 60px; }
+
+	.tabs { display: flex; gap: 4px; }
+
+	.fb-success {
+		display: flex; flex-direction: column; align-items: center; gap: 8px;
+		padding: 32px 16px; text-align: center;
+	}
+	.fb-success-icon { font-size: 36px; color: var(--accent2, #00cc88); }
+	.fb-success span { font-size: 13px; color: var(--text-primary); }
+
+	.auto-capture-row {
+		display: flex; flex-direction: column; gap: 6px;
+		padding: 10px 0; border-bottom: 0.5px solid var(--border);
+	}
+	.capture-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+	.capture-pill {
+		font-size: 10px; color: var(--text-secondary);
+		background: var(--bg-input, var(--bg-base)); border: 1px solid var(--border);
+		border-radius: var(--radius-sm); padding: 3px 8px;
 	}
 
 	@keyframes slideUp {
