@@ -1,13 +1,13 @@
 import { processWebhookEvent } from '$lib/lemonsqueezy/webhook.js';
 import { applyRateLimit } from '$lib/server/rate-limit.js';
 
-export async function POST({ request, ...event }) {
+export async function POST({ request, platform, ...event }) {
 	const blocked = applyRateLimit({ request, ...event }, { prefix: 'webhook', maxRequests: 10, windowMs: 60_000 });
 	if (blocked) return blocked;
 
 	const body      = await request.text();
 	const signature = request.headers.get('x-signature') || '';
-	const secret    = import.meta.env.LS_WEBHOOK_SECRET;
+	const secret    = platform?.env?.LS_WEBHOOK_SECRET;
 
 	if (!secret || secret.length < 20) {
 		console.error('[Webhook] LS_WEBHOOK_SECRET not configured or too weak (min 20 chars)');
@@ -20,10 +20,11 @@ export async function POST({ request, ...event }) {
 	}
 
 	try {
-		const event = JSON.parse(body);
-		await processWebhookEvent(event);
+		const webhookEvent = JSON.parse(body);
+		await processWebhookEvent(webhookEvent, platform?.env?.DB);
 		return new Response('OK', { status: 200 });
 	} catch (err) {
+		console.error('[Webhook] Processing error:', err);
 		return new Response(err.message, { status: 500 });
 	}
 }

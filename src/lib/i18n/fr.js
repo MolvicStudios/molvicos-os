@@ -91,6 +91,7 @@ export default {
 		summarizer: { name: 'Résumeur', desc: 'Résumeur de textes IA' },
 		toneshifter: { name: 'ToneShifter', desc: 'Traducteur de ton IA', input: 'Texte original' },
 		analytics: { name: 'Analytics', desc: 'Analyse Web', connectDesc: 'Connectez-vous à votre Worker Analytics MolvicStudios' },
+		itineraries: { name: 'Itinéraires', desc: 'Workflows IA guidés' },
 		comingSoon: 'Bientôt disponible',
 		comingSoonHint: 'Cette app est en cours d\'intégration dans l\'OS.'
 	},

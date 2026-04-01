@@ -91,6 +91,7 @@ export default {
 		summarizer: { name: '摘要器', desc: 'AI文本摘要' },
 		toneshifter: { name: '语调转换', desc: 'AI语调翻译器', input: '原始文本' },
 		analytics: { name: '分析', desc: '网站分析', connectDesc: '连接到您的MolvicStudios Analytics Worker' },
+		itineraries: { name: '行程规划', desc: '引导式 AI 工作流' },
 		comingSoon: '即将推出',
 		comingSoonHint: '此应用正在集成到操作系统中。'
 	},

@@ -91,6 +91,7 @@ export default {
 		summarizer: { name: 'Zusammenfasser', desc: 'KI-Textzusammenfassung' },
 		toneshifter: { name: 'ToneShifter', desc: 'KI-Tonübersetzer', input: 'Originaltext' },
 		analytics: { name: 'Analytics', desc: 'Web-Analyse', connectDesc: 'Verbinde dich mit deinem MolvicStudios Analytics Worker' },
+		itineraries: { name: 'Reiserouten', desc: 'Geführte KI-Workflows' },
 		comingSoon: 'Demnächst',
 		comingSoonHint: 'Diese App wird in das OS integriert.'
 	},
