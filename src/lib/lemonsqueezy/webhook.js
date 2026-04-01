@@ -1,6 +1,6 @@
 import { activateUserPro, deactivateUser, logSubscriptionEvent } from '$lib/server/db.js';
 
-const YEARLY_VARIANT = '1451168';
+const YEARLY_VARIANT = '1456019';
 
 /**
  * Process a LemonSqueezy webhook event and persist to D1.

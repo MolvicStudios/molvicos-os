@@ -1177,7 +1177,7 @@ html,body{overflow-x:hidden}
             <div class="price-feat"><div class="pf-ok"></div>Detección IA de roles</div>
             <div class="price-feat"><div class="pf-ok"></div>Biblioteca ilimitada</div>
             <div class="price-feat"><div class="pf-ok"></div>Branding personalizable</div>
-            <div style="margin-top:12px"><a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true" target="_blank" rel="noopener" class="btn btn-accent" style="width:100%;display:block;text-align:center;text-decoration:none">🚀 Empezar 7 días gratis</a></div>
+            <div style="margin-top:12px"><a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161" target="_blank" rel="noopener" class="btn btn-accent" style="width:100%;display:block;text-align:center;text-decoration:none">🚀 Empezar 7 días gratis</a></div>
             <p style="font-size:9px;color:var(--text3);text-align:center;margin-top:6px">Sin tarjeta hasta que decidas · Cancela cuando quieras</p>
           </div>
         </div>
@@ -1638,7 +1638,7 @@ html,body{overflow-x:hidden}
           <li style="padding:4px 0">✅ Biblioteca ilimitada</li>
           <li style="padding:4px 0">✅ Branding personalizable</li>
         </ul>
-        <a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true" target="_blank" rel="noopener" id="btn-pricing-checkout"
+        <a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161" target="_blank" rel="noopener" id="btn-pricing-checkout"
            style="display:block;padding:12px 20px;background:var(--accent);color:#000;border-radius:var(--r);font-size:13px;font-weight:700;text-decoration:none;transition:opacity .15s"
            onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
           🚀 Empezar 7 días gratis
@@ -1864,7 +1864,7 @@ html,body{overflow-x:hidden}
       <div style="font-size:11px;color:var(--text3)" data-i18n="upgrade_info_sub">Desbloquea clientes, equipos y prompts ilimitados.</div>
     </div>
     <div style="display:flex;gap:8px">
-      <a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true" target="_blank" rel="noopener" class="btn btn-accent" style="flex:1;text-align:center;text-decoration:none" id="btn-upgrade-cta">🚀 Empezar 7 días gratis</a>
+      <a href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161" target="_blank" rel="noopener" class="btn btn-accent" style="flex:1;text-align:center;text-decoration:none" id="btn-upgrade-cta">🚀 Empezar 7 días gratis</a>
       <button class="btn btn-ghost" onclick="closeModal('modal-upgrade')" data-i18n="upgrade_dismiss">Ahora no</button>
     </div>
   </div>
@@ -2277,7 +2277,7 @@ function showUpgradeModal(featureName) {
         <span id="upgrade-period" style="font-size:.85rem;opacity:.6;">/mes · IVA inc.</span>
       </div>
       <div class="upgrade-modal__ctas">
-        <a id="btn-upgrade-checkout" href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true" target="_blank" rel="noopener" class="btn btn-accent" style="padding:12px 24px;font-size:14px;text-decoration:none;display:block;text-align:center">
+        <a id="btn-upgrade-checkout" href="https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161" target="_blank" rel="noopener" class="btn btn-accent" style="padding:12px 24px;font-size:14px;text-decoration:none;display:block;text-align:center">
           🚀 Empezar 7 días gratis
         </a>
       </div>
@@ -2318,13 +2318,13 @@ function toggleUpgradePrice(isAnnual) {
   if (isAnnual) {
     priceEl.textContent  = '249€';
     periodEl.textContent = '/año · IVA inc.';
-    if (btnEl) btnEl.href = 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451168?test=true';
+    if (btnEl) btnEl.href = 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451168';
     if (lblM) { lblM.style.fontWeight = '400'; lblM.style.opacity = '.6'; }
     if (lblA) { lblA.style.fontWeight = '700'; lblA.style.opacity = '1'; }
   } else {
     priceEl.textContent  = '24,99€';
     periodEl.textContent = '/mes · IVA inc.';
-    if (btnEl) btnEl.href = 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true';
+    if (btnEl) btnEl.href = 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161';
     if (lblM) { lblM.style.fontWeight = '700'; lblM.style.opacity = '1'; }
     if (lblA) { lblA.style.fontWeight = '400'; lblA.style.opacity = '.6'; }
   }
@@ -2443,8 +2443,8 @@ function togglePricingDisplay(isAnnual) {
   document.getElementById('pricing-price').textContent = isAnnual ? '249€' : '24,99€';
   document.getElementById('pricing-period').textContent = isAnnual ? '/año · IVA inc.' : '/mes · IVA inc.';
   document.getElementById('btn-pricing-checkout').href = isAnnual
-    ? 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451168?test=true'
-    : 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161?test=true';
+    ? 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451168'
+    : 'https://molvicstudios.lemonsqueezy.com/checkout/buy/1451161';
   const modalToggle = document.getElementById('toggle-annual-modal');
   if (modalToggle) { modalToggle.checked = isAnnual; toggleUpgradePrice(isAnnual); }
 }

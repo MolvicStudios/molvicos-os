@@ -5,6 +5,7 @@
 	import { detectLang } from '$lib/i18n/index.js';
 	import { buildCheckoutUrl, LS_CONFIG } from '$lib/lemonsqueezy/client.js';
 	import { PLANS } from '$lib/plans/index.js';
+	import { openSignIn, openSignUp } from '$lib/clerk/index.js';
 
 	let ready = false;
 	let billingToggle = 'monthly';
@@ -96,6 +97,7 @@
 			<a href="#features" on:click={() => mobileMenuOpen = false}>Features</a>
 			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
 			<a href="#pricing" on:click={() => mobileMenuOpen = false}>Pricing</a>
+			<button on:click={openSignIn} style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--lp-text2,#8fa898);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign In</button>
 			<a href="/onboarding" class="btn-nav">Start Free →</a>
 		</div>
 	</nav>
@@ -103,6 +105,9 @@
 	<!-- HERO -->
 	<section class="hero">
 		<div class="hero-badge">✦ 30 free credits/month — Start building now</div>
+	<div class="social-proof-bar" style="text-align:center;padding:0.5rem;font-size:0.78rem;color:var(--lp-text2);margin-top:-1rem;margin-bottom:1.5rem;">
+		✅ Made by MolvicStudios · Built in Spain · Support in Spanish & English
+	</div>
 		<h1>Your AI Operating System</h1>
 		<p class="hero-sub">
 			12+ built-in apps for prompt engineering, outreach, SEO, invoicing &amp; automation.
@@ -269,6 +274,10 @@
 				<a href="#features">Features</a>
 				<a href="#apps">Apps</a>
 				<a href="#pricing">Pricing</a>
+				<a href="/legal/privacy.html">Privacy</a>
+				<a href="/legal/terms.html">Terms</a>
+				<a href="/legal/cookies.html">Cookies</a>
+			</div>
 			</div>
 		</div>
 	</footer>

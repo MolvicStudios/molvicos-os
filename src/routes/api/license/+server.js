@@ -2,7 +2,7 @@ import { applyRateLimit } from '$lib/server/rate-limit.js';
 import { getVerifiedUser } from '$lib/server/clerk-verify.js';
 import { activateUserPro } from '$lib/server/db.js';
 
-const YEARLY_VARIANT = '1451168';
+const YEARLY_VARIANT = '1456019';
 
 export async function POST({ request, platform, ...event }) {
 	const blocked = applyRateLimit({ request, ...event }, { prefix: 'license', maxRequests: 5, windowMs: 60_000 });

@@ -9,6 +9,18 @@
 	import { activatePro, deactivatePro } from '$lib/stores/plan.js';
 	import '../app.css';
 
+	let cookiesAccepted = false;
+
+	// Initialize cookie consent state
+	if (typeof localStorage !== 'undefined') {
+		cookiesAccepted = localStorage.getItem('cookies_accepted') === 'true';
+	}
+
+	function acceptCookies() {
+		localStorage.setItem('cookies_accepted', 'true');
+		cookiesAccepted = true;
+	}
+
 	// Restore critical stores synchronously (before children mount)
 	if (typeof localStorage !== 'undefined') {
 		const savedKeys = storage.get('ms_api_keys');
@@ -83,3 +95,46 @@
 </script>
 
 <slot />
+
+{#if !cookiesAccepted}
+<div class="cookie-banner">
+  <p>We use Clerk cookies for authentication and Lemon Squeezy for payments.
+    <a href="/legal/cookies.html">Cookie Policy</a>
+  </p>
+  <button on:click={acceptCookies} class="cookie-accept-btn">Accept</button>
+</div>
+{/if}
+
+<style>
+.cookie-banner {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  max-width: 420px;
+  background: #0f1520;
+  border: 1px solid #1a2a20;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  z-index: 9999;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #5a7a6a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.cookie-banner a { color: #00ff88; }
+.cookie-banner p { margin: 0; flex: 1; line-height: 1.5; }
+.cookie-accept-btn {
+  background: #00ff88;
+  color: #06090f;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+</style>
