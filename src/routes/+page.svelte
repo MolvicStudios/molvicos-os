@@ -10,8 +10,15 @@
 	import { user, isLoading } from '$lib/stores/auth.js';
 
 	let ready = false;
+	let mounted = false;
 
 	$: requireAuth = $page.url.searchParams.get('require_auth') === 'true';
+
+	// Re-runs whenever $isLoading or $user changes — catches post-login redirect
+	$: if (mounted && !$isLoading) {
+		if ($user) goto('/os');
+		else ready = true;
+	}
 	let billingToggle = 'monthly';
 	let openFaq = -1;
 	let mobileMenuOpen = false;
@@ -58,21 +65,7 @@
 
 	onMount(() => {
 		detectLang();
-
-		// If authenticated, go straight to the OS
-		const unsubLoading = isLoading.subscribe(loading => {
-			if (!loading) {
-				const unsubUser = user.subscribe(currentUser => {
-					if (currentUser) {
-						goto('/os');
-					} else {
-						ready = true;
-					}
-					unsubUser();
-				});
-				unsubLoading();
-			}
-		});
+		mounted = true;
 	});
 </script>
 
@@ -121,8 +114,7 @@
 			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
 			<a href="#pricing" on:click={() => mobileMenuOpen = false}>Pricing</a>
 			<button on:click={openSignIn} style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--lp-text2,#8fa898);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign In</button>
-			<button on:click={openSignUp} style="background:none;border:1px solid rgba(0,255,136,0.4);border-radius:6px;color:var(--lp-accent,#00ff88);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign Up</button>
-			<a href="/onboarding" class="btn-nav">Start Free →</a>
+			<button on:click={openSignUp} class="btn-nav">Sign Up →</button>
 		</div>
 	</nav>
 
@@ -138,7 +130,7 @@
 			<br/>Runs in your browser. Privacy-first. Free to start.
 		</p>
 		<div class="hero-ctas">
-			<a href="/onboarding" class="btn btn-primary">Start Free</a>
+			<button class="btn btn-primary" on:click={openSignUp}>Sign Up Free</button>
 			<a href={buildCheckoutUrl(LS_CONFIG.monthlyVariant)} class="btn btn-outline" target="_blank" rel="noopener">Go Pro — ${PLANS.pro.priceMonthly}/mo</a>
 		</div>
 		<p class="hero-note">No credit card required · Installs as PWA · Works offline</p>
@@ -236,7 +228,7 @@
 					<li>✓ 2 themes</li>
 					<li>✓ MIRA basic</li>
 				</ul>
-				<a href="/onboarding" class="btn btn-outline full-w">Get Started</a>
+				<button class="btn btn-outline full-w" on:click={openSignUp}>Get Started</button>
 			</div>
 
 			<!-- PRO -->
@@ -285,7 +277,7 @@
 		<h2>Ready to run your AI desktop?</h2>
 		<p>Join the beta. Get unlimited credits. Build faster.</p>
 		<div class="hero-ctas">
-			<a href="/onboarding" class="btn btn-primary">Launch Molvicos →</a>
+			<button class="btn btn-primary" on:click={openSignUp}>Launch Molvicos →</button>
 		</div>
 	</section>
 
