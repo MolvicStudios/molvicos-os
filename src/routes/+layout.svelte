@@ -7,6 +7,7 @@
 	import { detectLang } from '$lib/i18n/index.js';
 	import { initConsoleTrap } from '$lib/feedback/console-trap.js';
 	import { activatePro, deactivatePro } from '$lib/stores/plan.js';
+	import { PUBLIC_CLERK_PUBLISHABLE_KEY } from '$env/static/public';
 	import '../app.css';
 
 	let cookiesAccepted = false;
@@ -53,9 +54,6 @@
 
 		// Init Clerk then hydrate plan from D1 (server is source of truth)
 		try {
-			const { PUBLIC_CLERK_PUBLISHABLE_KEY } = await import('$env/static/public').catch(
-				() => ({ PUBLIC_CLERK_PUBLISHABLE_KEY: '' })
-			);
 			if (PUBLIC_CLERK_PUBLISHABLE_KEY && PUBLIC_CLERK_PUBLISHABLE_KEY.startsWith('pk_')) {
 				const isPlaceholder = /^pk_(test|live)_x+$/i.test(PUBLIC_CLERK_PUBLISHABLE_KEY);
 				if (!isPlaceholder) {
@@ -64,8 +62,8 @@
 					await syncPlanFromServer(getSessionToken);
 				}
 			}
-		} catch {
-			// Clerk not configured — continue without auth
+		} catch (e) {
+			console.warn('Clerk init error:', e);
 		}
 	});
 

@@ -98,6 +98,7 @@
 			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
 			<a href="#pricing" on:click={() => mobileMenuOpen = false}>Pricing</a>
 			<button on:click={openSignIn} style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--lp-text2,#8fa898);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign In</button>
+			<button on:click={openSignUp} style="background:none;border:1px solid rgba(0,255,136,0.4);border-radius:6px;color:var(--lp-accent,#00ff88);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign Up</button>
 			<a href="/onboarding" class="btn-nav">Start Free →</a>
 		</div>
 	</nav>
@@ -277,7 +278,6 @@
 				<a href="/legal/privacy.html">Privacy</a>
 				<a href="/legal/terms.html">Terms</a>
 				<a href="/legal/cookies.html">Cookies</a>
-			</div>
 			</div>
 		</div>
 	</footer>
