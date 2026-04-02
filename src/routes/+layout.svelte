@@ -7,6 +7,7 @@
 	import { detectLang } from '$lib/i18n/index.js';
 	import { initConsoleTrap } from '$lib/feedback/console-trap.js';
 	import { activatePro, deactivatePro } from '$lib/stores/plan.js';
+	import { isLoading } from '$lib/stores/auth.js';
 	import { PUBLIC_CLERK_PUBLISHABLE_KEY } from '$env/static/public';
 	import '../app.css';
 
@@ -60,10 +61,15 @@
 					const { initClerk, getSessionToken } = await import('$lib/clerk/index.js');
 					await initClerk(PUBLIC_CLERK_PUBLISHABLE_KEY).catch(console.warn);
 					await syncPlanFromServer(getSessionToken);
+				} else {
+					isLoading.set(false);
 				}
+			} else {
+				isLoading.set(false);
 			}
 		} catch (e) {
 			console.warn('Clerk init error:', e);
+			isLoading.set(false);
 		}
 	});
 

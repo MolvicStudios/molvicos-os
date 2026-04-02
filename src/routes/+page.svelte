@@ -1,13 +1,17 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { storage } from '$lib/storage/local.js';
 	import { detectLang } from '$lib/i18n/index.js';
 	import { buildCheckoutUrl, LS_CONFIG } from '$lib/lemonsqueezy/client.js';
 	import { PLANS } from '$lib/plans/index.js';
 	import { openSignIn, openSignUp } from '$lib/clerk/index.js';
+	import { user, isLoading } from '$lib/stores/auth.js';
 
 	let ready = false;
+
+	$: requireAuth = $page.url.searchParams.get('require_auth') === 'true';
 	let billingToggle = 'monthly';
 	let openFaq = -1;
 	let mobileMenuOpen = false;
@@ -54,11 +58,21 @@
 
 	onMount(() => {
 		detectLang();
-		if (storage.isOnboardingComplete()) {
-			goto('/os');
-			return;
-		}
-		ready = true;
+
+		// If authenticated, go straight to the OS
+		const unsubLoading = isLoading.subscribe(loading => {
+			if (!loading) {
+				const unsubUser = user.subscribe(currentUser => {
+					if (currentUser) {
+						goto('/os');
+					} else {
+						ready = true;
+					}
+					unsubUser();
+				});
+				unsubLoading();
+			}
+		});
 	});
 </script>
 
@@ -82,6 +96,15 @@
 
 {#if ready}
 <div class="landing">
+
+	{#if requireAuth}
+	<div class="auth-required-banner">
+		🔒 Necesitas una cuenta para acceder al OS.
+		<button on:click={openSignUp}>Regístrate gratis</button>
+		<span>o</span>
+		<button on:click={openSignIn}>Inicia sesión</button>
+	</div>
+	{/if}
 
 	<!-- NAV -->
 	<nav class="nav">
@@ -713,4 +736,34 @@
 		.hero { padding: 4rem 1rem 2rem; }
 		.footer-inner { flex-direction: column; gap: 0.8rem; text-align: center; }
 	}
+
+	/* ─── AUTH REQUIRED BANNER ─── */
+	.auth-required-banner {
+		position: sticky;
+		top: 0;
+		z-index: 200;
+		background: rgba(0,255,136,0.08);
+		border-bottom: 1px solid rgba(0,255,136,0.25);
+		padding: 0.75rem 1.5rem;
+		text-align: center;
+		font-size: 0.88rem;
+		color: var(--lp-accent, #00ff88);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.auth-required-banner button {
+		background: var(--lp-accent, #00ff88);
+		color: var(--lp-bg, #06090f);
+		border: none;
+		border-radius: 6px;
+		padding: 0.3em 0.9em;
+		font-weight: 700;
+		font-size: 0.82rem;
+		cursor: pointer;
+		font-family: inherit;
+	}
+	.auth-required-banner span { color: var(--lp-text2, #5a7a6a); }
 </style>

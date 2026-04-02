@@ -1,4 +1,5 @@
 import { isAuthenticated, userProfile } from '$lib/stores/user.js';
+import { user as clerkUser, isLoading } from '$lib/stores/auth.js';
 
 let clerk;
 
@@ -9,16 +10,20 @@ export async function initClerk(publishableKey) {
 		clerk = new Clerk(publishableKey);
 		await clerk.load();
 
-		if (clerk.user) {
+		const currentUser = clerk.user || null;
+		clerkUser.set(currentUser);
+
+		if (currentUser) {
 			isAuthenticated.set(true);
 			userProfile.update((p) => ({
 				...p,
-				name:  clerk.user.firstName || clerk.user.username || 'User',
-				email: clerk.user.primaryEmailAddress?.emailAddress || ''
+				name:  currentUser.firstName || currentUser.username || 'User',
+				email: currentUser.primaryEmailAddress?.emailAddress || ''
 			}));
 		}
 
 		clerk.addListener(({ user }) => {
+			clerkUser.set(user || null);
 			isAuthenticated.set(!!user);
 		});
 
@@ -26,6 +31,8 @@ export async function initClerk(publishableKey) {
 	} catch (e) {
 		console.warn('Clerk init failed:', e);
 		return null;
+	} finally {
+		isLoading.set(false);
 	}
 }
 

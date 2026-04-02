@@ -1,5 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { user, isLoading } from '$lib/stores/auth.js';
 	import { miraOpen } from '$lib/stores/mira.js';
 	import { tutorialOpen } from '$lib/stores/os.js';
 	import { fade } from 'svelte/transition';
@@ -26,6 +28,19 @@
 	let showBanner = true;
 
 	onMount(() => {
+		// Auth guard — wait for Clerk to finish loading, then check session
+		const unsubLoading = isLoading.subscribe(loading => {
+			if (!loading) {
+				const unsubUser = user.subscribe(currentUser => {
+					if (!currentUser) {
+						goto('/?require_auth=true');
+					}
+					unsubUser();
+				});
+				unsubLoading();
+			}
+		});
+
 		checkMonthlyRefill();
 		if (!storage.storage.isOnboardingComplete()) {
 			showLangPicker = true;
