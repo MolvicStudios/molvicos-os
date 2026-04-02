@@ -6,7 +6,10 @@
 	import { detectLang } from '$lib/i18n/index.js';
 	import { buildCheckoutUrl, LS_CONFIG } from '$lib/lemonsqueezy/client.js';
 	import { PLANS } from '$lib/plans/index.js';
-	import { openSignIn, openSignUp } from '$lib/clerk/index.js';
+	// Lazy wrappers — avoid static import of clerk/index.js which conflicts with the
+	// dynamic import in +layout.svelte and causes a Rollup TDZ bundling error.
+	async function openSignIn()  { const m = await import('$lib/clerk/index.js'); m.openSignIn(); }
+	async function openSignUp()  { const m = await import('$lib/clerk/index.js'); m.openSignUp(); }
 	import { user, isLoading } from '$lib/stores/auth.js';
 
 	let ready = false;

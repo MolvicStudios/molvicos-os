@@ -3,6 +3,14 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	optimizeDeps: {
+		exclude: ['@clerk/clerk-js']
+	},
+	build: {
+		rollupOptions: {
+			external: ['@clerk/clerk-js']
+		}
+	},
 	plugins: [
 		sveltekit(),
 		VitePWA({

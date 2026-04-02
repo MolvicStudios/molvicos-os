@@ -3,11 +3,24 @@ import { user as clerkUser, isLoading } from '$lib/stores/auth.js';
 
 let clerk;
 
+function loadClerkScript() {
+	return new Promise((resolve, reject) => {
+		if (window.Clerk) return resolve();
+		const s = document.createElement('script');
+		s.src = 'https://frontend-api.clerk.services/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+		s.crossOrigin = 'anonymous';
+		s.onload = resolve;
+		s.onerror = reject;
+		document.head.appendChild(s);
+	});
+}
+
 export async function initClerk(publishableKey) {
 	if (!publishableKey) return null;
 	try {
-		const { Clerk } = await import('@clerk/clerk-js');
-		clerk = new Clerk(publishableKey);
+		// Load from CDN to avoid Rollup bundling/TDZ circular dependency issues
+		await loadClerkScript();
+		clerk = new window.Clerk(publishableKey);
 		await clerk.load();
 
 		const currentUser = clerk.user || null;
