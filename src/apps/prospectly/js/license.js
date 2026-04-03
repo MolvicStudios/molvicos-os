@@ -31,11 +31,11 @@ async function verifyWithServer(licenseKey) {
 
 const LicenseSystem = {
   isPro() {
-    return !!get(KEYS.plan)
+    return true
   },
 
   getPlan() {
-    return get(KEYS.plan) || null
+    return 'pro'
   },
 
   async activate(licenseKey) {

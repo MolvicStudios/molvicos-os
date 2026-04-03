@@ -7,8 +7,7 @@
 	const tips = [
 		{ icon: '⌘', text: 'onboarding.step5.tourCmd' },
 		{ icon: '🤖', text: 'onboarding.step5.tourLocal' },
-		{ icon: '🎨', text: 'onboarding.step5.tourTopbar' },
-		{ icon: '💡', text: 'onboarding.step5.tourCredits' }
+		{ icon: '🎨', text: 'onboarding.step5.tourTopbar' }
 	];
 
 	function finish() {

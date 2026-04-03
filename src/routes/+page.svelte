@@ -1,30 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { storage } from '$lib/storage/local.js';
 	import { detectLang } from '$lib/i18n/index.js';
-	import { buildCheckoutUrl, LS_CONFIG } from '$lib/lemonsqueezy/client.js';
-	import { PLANS } from '$lib/plans/index.js';
-	// Lazy wrappers — avoid static import of clerk/index.js which conflicts with the
-	// dynamic import in +layout.svelte and causes a Rollup TDZ bundling error.
-	async function openSignIn()  { const m = await import('$lib/clerk/index.js'); m.openSignIn(); }
-	async function openSignUp()  { const m = await import('$lib/clerk/index.js'); m.openSignUp(); }
-	import { user, isLoading } from '$lib/stores/auth.js';
 
 	let ready = false;
-	let mounted = false;
-
-	$: requireAuth = $page.url.searchParams.get('require_auth') === 'true';
-
-	// Re-runs whenever $isLoading or $user changes — catches post-login redirect
-	$: if (mounted && !$isLoading) {
-		if ($user) goto('/os');
-		else ready = true;
-	}
-	let billingToggle = 'monthly';
-	let openFaq = -1;
-	let mobileMenuOpen = false;
 
 	const apps = [
 		{ emoji: '🔧', name: 'Prompt Lab', desc: 'Optimize & save prompts with AI scoring' },
@@ -35,7 +15,7 @@
 		{ emoji: '⚙️', name: 'Workflow Builder', desc: 'Visual prompt-to-automation pipelines' },
 		{ emoji: '🤖', name: 'Local Models', desc: 'Run AI locally via Ollama bridge' },
 		{ emoji: '💻', name: 'AI Terminal', desc: 'Conversational CLI for power users' },
-		{ emoji: '📊', name: 'Dashboard', desc: 'Track credits, usage & plan status' },
+		{ emoji: '📊', name: 'Dashboard', desc: 'Track usage & stats' },
 		{ emoji: '💰', name: 'QuoteForge', desc: 'Generate professional project quotes with AI' },
 		{ emoji: '📑', name: 'ContractGen', desc: 'AI-powered freelance contracts in seconds' },
 		{ emoji: '🧾', name: 'InvoiceAI', desc: 'Smart invoices with tax-aware formatting' },
@@ -46,37 +26,35 @@
 		{ icon: '🔒', title: 'Privacy First', desc: 'Runs in your browser. API keys stay local. No data leaves your machine.' },
 		{ icon: '⚡', title: '12+ Built-in Apps', desc: 'From prompt engineering to outreach to invoicing — everything in one OS.' },
 		{ icon: '🌍', title: '5 Languages', desc: 'Full i18n support: English, Español, Deutsch, Français, 中文.' },
-		{ icon: '🎨', title: 'Themeable', desc: 'Cyberpunk dark mode, warm light mode, and more themes for Pro users.' },
+		{ icon: '🎨', title: 'Themeable', desc: 'Multiple themes — Cyberpunk dark, warm light, and more. All free.' },
 		{ icon: '🤖', title: 'MIRA Assistant', desc: 'Built-in AI copilot that understands your OS and helps across all apps.' },
 	];
 
 	const faqs = [
-		{ q: 'Is Molvicos really free?', a: 'Yes. The Free plan gives you 30 AI credits/month and full access to all core apps. Local models via Ollama use zero credits.' },
+		{ q: 'Is Molvicos really free?', a: 'Yes, 100% free with no registration required. All features are unlocked. Just open the app and start working.' },
 		{ q: 'What happens to my data?', a: 'Everything stays in your browser\'s localStorage. API keys never leave your device. We don\'t collect or store any of your data.' },
 		{ q: 'Can I use my own API keys?', a: 'Absolutely. Bring your OpenAI, Groq, Anthropic, or Ollama keys. You\'re always in control.' },
-		{ q: 'What do I get with Pro?', a: 'Unlimited credits, 5 workspaces, premium themes, full MIRA assistant, mobile app access, and early access to new features.' },
-		{ q: 'Can I cancel anytime?', a: 'Yes — no contracts, no lock-in. Cancel your subscription anytime from the Dashboard.' },
+		{ q: 'Do I need to create an account?', a: 'No. There is no sign-up, no login, no registration. Just open and use.' },
 		{ q: 'Is it a real OS?', a: 'It\'s a Progressive Web App that looks and feels like an OS. Install it on any device — it works offline too.' },
+		{ q: 'What AI providers are supported?', a: 'Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models, and local Ollama models.' },
 	];
 
-	$: proPrice = billingToggle === 'monthly' ? PLANS.pro.priceMonthly : PLANS.pro.priceYearly;
-	$: proPeriod = billingToggle === 'monthly' ? '/mo' : '/yr';
-	$: proVariant = billingToggle === 'monthly' ? LS_CONFIG.monthlyVariant : LS_CONFIG.yearlyVariant;
-	$: savings = billingToggle === 'yearly' ? `Save $${PLANS.pro.priceMonthly * 12 - PLANS.pro.priceYearly}` : '';
+	let openFaq = -1;
+	let mobileMenuOpen = false;
 
 	function toggleFaq(i) { openFaq = openFaq === i ? -1 : i; }
 
 	onMount(() => {
 		detectLang();
-		mounted = true;
+		ready = true;
 	});
 </script>
 
 <svelte:head>
 	<title>Molvicos — AI Operating System for Creators & Freelancers</title>
-	<meta name="description" content="The AI-powered operating system with 12+ built-in apps for prompt engineering, outreach, SEO, content repurposing, invoicing and more. Free to start." />
+	<meta name="description" content="The AI-powered operating system with 12+ built-in apps for prompt engineering, outreach, SEO, content repurposing, invoicing and more. 100% free, no registration." />
 	<meta property="og:title" content="Molvicos — AI Operating System for Creators & Freelancers" />
-	<meta property="og:description" content="12+ AI apps in one cyberpunk desktop. Prompt engineering, outreach, invoicing & more. Free." />
+	<meta property="og:description" content="12+ AI apps in one cyberpunk desktop. Prompt engineering, outreach, invoicing & more. 100% free." />
 	<meta property="og:image" content="https://molvicos.pro/og-image.png" />
 	<meta property="og:url" content="https://molvicos.pro" />
 	<meta property="og:type" content="website" />
@@ -85,22 +63,13 @@
 	<meta property="og:locale:alternate" content="es_ES" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Molvicos — AI Operating System" />
-	<meta name="twitter:description" content="12+ AI apps in one cyberpunk desktop. Free to start." />
+	<meta name="twitter:description" content="12+ AI apps in one cyberpunk desktop. 100% free." />
 	<meta name="twitter:image" content="https://molvicos.pro/og-image.png" />
-	{@html '<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Molvicos","description":"AI Operating System with 12+ built-in apps for creators and freelancers","url":"https://molvicos.pro","applicationCategory":"ProductivityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Free plan — 30 credits/month"},"creator":{"@type":"Organization","name":"MolvicStudios","url":"https://molvicstudios.pro"}}</script>'}
+	{@html '<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Molvicos","description":"AI Operating System with 12+ built-in apps for creators and freelancers. 100% free.","url":"https://molvicos.pro","applicationCategory":"ProductivityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Free — all features unlocked"},"creator":{"@type":"Organization","name":"MolvicStudios","url":"https://molvicstudios.pro"}}</script>'}
 </svelte:head>
 
 {#if ready}
 <div class="landing">
-
-	{#if requireAuth}
-	<div class="auth-required-banner">
-		🔒 Necesitas una cuenta para acceder al OS.
-		<button on:click={openSignUp}>Regístrate gratis</button>
-		<span>o</span>
-		<button on:click={openSignIn}>Inicia sesión</button>
-	</div>
-	{/if}
 
 	<!-- NAV -->
 	<nav class="nav">
@@ -115,28 +84,26 @@
 		<div class="nav-links" class:mobile-open={mobileMenuOpen}>
 			<a href="#features" on:click={() => mobileMenuOpen = false}>Features</a>
 			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
-			<a href="#pricing" on:click={() => mobileMenuOpen = false}>Pricing</a>
-			<button on:click={openSignIn} style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--lp-text2,#8fa898);padding:6px 14px;font-size:0.82rem;cursor:pointer">Sign In</button>
-			<button on:click={openSignUp} class="btn-nav">Sign Up →</button>
+			<a href="#faq" on:click={() => mobileMenuOpen = false}>FAQ</a>
+			<a href="/os" class="btn-nav">Abrir app →</a>
 		</div>
 	</nav>
 
 	<!-- HERO -->
 	<section class="hero">
-		<div class="hero-badge">✦ 30 free credits/month — Start building now</div>
+		<div class="hero-badge">✦ 100% Free — No registration required</div>
 	<div class="social-proof-bar" style="text-align:center;padding:0.5rem;font-size:0.78rem;color:var(--lp-text2);margin-top:-1rem;margin-bottom:1.5rem;">
 		✅ Made by MolvicStudios · Built in Spain · Support in Spanish & English
 	</div>
 		<h1>Your AI Operating System</h1>
 		<p class="hero-sub">
 			12+ built-in apps for prompt engineering, outreach, SEO, invoicing &amp; automation.
-			<br/>Runs in your browser. Privacy-first. Free to start.
+			<br/>Runs in your browser. Privacy-first. 100% free.
 		</p>
 		<div class="hero-ctas">
-			<button class="btn btn-primary" on:click={openSignUp}>Sign Up Free</button>
-			<a href={buildCheckoutUrl(LS_CONFIG.monthlyVariant)} class="btn btn-outline" target="_blank" rel="noopener">Go Pro — ${PLANS.pro.priceMonthly}/mo</a>
+			<a href="/os" class="btn btn-primary">Usar ahora →</a>
 		</div>
-		<p class="hero-note">No credit card required · Installs as PWA · Works offline</p>
+		<p class="hero-note">No registration · No credit card · Installs as PWA · Works offline</p>
 	</section>
 
 	<!-- PREVIEW -->
@@ -188,6 +155,12 @@
 		</div>
 	</section>
 
+	<!-- ADSTERRA NATIVE BANNER -->
+	<div style="width:100%; max-width:900px; margin: 2rem auto; overflow:hidden;">
+		<script async="async" data-cfasync="false" src="https://pl29050767.profitablecpmratenetwork.com/895f21b3d4e69e3a0245b9adbdc68c23/invoke.js"></script>
+		<div id="container-895f21b3d4e69e3a0245b9adbdc68c23"></div>
+	</div>
+
 	<!-- APPS -->
 	<section id="apps" class="apps-section">
 		<h2>12+ Apps. One Desktop.</h2>
@@ -203,62 +176,8 @@
 		</div>
 	</section>
 
-	<!-- PRICING -->
-	<section id="pricing" class="pricing">
-		<h2>Simple Pricing</h2>
-		<p class="section-sub">Start free. Upgrade when you're ready.</p>
-
-		<div class="billing-toggle">
-			<button class:active={billingToggle === 'monthly'} on:click={() => billingToggle = 'monthly'}>Monthly</button>
-			<button class:active={billingToggle === 'yearly'} on:click={() => billingToggle = 'yearly'}>
-				Yearly {#if billingToggle === 'yearly'}<span class="save-badge">{savings}</span>{/if}
-			</button>
-		</div>
-
-		<div class="pricing-cards">
-			<!-- FREE -->
-			<div class="price-card">
-				<div class="price-header">
-					<h3>Free</h3>
-					<div class="price-amount">$0</div>
-					<p class="price-note">forever</p>
-				</div>
-				<ul class="price-features">
-					<li>✓ {PLANS.free.creditsPerMonth} AI credits / month</li>
-					<li>✓ All 12+ apps</li>
-					<li>✓ {PLANS.free.workspaces} workspace</li>
-					<li>✓ {PLANS.free.promptLibMax} saved prompts</li>
-					<li>✓ 2 themes</li>
-					<li>✓ MIRA basic</li>
-				</ul>
-				<button class="btn btn-outline full-w" on:click={openSignUp}>Get Started</button>
-			</div>
-
-			<!-- PRO -->
-			<div class="price-card featured">
-				<div class="price-badge">Most Popular</div>
-				<div class="price-header">
-					<h3>Pro</h3>
-					<div class="price-amount">${proPrice}<span class="price-period">{proPeriod}</span></div>
-					{#if billingToggle === 'yearly'}<p class="price-note">{savings}</p>{/if}
-				</div>
-				<ul class="price-features">
-					<li>✓ Unlimited AI credits</li>
-					<li>✓ All 12+ apps</li>
-					<li>✓ {PLANS.pro.workspaces} workspaces</li>
-					<li>✓ Unlimited saved prompts</li>
-					<li>✓ {PLANS.pro.themes.length} themes</li>
-					<li>✓ Full MIRA assistant</li>
-					<li>✓ Mobile app access</li>
-					<li>✓ Early access to new features</li>
-				</ul>
-				<a href={buildCheckoutUrl(proVariant)} class="btn btn-primary full-w" target="_blank" rel="noopener">Upgrade to Pro</a>
-			</div>
-		</div>
-	</section>
-
 	<!-- FAQ -->
-	<section class="faq">
+	<section id="faq" class="faq">
 		<h2>FAQ</h2>
 		<div class="faq-list">
 			{#each faqs as faq, i}
@@ -278,9 +197,9 @@
 	<!-- FINAL CTA -->
 	<section class="final-cta">
 		<h2>Ready to run your AI desktop?</h2>
-		<p>Join the beta. Get unlimited credits. Build faster.</p>
+		<p>All features unlocked. No sign-up needed. Start now.</p>
 		<div class="hero-ctas">
-			<button class="btn btn-primary" on:click={openSignUp}>Launch Molvicos →</button>
+			<a href="/os" class="btn btn-primary">Abrir app →</a>
 		</div>
 	</section>
 
@@ -292,7 +211,6 @@
 			<div class="footer-links">
 				<a href="#features">Features</a>
 				<a href="#apps">Apps</a>
-				<a href="#pricing">Pricing</a>
 				<a href="/legal/privacy.html">Privacy</a>
 				<a href="/legal/terms.html">Terms</a>
 				<a href="/legal/cookies.html">Cookies</a>
@@ -554,78 +472,9 @@
 	.app-card h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
 	.app-card p { font-size: 0.75rem; color: var(--lp-text2); line-height: 1.4; }
 
-	/* ─── PRICING ─── */
-	.pricing {
-		padding: 5rem 1.5rem;
-		max-width: 800px; margin: 0 auto;
-	}
-	.billing-toggle {
-		display: flex; justify-content: center; gap: 0;
-		margin-bottom: 2.5rem;
-		background: var(--lp-surface);
-		border: 1px solid var(--lp-border);
-		border-radius: 99px;
-		display: inline-flex;
-		margin-left: 50%; transform: translateX(-50%);
-		overflow: hidden;
-	}
-	.billing-toggle button {
-		background: none; border: none; color: var(--lp-text2);
-		padding: 0.6em 1.6em; font-size: 0.85rem; cursor: pointer;
-		font-family: var(--font-mono, 'Space Mono', monospace);
-		transition: all 0.15s;
-	}
-	.billing-toggle button.active {
-		background: var(--lp-accent);
-		color: var(--lp-bg);
-		font-weight: 700;
-	}
-	.save-badge {
-		font-size: 0.7rem; margin-left: 0.4em;
-		background: rgba(0,255,136,0.15); padding: 0.15em 0.5em;
-		border-radius: 4px; color: var(--lp-accent);
-	}
-	.pricing-cards {
-		display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
-	}
-	.price-card {
-		background: var(--lp-surface);
-		border: 1px solid var(--lp-border);
-		border-radius: var(--lp-radius);
-		padding: 2rem 1.5rem;
-		display: flex; flex-direction: column;
-		position: relative;
-	}
-	.price-card.featured {
-		border-color: var(--lp-accent);
-		box-shadow: 0 0 30px rgba(0,255,136,0.08);
-	}
-	.price-badge {
-		position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-		background: var(--lp-accent); color: var(--lp-bg);
-		padding: 0.25em 1em; border-radius: 99px;
-		font-size: 0.72rem; font-weight: 700;
-		font-family: var(--font-display, 'Syne', sans-serif);
-	}
-	.price-header { text-align: center; margin-bottom: 1.5rem; }
-	.price-header h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-	.price-amount {
-		font-size: 2.5rem; font-weight: 800;
-		font-family: var(--font-display, 'Syne', sans-serif);
-		color: #fff;
-	}
-	.price-period { font-size: 0.9rem; font-weight: 400; color: var(--lp-text2); }
-	.price-note { font-size: 0.78rem; color: var(--lp-accent); margin-top: 0.3em; }
-	.price-features {
-		list-style: none; padding: 0; margin: 0 0 1.5rem;
-		flex: 1;
-	}
-	.price-features li {
-		padding: 0.45em 0; font-size: 0.82rem; color: var(--lp-text2);
-		border-bottom: 1px solid rgba(255,255,255,0.03);
-	}
-	.price-features .beta-note { color: var(--lp-accent); font-style: italic; border: none; }
+	/* ─── PRICING (removed) ─── */
 
+	/* ─── FAQ ─── */
 	/* ─── FAQ ─── */
 	.faq {
 		padding: 5rem 1.5rem;
@@ -706,10 +555,6 @@
 	.hamburger-line.open:nth-child(2) { opacity: 0; }
 	.hamburger-line.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-	@media (max-width: 768px) {
-		.pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
-	}
-
 	@media (max-width: 640px) {
 		.hamburger { display: block; }
 		.nav-links {
@@ -731,34 +576,4 @@
 		.hero { padding: 4rem 1rem 2rem; }
 		.footer-inner { flex-direction: column; gap: 0.8rem; text-align: center; }
 	}
-
-	/* ─── AUTH REQUIRED BANNER ─── */
-	.auth-required-banner {
-		position: sticky;
-		top: 0;
-		z-index: 200;
-		background: rgba(0,255,136,0.08);
-		border-bottom: 1px solid rgba(0,255,136,0.25);
-		padding: 0.75rem 1.5rem;
-		text-align: center;
-		font-size: 0.88rem;
-		color: var(--lp-accent, #00ff88);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.6rem;
-		flex-wrap: wrap;
-	}
-	.auth-required-banner button {
-		background: var(--lp-accent, #00ff88);
-		color: var(--lp-bg, #06090f);
-		border: none;
-		border-radius: 6px;
-		padding: 0.3em 0.9em;
-		font-weight: 700;
-		font-size: 0.82rem;
-		cursor: pointer;
-		font-family: inherit;
-	}
-	.auth-required-banner span { color: var(--lp-text2, #5a7a6a); }
 </style>

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 
-/** Clerk user object or null */
-export const user = writable(null);
+/** Always authenticated — no login required */
+export const user = writable({ id: 'local', firstName: 'User' });
 
-/** true while Clerk is still initializing */
-export const isLoading = writable(true);
+/** Auth loading complete immediately */
+export const isLoading = writable(false);

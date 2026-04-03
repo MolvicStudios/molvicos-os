@@ -1,6 +1,5 @@
 <script>
   import { streamAI } from '$lib/ai/stream.js';
-  import { canAfford } from '$lib/plans/credits.js';
   import { createAppHistory } from '$lib/stores/history.js';
   import { exportTXT, exportPDF, copyToClipboard } from '$lib/utils/export.js';
   import { t } from '$lib/i18n/index.js';
@@ -65,10 +64,6 @@
   });
 
   async function generate(systemPrompt, userMessage) {
-    if (!canAfford('aiworksuite')) {
-      result = 'Not enough credits.';
-      return;
-    }
     isGenerating = true;
     result = '';
 
@@ -97,7 +92,6 @@
 
   async function createAITeam() {
     if (!teamName.trim() || !teamProject.trim()) return;
-    if (!canAfford('aiworksuite')) { result = 'Not enough credits.'; return; }
 
     isDetectingRoles = true;
     let rolesJSON = '';
@@ -215,7 +209,6 @@ Choose roles that create a complementary team covering all critical aspects of t
 
   async function sendTeamMessage() {
     if (!teamChatInput.trim() || !activeTeam || isTeamChatting) return;
-    if (!canAfford('aiworksuite')) return;
 
     const userMsg = {
       id: `msg-${Date.now()}`,

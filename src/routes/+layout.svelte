@@ -6,14 +6,10 @@
 	import { storage } from '$lib/storage/local.js';
 	import { detectLang } from '$lib/i18n/index.js';
 	import { initConsoleTrap } from '$lib/feedback/console-trap.js';
-	import { activatePro, deactivatePro } from '$lib/stores/plan.js';
-	import { isLoading } from '$lib/stores/auth.js';
-	import { PUBLIC_CLERK_PUBLISHABLE_KEY } from '$env/static/public';
 	import '../app.css';
 
 	let cookiesAccepted = false;
 
-	// Initialize cookie consent state
 	if (typeof localStorage !== 'undefined') {
 		cookiesAccepted = localStorage.getItem('cookies_accepted') === 'true';
 	}
@@ -52,48 +48,7 @@
 		}));
 		unsubs.push(apiKeys.subscribe((keys) => storage.set('ms_api_keys', keys)));
 		unsubs.push(userProfile.subscribe((p) => storage.set('ms_user_profile', p)));
-
-		// Init Clerk then hydrate plan from D1 (server is source of truth)
-		try {
-			if (PUBLIC_CLERK_PUBLISHABLE_KEY && PUBLIC_CLERK_PUBLISHABLE_KEY.startsWith('pk_')) {
-				const isPlaceholder = /^pk_(test|live)_x+$/i.test(PUBLIC_CLERK_PUBLISHABLE_KEY);
-				if (!isPlaceholder) {
-					const { initClerk, getSessionToken } = await import('$lib/clerk/index.js');
-					await initClerk(PUBLIC_CLERK_PUBLISHABLE_KEY).catch(console.warn);
-					await syncPlanFromServer(getSessionToken);
-				} else {
-					isLoading.set(false);
-				}
-			} else {
-				isLoading.set(false);
-			}
-		} catch (e) {
-			console.warn('Clerk init error:', e);
-			isLoading.set(false);
-		}
 	});
-
-	/**
-	 * Call /api/me with the Clerk session token and update planStore.
-	 * D1 is the source of truth; localStorage acts only as a cache.
-	 */
-	async function syncPlanFromServer(getSessionToken) {
-		try {
-			const token = await getSessionToken();
-			const headers = token ? { Authorization: `Bearer ${token}` } : {};
-			const res  = await fetch('/api/me', { headers });
-			if (!res.ok) return;
-
-			const { plan, billingPeriod, licenseKey } = await res.json();
-			if (plan === 'pro') {
-				activatePro(licenseKey || 'webhook-activated', billingPeriod || 'monthly');
-			} else {
-				deactivatePro();
-			}
-		} catch {
-			// /api/me unreachable — keep localStorage state as fallback
-		}
-	}
 
 	onDestroy(() => unsubs.forEach((fn) => fn()));
 </script>
@@ -102,7 +57,7 @@
 
 {#if !cookiesAccepted}
 <div class="cookie-banner">
-  <p>We use Clerk cookies for authentication and Lemon Squeezy for payments.
+  <p>We use cookies to improve your experience.
     <a href="/legal/cookies.html">Cookie Policy</a>
   </p>
   <button on:click={acceptCookies} class="cookie-accept-btn">Accept</button>

@@ -2,10 +2,7 @@
 	import { theme, tutorialOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
 	import { apiKeys, keyStatus, ollamaStatus } from '$lib/stores/models.js';
-	import { planStore, openUpgradeModal, activatePro, deactivatePro } from '$lib/stores/plan.js';
 	import { setLang, currentLang } from '$lib/i18n/index.js';
-	import { validateLicense } from '$lib/lemonsqueezy/client.js';
-	import { canUse } from '$lib/plans/gates.js';
 	import { t } from '$lib/i18n/index.js';
 	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
 	import { miraProvider } from '$lib/stores/mira.js';
@@ -22,7 +19,6 @@
 		{ id: 'ai',         icon: '🤖' },
 		{ id: 'dock',       icon: '⬇️' },
 		{ id: 'feedback',   icon: '💬' },
-		{ id: 'account',    icon: '👤' },
 		{ id: 'about',      icon: 'ℹ️' },
 	];
 
@@ -30,24 +26,6 @@
 	function saveN8nUrl() {
 		localStorage.setItem('ms_n8n_url', n8nUrl);
 		showSaved('n8n URL saved');
-	}
-
-	let licenseInput = $planStore.licenseKey || '';
-	let licenseChecking = false;
-	let licenseMessage = '';
-
-	async function activateLicense() {
-		if (!licenseInput.trim()) return;
-		licenseChecking = true;
-		licenseMessage = '';
-		const result = await validateLicense(licenseInput.trim());
-		licenseChecking = false;
-		if (result.valid) {
-			activatePro(licenseInput.trim(), result.billingPeriod);
-			licenseMessage = '✓ Pro activated!';
-		} else {
-			licenseMessage = '✗ Invalid license key';
-		}
 	}
 
 	let savedMsg = '';
@@ -59,16 +37,12 @@
 	const THEMES = [
 		{ id: 'noir',      name: 'Neural Noir', free: true },
 		{ id: 'icaro',     name: 'Ícaro',       free: true },
-		{ id: 'synthwave', name: 'Synthwave',   free: false },
-		{ id: 'ocean',     name: 'Deep Ocean',  free: false },
-		{ id: 'matrix',    name: 'Matrix',      free: false },
+		{ id: 'synthwave', name: 'Synthwave',   free: true },
+		{ id: 'ocean',     name: 'Deep Ocean',  free: true },
+		{ id: 'matrix',    name: 'Matrix',      free: true },
 	];
 
-	function selectTheme(themeId, isFree) {
-		if (!isFree && !canUse('themes_premium')) {
-			openUpgradeModal('themes_premium', 'Premium themes are exclusive to Pro plan.');
-			return;
-		}
+	function selectTheme(themeId) {
 		theme.set(themeId);
 		localStorage.setItem('ms_theme', themeId);
 		document.documentElement.setAttribute('data-theme', themeId);
@@ -213,14 +187,10 @@
 					<button
 						class="theme-card"
 						class:active={$theme === th.id}
-						class:locked={!th.free && !canUse('themes_premium')}
-						on:click={() => selectTheme(th.id, th.free)}
+						on:click={() => selectTheme(th.id)}
 					>
 						<div class="theme-preview theme-{th.id}"></div>
 						<span class="theme-name">{th.name}</span>
-						{#if !th.free && !canUse('themes_premium')}
-							<span class="theme-lock">🔒 Pro</span>
-						{/if}
 					</button>
 				{/each}
 			</div>
@@ -386,57 +356,6 @@
 					<button class="sr-save-btn" on:click={handleFbSubmit} disabled={$feedbackSubmitting || !fbTitle.trim()}>
 						{$feedbackSubmitting ? $t('feedback.sending') : $t('feedback.submit')}
 					</button>
-				</div>
-			{/if}
-
-		{:else if activeSection === 'account'}
-			<div class="settings-section-title">{$t('settings.account')}</div>
-
-			<div class="current-plan-card" class:pro={$planStore.plan === 'pro'}>
-				<div class="cpc-left">
-					<span class="cpc-plan">{$planStore.plan === 'pro' ? '⚡ Pro' : '🆓 Free'}</span>
-					{#if $planStore.billingPeriod}
-						<span class="cpc-billing">{$planStore.billingPeriod} billing</span>
-					{/if}
-				</div>
-				{#if $planStore.plan === 'free'}
-					<button class="cpc-upgrade" on:click={() => openUpgradeModal()}>
-					{$t('plans.upgradeTitle')} →
-					</button>
-				{/if}
-			</div>
-
-			{#if $planStore.plan === 'free'}
-				<div class="license-section">
-					<span class="sr-label">{$t('settings.licenseKey')}</span>
-					<span class="sr-sub">{$t('settings.licenseKeySub')}</span>
-					<div class="license-input-row">
-						<input
-							bind:value={licenseInput}
-							placeholder="Enter license key..."
-							type="text"
-						/>
-						<button
-							class="license-activate-btn"
-							on:click={activateLicense}
-							disabled={licenseChecking || !licenseInput.trim()}
-						>
-						{licenseChecking ? $t('common.loading') : $t('settings.activate')}
-						</button>
-					</div>
-					{#if licenseMessage}
-						<span class="license-msg" class:success={licenseMessage.startsWith('✓')}>
-							{licenseMessage}
-						</span>
-					{/if}
-				</div>
-			{:else}
-				<div class="setting-row">
-					<div class="sr-info">
-					<span class="sr-label">{$t('settings.licenseKey')}</span>
-						<span class="sr-sub">●●●●●●●● Pro {$t('settings.activate')}d</span>
-					</div>
-					<button class="sr-danger-btn" on:click={deactivatePro}>{$t('settings.deactivate')}</button>
 				</div>
 			{/if}
 

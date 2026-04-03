@@ -1,25 +1,28 @@
+/**
+ * Plans — app is now 100% free. All features unlocked.
+ */
 export const PLANS = {
 	free: {
 		id:              'free',
 		name:            'Free',
 		price:           0,
-		creditsPerMonth: 30,
-		betaUnlimited:   false,
-		workspaces:      1,
-		promptLibMax:    25,
-		themes:          ['noir', 'icaro', 'synthwave'],
-		miraFull:        false,
-		mobileApp:       false,
-		earlyAccess:     false,
+		creditsPerMonth: null,
+		betaUnlimited:   true,
+		workspaces:      999,
+		promptLibMax:    null,
+		themes:          ['noir', 'icaro', 'synthwave', 'ocean', 'matrix'],
+		miraFull:        true,
+		mobileApp:       true,
+		earlyAccess:     true,
 	},
 	pro: {
 		id:              'pro',
 		name:            'Pro',
-		priceMonthly:    24,
-		priceYearly:     199,
+		priceMonthly:    0,
+		priceYearly:     0,
 		creditsPerMonth: null,
 		betaUnlimited:   true,
-		workspaces:      5,
+		workspaces:      999,
 		promptLibMax:    null,
 		themes:          ['noir', 'icaro', 'synthwave', 'ocean', 'matrix'],
 		miraFull:        true,
@@ -28,33 +31,33 @@ export const PLANS = {
 	},
 };
 
+/** All credit costs are 0 — no restrictions */
 export const CREDIT_COSTS = {
-	prompt_optimizer:  2,
-	repurposer:        3,
-	brief_gen:         3,
-	workflow_builder:  5,
-	mira_message:      1,
+	prompt_optimizer:  0,
+	repurposer:        0,
+	brief_gen:         0,
+	workflow_builder:  0,
+	mira_message:      0,
 	ollama:            0,
-	prospectly:        2,
-	aiworksuite:       1,
-	quoteforge:        3,
-	contractgen:       3,
-	invoiceai:         2,
+	prospectly:        0,
+	aiworksuite:       0,
+	quoteforge:        0,
+	contractgen:       0,
+	invoiceai:         0,
 };
 
 export function getPlan(planId) {
 	return PLANS[planId] || PLANS.free;
 }
 
-export function isPro(planId) {
-	return planId === 'pro';
+export function isPro() {
+	return true;
 }
 
 export function isBetaMode() {
-	return PLANS.free.betaUnlimited;
+	return true;
 }
 
-// Prevent runtime mutation of plan definitions
 Object.freeze(PLANS.free);
 Object.freeze(PLANS.pro);
 Object.freeze(PLANS);

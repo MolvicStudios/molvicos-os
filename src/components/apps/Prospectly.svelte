@@ -1,6 +1,5 @@
 <script>
   import { streamAI } from '$lib/ai/stream.js';
-  import { canAfford } from '$lib/plans/credits.js';
   import { createAppHistory } from '$lib/stores/history.js';
   import { exportTXT, copyToClipboard } from '$lib/utils/export.js';
   import { t } from '$lib/i18n/index.js';
@@ -39,11 +38,6 @@
   });
 
   async function generate(systemPrompt, userMessage) {
-    if (!canAfford('prospectly')) {
-      result = 'Not enough credits. Upgrade to Pro for unlimited outreach.';
-      return;
-    }
-
     isGenerating = true;
     result = '';
 

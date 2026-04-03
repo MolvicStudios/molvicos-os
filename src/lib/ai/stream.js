@@ -1,5 +1,4 @@
 import { getActiveProvider } from '$lib/providers/active.js';
-import { deductCredits, canAfford } from '$lib/plans/credits.js';
 
 const DEFAULT_TIMEOUT_MS = 30_000;
 
@@ -25,16 +24,6 @@ export async function streamAI({
 	action = 'mira_message',
 	timeoutMs = DEFAULT_TIMEOUT_MS
 }) {
-	// Check and deduct credits
-	if (!canAfford(action)) {
-		onError?.('Not enough credits. Upgrade to Pro for unlimited credits.');
-		return;
-	}
-	if (!deductCredits(action)) {
-		onError?.('Not enough credits for this action.');
-		return;
-	}
-
 	const active = getActiveProvider();
 	if (!active) {
 		onError?.('No AI provider configured. Add an API key in Settings.');

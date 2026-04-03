@@ -28,7 +28,6 @@
 		{ key: 'toneshifter', icon: '🔄', area: null },
 		{ key: 'extensions',  icon: '🔌', area: null },
 		{ key: 'mira',        icon: '🧠', area: null },
-		{ key: 'credits',     icon: '💎', area: null },
 		{ key: 'settings',    icon: '⚙️', area: null },
 		{ key: 'ready',       icon: '🚀', area: null }
 	];

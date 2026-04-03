@@ -2,8 +2,6 @@
 	import { currentLang, setLang, t, SUPPORTED_LANGS } from '$lib/i18n/index.js';
 	import { activeApp, theme, cmdPaletteOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
-	import CreditsBadge from '../ui/CreditsBadge.svelte';
-	import PlanBadge from '../ui/PlanBadge.svelte';
 	import ThemeToggle from '../ui/ThemeToggle.svelte';
 	import { APPS } from '$lib/apps.js';
 	import { onMount, onDestroy } from 'svelte';
@@ -72,11 +70,9 @@
 	</div>
 
 	<div class="topbar-right">
-		<CreditsBadge />
 		<ThemeToggle />
 		<button class="avatar-pill" title={$userProfile.name || 'User'}>
 			<span class="initials">{initials}</span>
-			<PlanBadge />
 		</button>
 		<span class="clock">{clock}</span>
 	</div>

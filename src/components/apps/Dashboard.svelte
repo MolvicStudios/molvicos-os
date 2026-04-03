@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getUsageStats, getUsageLog } from '$lib/plans/credits.js';
-	import { planStore, openUpgradeModal } from '$lib/stores/plan.js';
 	import { t } from '$lib/i18n/index.js';
 
 	let stats = null;
@@ -40,36 +39,17 @@
 		return d.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 	}
 
-	$: creditsDisplay = $planStore.plan === 'pro' ? '∞' : $planStore.credits;
-	$: creditsMax = $planStore.plan === 'pro' ? null : 50;
-	$: creditsPct = creditsMax ? Math.round(($planStore.credits / creditsMax) * 100) : 100;
+	$: creditsDisplay = '∞';
+
 </script>
 
 <div class="dash">
-	<div class="plan-banner" class:pro={$planStore.plan === 'pro'}>
+	<div class="plan-banner pro">
 		<div class="pb-left">
-			<span class="pb-icon">{$planStore.plan === 'pro' ? '⚡' : '🆓'}</span>
+			<span class="pb-icon">✦</span>
 			<div>
-				<span class="pb-name">{$planStore.plan === 'pro' ? 'Pro' : 'Free'} Plan</span>
-				{#if $planStore.billingPeriod}
-					<span class="pb-billing">{$planStore.billingPeriod}</span>
-				{/if}
+				<span class="pb-name">Free — All Features Unlocked</span>
 			</div>
-		</div>
-		{#if $planStore.plan === 'free'}
-			<button class="pb-upgrade" on:click={() => openUpgradeModal()}>
-				Upgrade to Pro →
-			</button>
-		{/if}
-	</div>
-
-	<div class="credits-section">
-		<div class="cs-header">
-			<span class="cs-label">{$t('dashboard.creditsThisMonth')}</span>
-			<span class="cs-value">{creditsDisplay}{creditsMax ? `/${creditsMax}` : ''}</span>
-		</div>
-		<div class="credits-bar">
-			<div class="credits-fill" style="width: {creditsPct}%; background: {creditsPct < 20 ? 'var(--danger)' : 'var(--accent)'}"></div>
 		</div>
 	</div>
 
