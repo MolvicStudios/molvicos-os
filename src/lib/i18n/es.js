@@ -131,13 +131,20 @@ export default {
                 thinking: 'Pensando...',
                 searching: 'Buscando en la web...',
                 noApiKey: 'No hay clave API configurada',
-                suggestions: {
-                        openApp: 'Abrir una app',
-                        changeTheme: 'Cambiar tema',
-                        help: '¿En qué puedo ayudarte?'
-                }
-        },
-        feedback: {
+		suggestions: {
+			openApp: 'Abrir una app',
+			changeTheme: 'Cambiar tema',
+			help: '¿En qué puedo ayudarte?',
+			configKeys: '🔑 Configurar claves API',
+			openPromptLab: 'Abrir Prompt Lab',
+			exploreLocalModels: 'Explorar Modelos Locales',
+			tryLightTheme: 'Probar tema claro',
+			switchDarkMode: 'Cambiar a modo oscuro',
+			helpWritePrompt: 'Ayúdame a escribir un prompt'
+		},
+		welcomeMsg: '👋 ¡Hola! He notado que aún no tienes claves API configuradas. Para usar las funciones de IA, añade al menos una clave en **Ajustes → IA y Modelos**. ¡Groq y Gemini tienen niveles gratuitos! Como alternativa, instala **Ollama** para IA local y gratuita.'
+	},
+	feedback: {
                 title: 'Enviar Feedback',
                 reportBug: 'Reportar un error',
                 tab_bug: 'Error',
@@ -253,5 +260,74 @@ export default {
 		credits: { title: '💎 Sistema de Créditos', desc: 'Cada acción de IA consume créditos. Plan gratuito: 30 créditos/mes. Modelos locales: cero créditos. Mejora a Pro para ilimitados.' },
 		settings: { title: '⚙️ Ajustes', desc: 'Configura API keys (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), cambia temas, gestiona tu licencia y personaliza tu Dock.' },
 		ready: { title: '¡Todo listo!', desc: 'Empieza a explorar tu SO con IA. Abre cualquier app desde el Escritorio o el Dock. Recuerda: Cmd+K para acceso rápido.' }
+	},
+	landing: {
+		nav: {
+			features: 'Funciones',
+			apps: 'Apps',
+			faq: 'FAQ',
+			openApp: 'Abrir app →'
+		},
+		hero: {
+			badge: '✦ 100% Gratis — Sin registro',
+			social: '✅ Creado por MolvicStudios · Hecho en España · Soporte en español e inglés',
+			title: 'Tu Sistema Operativo de IA',
+			sub: 'Más de 12 apps integradas para prompt engineering, prospección, SEO, facturación y automatización. Corre en tu navegador. Privacidad primero. 100% gratis.',
+			cta: 'Usar ahora →',
+			note: 'Sin registro · Sin tarjeta de crédito · Instálalo como PWA · Funciona offline'
+		},
+		features: {
+			heading: 'Diferente por diseño',
+			sub: 'No es otro dashboard SaaS. Es un sistema operativo de IA nativo.',
+			items: [
+				{ icon: '🧠', title: 'Escritorio IA nativo', desc: 'Cada app está construida alrededor de IA — no añadida después. Tu flujo de trabajo completo, reinventado.' },
+				{ icon: '🔒', title: 'Privacidad primero', desc: 'Corre en tu navegador. Las claves API se guardan localmente. Ningún dato sale de tu máquina.' },
+				{ icon: '⚡', title: 'Más de 12 apps integradas', desc: 'Desde prompt engineering hasta prospección y facturación — todo en un mismo OS.' },
+				{ icon: '🌍', title: '5 idiomas', desc: 'Soporte i18n completo: English, Español, Deutsch, Français, 中文.' },
+				{ icon: '🎨', title: 'Personalizable', desc: 'Múltiples temas — cyberpunk oscuro, luz cálida y más. Todo gratis.' },
+				{ icon: '🤖', title: 'Asistente MIRA', desc: 'Copiloto de IA integrado que entiende tu OS y te ayuda en todas las apps.' }
+			]
+		},
+		apps: {
+			heading: 'Más de 12 Apps. Un Escritorio.',
+			sub: 'Todas las herramientas que necesitas — integradas, no dispersas.',
+			items: [
+				{ emoji: '🔧', name: 'Prompt Lab', desc: 'Optimiza y guarda prompts con puntuación de IA' },
+				{ emoji: '🎯', name: 'Prospectly', desc: 'Mensajes de prospección B2B impulsados por IA' },
+				{ emoji: '💼', name: 'AIWorkSuite', desc: 'Productividad freelance y gestión de proyectos' },
+				{ emoji: '📝', name: 'Repurposer', desc: 'Transforma contenido en 6 formatos al instante' },
+				{ emoji: '🔍', name: 'Brief Gen', desc: 'Genera briefs SEO completos en segundos' },
+				{ emoji: '⚙️', name: 'Automatizaciones', desc: 'Pipelines visuales de prompt a automatización' },
+				{ emoji: '🤖', name: 'Modelos Locales', desc: 'Ejecuta IA localmente con Ollama' },
+				{ emoji: '💻', name: 'AI Terminal', desc: 'CLI conversacional para usuarios avanzados' },
+				{ emoji: '📊', name: 'Dashboard', desc: 'Rastrea uso y estadísticas' },
+				{ emoji: '💰', name: 'QuoteForge', desc: 'Genera presupuestos profesionales con IA' },
+				{ emoji: '📑', name: 'ContractGen', desc: 'Contratos freelance con IA en segundos' },
+				{ emoji: '🧾', name: 'InvoiceAI', desc: 'Facturas inteligentes con cálculo de impuestos' }
+			]
+		},
+		faq: {
+			heading: 'Preguntas Frecuentes',
+			items: [
+				{ q: '¿Es Molvicos realmente gratis?', a: 'Sí, 100% gratis y sin registro. Todas las funciones desbloqueadas. Solo abre la app y empieza a trabajar.' },
+				{ q: '¿Qué pasa con mis datos?', a: 'Todo queda en el localStorage de tu navegador. Las claves API nunca salen de tu dispositivo. No recopilamos ni almacenamos ningún dato tuyo.' },
+				{ q: '¿Puedo usar mis propias claves API?', a: 'Por supuesto. Trae tus claves de OpenAI, Groq, Anthropic u Ollama. Tú siempre tienes el control.' },
+				{ q: '¿Necesito crear una cuenta?', a: 'No. No hay registro, ni login, ni cuenta. Solo abre y usa.' },
+				{ q: '¿Es un OS de verdad?', a: 'Es una Progressive Web App que parece y funciona como un OS. Instálala en cualquier dispositivo — también funciona offline.' },
+				{ q: '¿Qué proveedores de IA son compatibles?', a: 'Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models y modelos locales de Ollama.' }
+			]
+		},
+		cta: {
+			title: '¿Listo para ejecutar tu escritorio con IA?',
+			sub: 'Todas las funciones desbloqueadas. Sin registro. Empieza ahora.',
+			btn: 'Abrir app →'
+		},
+		footer: {
+			features: 'Funciones',
+			apps: 'Apps',
+			privacy: 'Privacidad',
+			terms: 'Términos',
+			cookies: 'Cookies'
+		}
 	}
 };

@@ -79,6 +79,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		overflow-y: auto;
+		padding: 1rem;
 	}
 
 	.ob-container {
@@ -91,6 +93,7 @@
 		flex-direction: column;
 		gap: 24px;
 		animation: slideUp 0.4s ease;
+		margin: auto;
 	}
 
 	.ob-top {

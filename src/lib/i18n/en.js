@@ -134,8 +134,15 @@ export default {
 		suggestions: {
 			openApp: 'Open an app',
 			changeTheme: 'Switch theme',
-			help: 'How can I help?'
-		}
+			help: 'How can I help?',
+			configKeys: '🔑 Configure API keys',
+			openPromptLab: 'Open Prompt Lab',
+			exploreLocalModels: 'Explore Local Models',
+			tryLightTheme: 'Try light theme',
+			switchDarkMode: 'Switch to dark mode',
+			helpWritePrompt: 'Help me write a prompt'
+		},
+		welcomeMsg: "👋 Welcome! I noticed you don't have any API keys configured yet. To use AI features, add at least one key in **Settings → AI & Models**. Groq and Gemini offer free tiers! Alternatively, install **Ollama** for free local AI."
 	},
 	feedback: {
 		title: 'Send Feedback',
@@ -331,6 +338,75 @@ export default {
 		ready: {
 			title: 'You\'re all set!',
 			desc: 'Start exploring your AI OS. Open any app from the Desktop or Dock. Remember: Cmd+K for quick access, and MIRA is always there to help.'
+		}
+	},
+	landing: {
+		nav: {
+			features: 'Features',
+			apps: 'Apps',
+			faq: 'FAQ',
+			openApp: 'Open app →'
+		},
+		hero: {
+			badge: '✦ 100% Free — No registration required',
+			social: '✅ Made by MolvicStudios · Built in Spain · Support in Spanish & English',
+			title: 'Your AI Operating System',
+			sub: '12+ built-in apps for prompt engineering, outreach, SEO, invoicing & automation. Runs in your browser. Privacy-first. 100% free.',
+			cta: 'Use now →',
+			note: 'No registration · No credit card · Installs as PWA · Works offline'
+		},
+		features: {
+			heading: 'Built Different',
+			sub: 'Not another SaaS dashboard. A full AI-native operating system.',
+			items: [
+				{ icon: '🧠', title: 'AI-Native Desktop', desc: 'Every app is built around AI — not bolted on. Your entire workflow, reimagined.' },
+				{ icon: '🔒', title: 'Privacy First', desc: 'Runs in your browser. API keys stay local. No data leaves your machine.' },
+				{ icon: '⚡', title: '12+ Built-in Apps', desc: 'From prompt engineering to outreach to invoicing — everything in one OS.' },
+				{ icon: '🌍', title: '5 Languages', desc: 'Full i18n support: English, Español, Deutsch, Français, 中文.' },
+				{ icon: '🎨', title: 'Themeable', desc: 'Multiple themes — Cyberpunk dark, warm light, and more. All free.' },
+				{ icon: '🤖', title: 'MIRA Assistant', desc: 'Built-in AI copilot that understands your OS and helps across all apps.' }
+			]
+		},
+		apps: {
+			heading: '12+ Apps. One Desktop.',
+			sub: 'Every tool you need — integrated, not scattered.',
+			items: [
+				{ emoji: '🔧', name: 'Prompt Lab', desc: 'Optimize & save prompts with AI scoring' },
+				{ emoji: '🎯', name: 'Prospectly', desc: 'B2B outreach messages powered by AI' },
+				{ emoji: '💼', name: 'AIWorkSuite', desc: 'Freelance productivity & project management' },
+				{ emoji: '📝', name: 'Repurposer', desc: 'Transform content into 6 formats instantly' },
+				{ emoji: '🔍', name: 'Brief Gen', desc: 'Generate complete SEO briefs in seconds' },
+				{ emoji: '⚙️', name: 'Workflow Builder', desc: 'Visual prompt-to-automation pipelines' },
+				{ emoji: '🤖', name: 'Local Models', desc: 'Run AI locally via Ollama bridge' },
+				{ emoji: '💻', name: 'AI Terminal', desc: 'Conversational CLI for power users' },
+				{ emoji: '📊', name: 'Dashboard', desc: 'Track usage & stats' },
+				{ emoji: '💰', name: 'QuoteForge', desc: 'Generate professional project quotes with AI' },
+				{ emoji: '📑', name: 'ContractGen', desc: 'AI-powered freelance contracts in seconds' },
+				{ emoji: '🧾', name: 'InvoiceAI', desc: 'Smart invoices with tax-aware formatting' }
+			]
+		},
+		faq: {
+			heading: 'FAQ',
+			items: [
+				{ q: 'Is Molvicos really free?', a: 'Yes, 100% free with no registration required. All features are unlocked. Just open the app and start working.' },
+				{ q: 'What happens to my data?', a: "Everything stays in your browser's localStorage. API keys never leave your device. We don't collect or store any of your data." },
+				{ q: 'Can I use my own API keys?', a: "Absolutely. Bring your OpenAI, Groq, Anthropic, or Ollama keys. You're always in control." },
+				{ q: 'Do I need to create an account?', a: 'No. There is no sign-up, no login, no registration. Just open and use.' },
+				{ q: 'Is it a real OS?', a: "It's a Progressive Web App that looks and feels like an OS. Install it on any device — it works offline too." },
+				{ q: 'What AI providers are supported?', a: 'Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models, and local Ollama models.' }
+			]
+		},
+		cta: {
+			title: 'Ready to run your AI desktop?',
+			sub: 'All features unlocked. No sign-up needed. Start now.',
+			btn: 'Open app →'
+		},
+		footer: {
+			features: 'Features',
+			apps: 'Apps',
+			privacy: 'Privacy',
+			terms: 'Terms',
+			cookies: 'Cookies'
 		}
 	}
 };

@@ -2,11 +2,12 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { storage } from '$lib/storage/local.js';
-	import { detectLang } from '$lib/i18n/index.js';
+	import { detectLang, t } from '$lib/i18n/index.js';
 
 	let ready = false;
 
-	const apps = [
+	// Fallback English data (used when language dict doesn't have landing section)
+	const _fallbackApps = [
 		{ emoji: '🔧', name: 'Prompt Lab', desc: 'Optimize & save prompts with AI scoring' },
 		{ emoji: '🎯', name: 'Prospectly', desc: 'B2B outreach messages powered by AI' },
 		{ emoji: '💼', name: 'AIWorkSuite', desc: 'Freelance productivity & project management' },
@@ -21,7 +22,7 @@
 		{ emoji: '🧾', name: 'InvoiceAI', desc: 'Smart invoices with tax-aware formatting' },
 	];
 
-	const features = [
+	const _fallbackFeatures = [
 		{ icon: '🧠', title: 'AI-Native Desktop', desc: 'Every app is built around AI — not bolted on. Your entire workflow, reimagined.' },
 		{ icon: '🔒', title: 'Privacy First', desc: 'Runs in your browser. API keys stay local. No data leaves your machine.' },
 		{ icon: '⚡', title: '12+ Built-in Apps', desc: 'From prompt engineering to outreach to invoicing — everything in one OS.' },
@@ -30,14 +31,18 @@
 		{ icon: '🤖', title: 'MIRA Assistant', desc: 'Built-in AI copilot that understands your OS and helps across all apps.' },
 	];
 
-	const faqs = [
+	const _fallbackFaqs = [
 		{ q: 'Is Molvicos really free?', a: 'Yes, 100% free with no registration required. All features are unlocked. Just open the app and start working.' },
-		{ q: 'What happens to my data?', a: 'Everything stays in your browser\'s localStorage. API keys never leave your device. We don\'t collect or store any of your data.' },
-		{ q: 'Can I use my own API keys?', a: 'Absolutely. Bring your OpenAI, Groq, Anthropic, or Ollama keys. You\'re always in control.' },
+		{ q: 'What happens to my data?', a: "Everything stays in your browser's localStorage. API keys never leave your device. We don't collect or store any of your data." },
+		{ q: 'Can I use my own API keys?', a: "Absolutely. Bring your OpenAI, Groq, Anthropic, or Ollama keys. You're always in control." },
 		{ q: 'Do I need to create an account?', a: 'No. There is no sign-up, no login, no registration. Just open and use.' },
-		{ q: 'Is it a real OS?', a: 'It\'s a Progressive Web App that looks and feels like an OS. Install it on any device — it works offline too.' },
+		{ q: 'Is it a real OS?', a: "It's a Progressive Web App that looks and feels like an OS. Install it on any device — it works offline too." },
 		{ q: 'What AI providers are supported?', a: 'Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models, and local Ollama models.' },
 	];
+
+	$: apps = (() => { const v = $t('landing.apps.items'); return Array.isArray(v) ? v : _fallbackApps; })();
+	$: features = (() => { const v = $t('landing.features.items'); return Array.isArray(v) ? v : _fallbackFeatures; })();
+	$: faqs = (() => { const v = $t('landing.faq.items'); return Array.isArray(v) ? v : _fallbackFaqs; })();
 
 	let openFaq = -1;
 	let mobileMenuOpen = false;
@@ -48,6 +53,15 @@
 		detectLang();
 		ready = true;
 
+		// Adsterra Native Banner
+		const adContainer = document.getElementById('adsterra-container');
+		if (adContainer) {
+			const s = document.createElement('script');
+			s.async = true;
+			s.dataset.cfasync = 'false';
+			s.src = 'https://pl29050767.profitablecpmratenetwork.com/895f21b3d4e69e3a0245b9adbdc68c23/invoke.js';
+			adContainer.appendChild(s);
+		}
 	});
 </script>
 
@@ -83,28 +97,25 @@
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 		</button>
 		<div class="nav-links" class:mobile-open={mobileMenuOpen}>
-			<a href="#features" on:click={() => mobileMenuOpen = false}>Features</a>
-			<a href="#apps" on:click={() => mobileMenuOpen = false}>Apps</a>
-			<a href="#faq" on:click={() => mobileMenuOpen = false}>FAQ</a>
-			<a href="/os" class="btn-nav">Abrir app →</a>
+			<a href="#features" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.features')}</a>
+			<a href="#apps" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.apps')}</a>
+			<a href="#faq" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.faq')}</a>
+			<a href="/os" class="btn-nav">{$t('landing.nav.openApp')}</a>
 		</div>
 	</nav>
 
 	<!-- HERO -->
 	<section class="hero">
-		<div class="hero-badge">✦ 100% Free — No registration required</div>
+		<div class="hero-badge">{$t('landing.hero.badge')}</div>
 	<div class="social-proof-bar" style="text-align:center;padding:0.5rem;font-size:0.78rem;color:var(--lp-text2);margin-top:-1rem;margin-bottom:1.5rem;">
-		✅ Made by MolvicStudios · Built in Spain · Support in Spanish & English
+		{$t('landing.hero.social')}
 	</div>
-		<h1>Your AI Operating System</h1>
-		<p class="hero-sub">
-			12+ built-in apps for prompt engineering, outreach, SEO, invoicing &amp; automation.
-			<br/>Runs in your browser. Privacy-first. 100% free.
-		</p>
+		<h1>{$t('landing.hero.title')}</h1>
+		<p class="hero-sub">{$t('landing.hero.sub')}</p>
 		<div class="hero-ctas">
-			<a href="/os" class="btn btn-primary">Usar ahora →</a>
+			<a href="/os" class="btn btn-primary">{$t('landing.hero.cta')}</a>
 		</div>
-		<p class="hero-note">No registration · No credit card · Installs as PWA · Works offline</p>
+		<p class="hero-note">{$t('landing.hero.note')}</p>
 	</section>
 
 	<!-- PREVIEW -->
@@ -143,8 +154,8 @@
 
 	<!-- FEATURES -->
 	<section id="features" class="features">
-		<h2>Built Different</h2>
-		<p class="section-sub">Not another SaaS dashboard. A full AI-native operating system.</p>
+		<h2>{$t('landing.features.heading')}</h2>
+		<p class="section-sub">{$t('landing.features.sub')}</p>
 		<div class="features-grid">
 			{#each features as f}
 				<div class="feature-card">
@@ -156,11 +167,15 @@
 		</div>
 	</section>
 
+	<!-- ADSTERRA NATIVE BANNER -->
+	<div id="adsterra-container" style="width:100%; max-width:900px; margin: 2rem auto; overflow:hidden;">
+		<div id="container-895f21b3d4e69e3a0245b9adbdc68c23"></div>
+	</div>
 
 	<!-- APPS -->
 	<section id="apps" class="apps-section">
-		<h2>12+ Apps. One Desktop.</h2>
-		<p class="section-sub">Every tool you need — integrated, not scattered.</p>
+		<h2>{$t('landing.apps.heading')}</h2>
+		<p class="section-sub">{$t('landing.apps.sub')}</p>
 		<div class="apps-grid">
 			{#each apps as app}
 				<div class="app-card">
@@ -174,7 +189,7 @@
 
 	<!-- FAQ -->
 	<section id="faq" class="faq">
-		<h2>FAQ</h2>
+		<h2>{$t('landing.faq.heading')}</h2>
 		<div class="faq-list">
 			{#each faqs as faq, i}
 				<button class="faq-item" class:open={openFaq === i} on:click={() => toggleFaq(i)}>
@@ -192,10 +207,10 @@
 
 	<!-- FINAL CTA -->
 	<section class="final-cta">
-		<h2>Ready to run your AI desktop?</h2>
-		<p>All features unlocked. No sign-up needed. Start now.</p>
+		<h2>{$t('landing.cta.title')}</h2>
+		<p>{$t('landing.cta.sub')}</p>
 		<div class="hero-ctas">
-			<a href="/os" class="btn btn-primary">Abrir app →</a>
+			<a href="/os" class="btn btn-primary">{$t('landing.cta.btn')}</a>
 		</div>
 	</section>
 
@@ -203,13 +218,13 @@
 	<footer class="footer">
 		<div class="footer-inner">
 			<span class="logo-icon">◈</span>
-			<span>Molvicos · © {new Date().getFullYear()} by <a href="https://molvicstudios.pro" target="_blank" rel="noopener" style="color:inherit;">MolvicStudios.pro</a> · <a href="mailto:molvicstudios@outlook.com" style="color:inherit;">molvicstudios@outlook.com</a></span>
+			<span>Molvicos · © {new Date().getFullYear()} Molvic Studios</span>
 			<div class="footer-links">
-				<a href="#features">Features</a>
-				<a href="#apps">Apps</a>
-				<a href="/legal/privacy.html">Privacy</a>
-				<a href="/legal/terms.html">Terms</a>
-				<a href="/legal/cookies.html">Cookies</a>
+				<a href="#features">{$t('landing.footer.features')}</a>
+				<a href="#apps">{$t('landing.footer.apps')}</a>
+				<a href="/legal/privacy.html">{$t('landing.footer.privacy')}</a>
+				<a href="/legal/terms.html">{$t('landing.footer.terms')}</a>
+				<a href="/legal/cookies.html">{$t('landing.footer.cookies')}</a>
 			</div>
 		</div>
 	</footer>

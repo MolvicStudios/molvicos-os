@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
 import { miraSuggestions, miraContext, addMessage, miraOpen } from '../stores/mira.js';
 import { openWindows, activeApp, theme } from '../stores/os.js';
-import { currentLang } from '../i18n/index.js';
+import { currentLang, tGet } from '../i18n/index.js';
 import { planStore } from '../stores/plan.js';
 import { apiKeys } from '../stores/models.js';
 
@@ -34,22 +34,22 @@ export function updateSuggestions() {
 	const hasAnyKey = Object.values(keys).some(k => k && k.trim());
 
 	if (!hasAnyKey) {
-		suggestions.push({ id: 's0', text: '🔑 Configure API keys', action: 'open_app:settings' });
+		suggestions.push({ id: 's0', text: tGet('mira.suggestions.configKeys'), action: 'open_app:settings' });
 	}
 
 	if (ctx.openApps.length === 0) {
-		suggestions.push({ id: 's1', text: 'Open PromptLab', action: 'open_app:promptlab' });
-		suggestions.push({ id: 's2', text: 'Explore Local Models', action: 'open_app:localmodels' });
+		suggestions.push({ id: 's1', text: tGet('mira.suggestions.openPromptLab'), action: 'open_app:promptlab' });
+		suggestions.push({ id: 's2', text: tGet('mira.suggestions.exploreLocalModels'), action: 'open_app:localmodels' });
 	}
 
 	if (ctx.theme === 'noir') {
-		suggestions.push({ id: 's3', text: 'Try light theme', action: 'change_theme:icaro' });
+		suggestions.push({ id: 's3', text: tGet('mira.suggestions.tryLightTheme'), action: 'change_theme:icaro' });
 	} else {
-		suggestions.push({ id: 's3', text: 'Switch to dark mode', action: 'change_theme:noir' });
+		suggestions.push({ id: 's3', text: tGet('mira.suggestions.switchDarkMode'), action: 'change_theme:noir' });
 	}
 
 	if (ctx.openApps.includes('promptlab')) {
-		suggestions.push({ id: 's4', text: 'Help me write a prompt', action: 'chat' });
+		suggestions.push({ id: 's4', text: tGet('mira.suggestions.helpWritePrompt'), action: 'chat' });
 	}
 
 	// Limit to 3 suggestions
@@ -70,11 +70,7 @@ export function checkApiKeys() {
 	const hasAnyKey = Object.values(keys).some(k => k && k.trim());
 	if (!hasAnyKey) {
 		apiKeyAlerted = true;
-		addMessage('assistant',
-			'👋 Welcome! I noticed you don\'t have any API keys configured yet. ' +
-			'To use AI features, add at least one key in **Settings → AI & Models**. ' +
-			'Groq and Gemini offer free tiers! Alternatively, install **Ollama** for free local AI.'
-		);
+		addMessage('assistant', tGet('mira.welcomeMsg'));
 	}
 }
 
