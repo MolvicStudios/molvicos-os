@@ -48,15 +48,6 @@
 		detectLang();
 		ready = true;
 
-		// Adsterra Native Banner
-		const adContainer = document.getElementById('adsterra-container');
-		if (adContainer) {
-			const s = document.createElement('script');
-			s.async = true;
-			s.dataset.cfasync = 'false';
-			s.src = 'https://pl29050767.profitablecpmratenetwork.com/895f21b3d4e69e3a0245b9adbdc68c23/invoke.js';
-			adContainer.appendChild(s);
-		}
 	});
 </script>
 
@@ -165,10 +156,6 @@
 		</div>
 	</section>
 
-	<!-- ADSTERRA NATIVE BANNER -->
-	<div id="adsterra-container" style="width:100%; max-width:900px; margin: 2rem auto; overflow:hidden;">
-		<div id="container-895f21b3d4e69e3a0245b9adbdc68c23"></div>
-	</div>
 
 	<!-- APPS -->
 	<section id="apps" class="apps-section">
@@ -216,7 +203,7 @@
 	<footer class="footer">
 		<div class="footer-inner">
 			<span class="logo-icon">◈</span>
-			<span>Molvicos · © {new Date().getFullYear()} Molvic Studios</span>
+			<span>Molvicos · © {new Date().getFullYear()} by <a href="https://molvicstudios.pro" target="_blank" rel="noopener" style="color:inherit;">MolvicStudios.pro</a> · <a href="mailto:molvicstudios@outlook.com" style="color:inherit;">molvicstudios@outlook.com</a></span>
 			<div class="footer-links">
 				<a href="#features">Features</a>
 				<a href="#apps">Apps</a>

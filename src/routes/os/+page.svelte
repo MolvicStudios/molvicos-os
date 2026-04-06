@@ -18,12 +18,14 @@
 	import TutorialOverlay from '../../components/onboarding/TutorialOverlay.svelte';
 	import LangPickerModal from '../../components/onboarding/LangPickerModal.svelte';
 	import * as storage from '$lib/storage/local.js';
+	import { detectLang } from '$lib/i18n/index.js';
 
 	let showLangPicker = false;
 	let showLauncher = false;
 	let showBanner = true;
 
 	onMount(() => {
+		detectLang();
 		if (!storage.storage.isOnboardingComplete()) {
 			showLangPicker = true;
 		}
