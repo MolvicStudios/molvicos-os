@@ -25,4 +25,4 @@ wrangler deploy
 
 ---
 
-Desarrollado por [MolvicStudios](https://molvicstudios.pro) · molvicstudios@outlook.com
+Desarrollado por [MolvicStudios](https://molvicstudios.pro) · info@molvicstudios.pro
