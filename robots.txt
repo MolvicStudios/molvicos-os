@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /*.json$
+Disallow: /api/
+Disallow: /node_modules/
+Disallow: /_workers/
+Disallow: /app/
+Disallow: /dashboard/
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+Sitemap: https://molvicos.pro/sitemap.xml
