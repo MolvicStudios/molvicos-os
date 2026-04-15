@@ -116,23 +116,24 @@
 <style>
 	.dock {
 		position: fixed;
-		bottom: 8px;
-		left: 50%;
-		transform: translateX(-50%);
+		left: 8px;
+		top: 50%;
+		transform: translateY(-50%);
 		z-index: 8000;
-		max-width: calc(100vw - 16px);
+		max-height: calc(100vh - 16px);
 	}
 
 	.dock-inner {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		gap: 6px;
-		padding: 6px 12px;
+		padding: 12px 6px;
 		background: color-mix(in srgb, var(--bg-surface) 80%, transparent);
 		backdrop-filter: blur(20px);
 		border: 1px solid var(--border-accent);
 		border-radius: var(--radius-xl);
-		overflow-x: auto;
+		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;
 	}
@@ -168,9 +169,9 @@
 
 	.dock-indicator {
 		position: absolute;
-		bottom: -4px;
-		left: 50%;
-		transform: translateX(-50%);
+		right: -4px;
+		top: 50%;
+		transform: translateY(-50%);
 		width: 4px;
 		height: 4px;
 		border-radius: 50%;
@@ -184,10 +185,10 @@
 	}
 
 	.dock-separator {
-		width: 1px;
-		height: 24px;
+		height: 1px;
+		width: 24px;
 		background: var(--border-accent);
-		margin: 0 4px;
+		margin: 4px 0;
 		flex-shrink: 0;
 	}
 
@@ -209,6 +210,7 @@
 
 	.desktop-selector {
 		display: flex;
+		flex-direction: column;
 		gap: 3px;
 		align-items: center;
 	}
@@ -267,7 +269,7 @@
 		}
 		.dock-inner {
 			gap: 4px;
-			padding: 5px 8px;
+			padding: 8px 5px;
 		}
 	}
 </style>

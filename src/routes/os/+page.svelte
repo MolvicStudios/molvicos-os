@@ -100,7 +100,7 @@
 	.window-area {
 		position: absolute;
 		top: 36px;
-		left: 0;
+		left: 64px;
 		right: 0;
 		bottom: 0;
 		overflow: auto;
