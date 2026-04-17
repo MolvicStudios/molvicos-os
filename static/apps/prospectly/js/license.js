@@ -1,4 +1,4 @@
-const WORKER_URL = 'https://prospectly-groq-proxy.josemmolera.workers.dev'
+const WORKER_URL = 'https://groq-proxy.molvicstudios.pro'
 
 const KEYS = {
   license_key: 'prospectly_pro_license_key',

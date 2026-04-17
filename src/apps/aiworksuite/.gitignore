@@ -1,6 +1,9 @@
 # Notas privadas / docs locales
 instruccionespro.md
 
+# Wrangler cache (contiene credenciales de cuenta)
+.wrangler/
+
 # OS
 .DS_Store
 Thumbs.db

@@ -1747,11 +1747,11 @@ html,body{overflow-x:hidden}
     <div class="settings-sec">
       <div class="settings-sec-title" data-i18n="settings_profile">Perfil profesional</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="frow"><label class="lbl" for="s-user-name" data-i18n="settings_name">Tu nombre / marca</label><input class="inp" id="s-user-name" placeholder="Jose / MolvicStudios"></div>
+        <div class="frow"><label class="lbl" for="s-user-name" data-i18n="settings_name">Tu nombre / marca</label><input class="inp" id="s-user-name" placeholder="Tu nombre / Tu marca"></div>
         <div class="frow"><label class="lbl" for="s-email" data-i18n="settings_email_c">Email de contacto</label><input class="inp" id="s-email" placeholder="tu@email.com"></div>
         <div class="frow"><label class="lbl" for="s-phone" data-i18n="settings_phone">WhatsApp / Teléfono</label><input class="inp" id="s-phone" placeholder="+34 600 000 000"></div>
         <div class="frow"><label class="lbl" for="s-telegram" data-i18n="settings_telegram">Telegram</label><input class="inp" id="s-telegram" placeholder="@usuario"></div>
-        <div class="frow" style="grid-column:1/-1"><label class="lbl" for="s-web" data-i18n="settings_web">Web / Portfolio</label><input class="inp" id="s-web" placeholder="molvicstudios.pro"></div>
+        <div class="frow" style="grid-column:1/-1"><label class="lbl" for="s-web" data-i18n="settings_web">Web / Portfolio</label><input class="inp" id="s-web" placeholder="tudominio.com"></div>
       </div>
       <div style="margin-top:4px"><button class="btn btn-accent btn-sm" onclick="saveProfileSettings()" data-i18n="settings_save">Guardar perfil</button></div>
     </div>
@@ -2892,7 +2892,7 @@ async function crmSend(){
   c.chatHistory[stage].push({role:'user',content:text});input.value='';crmResize(input);saveCRMData();CRM.loading=true;
   document.getElementById('btn-send').disabled=true;renderCRMChatMsgs();
   const cont=document.getElementById('chat-messages');const typ=document.createElement('div');typ.className='crm-typing-ind';typ.id='crm-typ';typ.innerHTML='<span></span><span></span><span></span>';cont.appendChild(typ);cont.scrollTop=cont.scrollHeight;
-  const cfg=getCFG(); const sys=CRM_SYS[stage]+`\n\nProfesional: ${cfg.userName||'Jose'}\nCLIENTE: ${c.name} | Empresa: ${c.company||'—'} | Servicio: ${c.service||'—'} | Presupuesto: ${c.budget||'—'}`;
+  const cfg=getCFG(); const sys=CRM_SYS[stage]+`\n\nProfesional: ${cfg.userName||''}\nCLIENTE: ${c.name} | Empresa: ${c.company||'—'} | Servicio: ${c.service||'—'} | Presupuesto: ${c.budget||'—'}`;
   const msgs=c.chatHistory[stage].slice(-20).map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
   try{const reply=await callAI(sys,msgs,1000);c.chatHistory[stage].push({role:'assistant',content:reply});saveCRMData();}
   catch(e){c.chatHistory[stage].push({role:'error',content:e.message});saveCRMData();}
@@ -3240,7 +3240,7 @@ function buildPromptFromConfig(){
   const rl=CONFIG.sel.map(r=>`- ${r.nombre}`).join('\n');
   const cfg=getCFG();
   const eb=extra?`\n### CONTEXTO ADICIONAL\n${extra}`:'';
-  return `## INICIO DE SESIÓN — ${CONFIG.proj.toUpperCase()}\n\n### ROLES ACTIVOS EN ESTA SESIÓN\n${rl}\n\n### BRIEF DEL PROYECTO\n${CONFIG.brief}${eb}\n\n### INSTRUCCIONES DE COMPORTAMIENTO\n1. Operas simultáneamente desde todos los roles activos. Integra perspectivas sin separarlas en bloques.\n2. Como Senior Prompt Engineer, optimiza cualquier prompt, instrucción o flujo IA que surja en la sesión.\n3. ${cfg.userName||'Jose'} actúa como enlace con el cliente — orienta tus propuestas a lo que él necesita comunicar y entregar.\n4. Sé directo y técnico. No expliques lo básico salvo petición explícita.\n5. Presenta PRIMERO un plan de 2-3 líneas y espera aprobación antes de desarrollar cualquier entregable.\n6. Si hay conflicto entre criterios de distintos roles, señálalo y propón solución de compromiso.\n7. Responde en español salvo que se cambie de idioma.\n\n### COMANDOS RÁPIDOS\n- "cambia rol" → nuevos roles activos (Prompt Engineer permanece)\n- "modo código" → solo código\n- "modo estrategia" → solo análisis\n- "modo cliente" → lenguaje para el cliente\n- "reset" → vuelve a esta configuración\n\n---\nConfirma con: "Equipo activo para ${CONFIG.proj}. ¿Empezamos?"`;
+  return `## INICIO DE SESIÓN — ${CONFIG.proj.toUpperCase()}\n\n### ROLES ACTIVOS EN ESTA SESIÓN\n${rl}\n\n### BRIEF DEL PROYECTO\n${CONFIG.brief}${eb}\n\n### INSTRUCCIONES DE COMPORTAMIENTO\n1. Operas simultáneamente desde todos los roles activos. Integra perspectivas sin separarlas en bloques.\n2. Como Senior Prompt Engineer, optimiza cualquier prompt, instrucción o flujo IA que surja en la sesión.\n3. ${cfg.userName||'el profesional'} actúa como enlace con el cliente — orienta tus propuestas a lo que él necesita comunicar y entregar.\n4. Sé directo y técnico. No expliques lo básico salvo petición explícita.\n5. Presenta PRIMERO un plan de 2-3 líneas y espera aprobación antes de desarrollar cualquier entregable.\n6. Si hay conflicto entre criterios de distintos roles, señálalo y propón solución de compromiso.\n7. Responde en español salvo que se cambie de idioma.\n\n### COMANDOS RÁPIDOS\n- "cambia rol" → nuevos roles activos (Prompt Engineer permanece)\n- "modo código" → solo código\n- "modo estrategia" → solo análisis\n- "modo cliente" → lenguaje para el cliente\n- "reset" → vuelve a esta configuración\n\n---\nConfirma con: "Equipo activo para ${CONFIG.proj}. ¿Empezamos?"`;
 }
 function saveTeamOnly(){
   const prompt=buildPromptFromConfig();
@@ -3325,7 +3325,7 @@ function wsAddBubble(chatId,role,text){
   const msgs=document.getElementById(`wm-${chatId}`);if(!msgs)return;const cfg=getCFG();
   const wrap=document.createElement('div');wrap.className=`wm ${role}`;
   const time=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-  wrap.innerHTML=`<span class="wm-role">${role==='user'?(cfg.userName||'Jose'):'equipo'}</span><div class="wm-bubble">${wsMd(text)}</div><span class="wm-time">${time}</span>`;
+  wrap.innerHTML=`<span class="wm-role">${role==='user'?(cfg.userName||'Tú'):'equipo'}</span><div class="wm-bubble">${wsMd(text)}</div><span class="wm-time">${time}</span>`;
   msgs.appendChild(wrap);msgs.scrollTop=msgs.scrollHeight;
 }
 function wsMd(text){

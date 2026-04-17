@@ -1,4 +1,4 @@
-const WORKER_URL = 'https://prospectly-groq-proxy.josemmolera.workers.dev'
+const WORKER_URL = 'https://groq-proxy.molvicstudios.pro'
 
 export async function callGroq(messages, system) {
   const response = await fetch(WORKER_URL, {

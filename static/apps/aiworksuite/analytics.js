@@ -4,7 +4,7 @@
 
 ;(function () {
   var SITE     = 'aiworksuite.pro'
-  var ENDPOINT = 'https://molvicstudios-analytics.josemmolera.workers.dev/track'
+  var ENDPOINT = 'https://analytics.molvicstudios.pro/track'
   var USER_KEY = 'ms_uid'
 
   // No trackear en desarrollo ni en bots
