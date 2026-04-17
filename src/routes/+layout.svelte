@@ -1,5 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
+	import { page } from '$app/stores';
 	import { theme } from '$lib/stores/os.js';
 	import { apiKeys } from '$lib/stores/models.js';
 	import { userProfile } from '$lib/stores/user.js';
@@ -52,6 +53,10 @@
 
 	onDestroy(() => unsubs.forEach((fn) => fn()));
 </script>
+
+<svelte:head>
+	<link rel="canonical" href={`https://molvicos.pro${$page.url.pathname}`} />
+</svelte:head>
 
 <slot />
 
