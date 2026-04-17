@@ -13,7 +13,7 @@ export const focusedWindow = writable(null);
 export const activeApp = writable(null);
 
 /** Theme: 'noir' | 'icaro' */
-export const theme = writable('noir');
+export const theme = writable('icaro');
 
 /** Command palette open */
 export const cmdPaletteOpen = writable(false);

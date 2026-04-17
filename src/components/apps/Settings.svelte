@@ -4,7 +4,6 @@
 	import { apiKeys, keyStatus, ollamaStatus } from '$lib/stores/models.js';
 	import { setLang, currentLang } from '$lib/i18n/index.js';
 	import { t } from '$lib/i18n/index.js';
-	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
 	import { miraProvider } from '$lib/stores/mira.js';
 	import { APPS } from '$lib/apps.js';
 	import { submitFeedback } from '$lib/feedback/index.js';
@@ -17,7 +16,6 @@
 		{ id: 'general',    icon: '⚙️' },
 		{ id: 'appearance', icon: '🎨' },
 		{ id: 'ai',         icon: '🤖' },
-		{ id: 'dock',       icon: '⬇️' },
 		{ id: 'feedback',   icon: '💬' },
 		{ id: 'about',      icon: 'ℹ️' },
 	];
@@ -86,14 +84,6 @@
 		for (const p of PROVIDERS) {
 			if ($apiKeys[p.id]?.trim()) await testApiKey(p);
 		}
-	}
-
-	function toggleDockApp(appId) {
-		dockConfig.update(cfg => {
-			const ids = cfg.includes(appId) ? cfg.filter(id => id !== appId) : [...cfg, appId];
-			return ids;
-		});
-		saveDockConfig();
 	}
 
 	// Feedback form state
@@ -257,32 +247,6 @@
 						<button class="lang-pill" class:active={$miraProvider === p.id} on:click={() => miraProvider.set(p.id)}>{p.name}</button>
 					{/each}
 				</div>
-			</div>
-
-		{:else if activeSection === 'dock'}
-			<div class="settings-section-title">Dock</div>
-			<div class="sr-sub" style="margin-bottom:14px">
-				Choose which apps appear in the Dock. Click to toggle.
-			</div>
-
-			<div class="dock-config-grid">
-				{#each APPS as app (app.id)}
-					<button
-						class="dock-config-item"
-						class:active={$dockConfig.includes(app.id)}
-						on:click={() => toggleDockApp(app.id)}
-					>
-						<span class="dci-emoji">{app.emoji}</span>
-						<span class="dci-label">{$t(`apps.${app.id}.name`)}</span>
-						{#if $dockConfig.includes(app.id)}
-							<span class="dci-check">✓</span>
-						{/if}
-					</button>
-				{/each}
-			</div>
-
-			<div class="api-actions" style="margin-top:12px">
-				<button class="sr-save-btn" on:click={resetDockConfig}>↺ Reset default</button>
 			</div>
 
 		{:else if activeSection === 'feedback'}

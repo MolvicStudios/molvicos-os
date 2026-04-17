@@ -28,7 +28,7 @@
 		const savedProfile = storage.get('ms_user_profile');
 		if (savedProfile) userProfile.update((p) => ({ ...p, ...savedProfile }));
 
-		const savedTheme = localStorage.getItem('ms_theme') || 'noir';
+		const savedTheme = localStorage.getItem('ms_theme') || 'icaro';
 		theme.set(savedTheme);
 	}
 
@@ -39,7 +39,7 @@
 		detectLang();
 
 		// Apply theme to DOM
-		const savedTheme = localStorage.getItem('ms_theme') || 'noir';
+		const savedTheme = localStorage.getItem('ms_theme') || 'icaro';
 		document.documentElement.setAttribute('data-theme', savedTheme);
 
 		// Subscribe to persist changes
