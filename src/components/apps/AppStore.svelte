@@ -3,6 +3,11 @@
 	import { APPS } from '$lib/apps.js';
 	import { openApp } from '$lib/stores/os.js';
 	import { dockConfig, saveDockConfig, resetDockConfig } from '$lib/stores/dock.js';
+	import {
+		mobileFeaturedConfig, saveMobileFeatured,
+		mobileNavConfig, saveMobileNav,
+		resetMobileConfigs
+	} from '$lib/stores/mobile.js';
 	export const id = 'appstore';
 
 	let search = '';
@@ -30,6 +35,29 @@
 		saveDockConfig();
 	}
 
+	function toggleMobileFeatured(appId) {
+		mobileFeaturedConfig.update(cfg => {
+			if (cfg.includes(appId)) return cfg.filter(id => id !== appId);
+			if (cfg.length >= 3) return [...cfg.slice(1), appId]; // replace oldest
+			return [...cfg, appId];
+		});
+		saveMobileFeatured();
+	}
+
+	function toggleMobileNav(appId) {
+		mobileNavConfig.update(cfg => {
+			if (cfg.includes(appId)) return cfg.filter(id => id !== appId);
+			if (cfg.length >= 3) return [...cfg.slice(1), appId]; // replace oldest
+			return [...cfg, appId];
+		});
+		saveMobileNav();
+	}
+
+	function resetAll() {
+		resetDockConfig();
+		resetMobileConfigs();
+	}
+
 	async function launch(app) {
 		await openApp({ ...app, title: $t(`apps.${app.id}.name`) });
 	}
@@ -46,16 +74,42 @@
 					<button class="as-filter" class:active={filter === s.id} on:click={() => filter = s.id}>{s.label}</button>
 				{/each}
 			</div>
-			<button class="as-reset" on:click={resetDockConfig}>↺ Reset Dock</button>
+			<button class="as-reset" on:click={resetAll}>↺ Reset all</button>
+		</div>
+		<div class="as-legend">
+			<span class="legend-item"><span class="legend-icon">★</span> Desktop dock</span>
+			<span class="legend-item"><span class="legend-icon legend-feat">◆</span> Mobile featured (max 3)</span>
+			<span class="legend-item"><span class="legend-icon legend-nav">▲</span> Mobile nav (max 3)</span>
 		</div>
 	</div>
 
 	<div class="as-grid">
 		{#each filteredApps as app (app.id)}
-			<div class="as-card" class:docked={$dockConfig.includes(app.id)}>
-				<button class="as-dock-toggle" on:click|stopPropagation={() => toggleDock(app.id)} title={$dockConfig.includes(app.id) ? 'Remove from Dock' : 'Add to Dock'}>
-					{$dockConfig.includes(app.id) ? '★' : '☆'}
-				</button>
+			<div class="as-card"
+				class:docked={$dockConfig.includes(app.id)}
+				class:featured={$mobileFeaturedConfig.includes(app.id)}
+				class:mnav={$mobileNavConfig.includes(app.id)}
+			>
+				<div class="as-toggles">
+					<button
+						class="as-toggle dock-toggle"
+						class:on={$dockConfig.includes(app.id)}
+						on:click|stopPropagation={() => toggleDock(app.id)}
+						title={$dockConfig.includes(app.id) ? 'Remove from Desktop Dock' : 'Add to Desktop Dock'}
+					>★</button>
+					<button
+						class="as-toggle feat-toggle"
+						class:on={$mobileFeaturedConfig.includes(app.id)}
+						on:click|stopPropagation={() => toggleMobileFeatured(app.id)}
+						title={$mobileFeaturedConfig.includes(app.id) ? 'Remove from Mobile Featured' : 'Add to Mobile Featured'}
+					>◆</button>
+					<button
+						class="as-toggle nav-toggle"
+						class:on={$mobileNavConfig.includes(app.id)}
+						on:click|stopPropagation={() => toggleMobileNav(app.id)}
+						title={$mobileNavConfig.includes(app.id) ? 'Remove from Mobile Nav' : 'Add to Mobile Nav'}
+					>▲</button>
+				</div>
 				<button class="as-body" on:click={() => launch(app)}>
 					<div class="as-icon {app.colorClass}">{app.emoji}</div>
 					<div class="as-info">
@@ -90,7 +144,7 @@
 		font-family: var(--font-mono); outline: none;
 	}
 	.as-search:focus { border-color: var(--accent); }
-	.as-top-row { display: flex; justify-content: space-between; align-items: center; }
+	.as-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 	.as-filters { display: flex; gap: 4px; }
 	.as-filter {
 		padding: 4px 10px; font-size: 10px; background: none;
@@ -105,6 +159,18 @@
 	}
 	.as-reset:hover { color: var(--text-secondary); border-color: var(--accent-border); }
 
+	/* Legend */
+	.as-legend {
+		display: flex; gap: 12px; flex-wrap: wrap;
+	}
+	.legend-item {
+		display: flex; align-items: center; gap: 4px;
+		font-size: 9px; color: var(--text-muted);
+	}
+	.legend-icon { font-size: 10px; color: var(--text-muted); }
+	.legend-feat { color: #7c3aed; }
+	.legend-nav { color: #0ea5e9; }
+
 	.as-grid {
 		flex: 1; overflow-y: auto; padding: 12px 16px;
 		display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -117,16 +183,27 @@
 	}
 	.as-card:hover { border-color: var(--accent-border); }
 	.as-card.docked { border-color: var(--accent-border); background: var(--accent-glow); }
-	.as-dock-toggle {
+	.as-card.featured { box-shadow: 0 0 0 1px #7c3aed44 inset; }
+	.as-card.mnav { box-shadow: 0 0 0 1px #0ea5e944 inset; }
+	.as-card.docked.featured { box-shadow: 0 0 0 2px #7c3aed66 inset; }
+
+	/* Toggle button row */
+	.as-toggles {
 		position: absolute; top: 6px; right: 6px; z-index: 1;
+		display: flex; gap: 3px;
+	}
+	.as-toggle {
 		background: var(--bg-elevated); border: 1px solid var(--border);
-		border-radius: 50%; width: 24px; height: 24px;
-		font-size: 12px; cursor: pointer; color: var(--text-muted);
+		border-radius: 50%; width: 22px; height: 22px;
+		font-size: 10px; cursor: pointer; color: var(--text-muted);
 		display: flex; align-items: center; justify-content: center;
 		transition: all var(--transition);
 	}
-	.as-dock-toggle:hover { border-color: var(--accent); color: var(--accent); }
-	.as-card.docked .as-dock-toggle { color: var(--accent); border-color: var(--accent-border); }
+	.as-toggle:hover { border-color: var(--accent); color: var(--accent); }
+	.dock-toggle.on { color: var(--accent); border-color: var(--accent-border); }
+	.feat-toggle.on { color: #7c3aed; border-color: #7c3aed88; background: #7c3aed18; }
+	.nav-toggle.on { color: #0ea5e9; border-color: #0ea5e988; background: #0ea5e918; }
+
 	.as-body {
 		display: flex; flex-direction: column; align-items: center; gap: 8px;
 		padding: 16px 12px; width: 100%; background: none; border: none;

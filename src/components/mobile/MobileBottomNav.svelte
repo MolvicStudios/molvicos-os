@@ -1,7 +1,8 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import { getDockApps, getApp } from '$lib/apps.js';
+	import { getApp } from '$lib/apps.js';
 	import { t } from '$lib/i18n/index.js';
+	import { mobileNavConfig } from '$lib/stores/mobile.js';
 
 	export let activeApp = null;
 
@@ -9,10 +10,12 @@
 
 	const SETTINGS = getApp('settings');
 
-	// First 3 core dock apps (exclude settings/appstore which are fixed)
-	const quickApps = getDockApps()
-		.filter((a) => a.id !== 'settings' && a.id !== 'appstore')
-		.slice(0, 3);
+	// Quick apps from configurable store (max 3, exclude settings)
+	$: quickApps = $mobileNavConfig
+		.filter((id) => id !== 'settings')
+		.slice(0, 3)
+		.map((id) => getApp(id))
+		.filter(Boolean);
 
 	function goHome() {
 		dispatch('home');

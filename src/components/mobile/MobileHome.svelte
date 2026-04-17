@@ -3,11 +3,9 @@
 	import { t } from '$lib/i18n/index.js';
 	import { createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import { mobileFeaturedConfig } from '$lib/stores/mobile.js';
 
 	const dispatch = createEventDispatcher();
-
-	// Featured apps shown as large cards at the top
-	const FEATURED_IDS = ['promptlab', 'prospectly', 'aiworksuite'];
 
 	const sections = [
 		{ key: 'core', label: 'Core' },
@@ -15,10 +13,11 @@
 		{ key: 'power', label: 'System' }
 	];
 
-	$: featured = FEATURED_IDS.map((id) => APPS.find((a) => a.id === id)).filter(Boolean);
+	$: featuredIds = $mobileFeaturedConfig;
+	$: featured = featuredIds.map((id) => APPS.find((a) => a.id === id)).filter(Boolean);
 
 	function getBySection(key) {
-		return APPS.filter((a) => a.section === key && a.status === 'active' && !FEATURED_IDS.includes(a.id));
+		return APPS.filter((a) => a.section === key && a.status === 'active' && !featuredIds.includes(a.id));
 	}
 
 	function open(app) {
