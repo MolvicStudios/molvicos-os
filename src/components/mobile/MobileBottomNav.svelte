@@ -26,48 +26,59 @@
 <nav class="m-bottomnav" aria-label="Main navigation">
 	<!-- Home -->
 	<button
-		class="m-nav-btn home-btn"
+		class="m-nav-btn"
 		class:active={!activeApp}
 		on:click={goHome}
 		aria-label="Home"
 	>
+		{#if !activeApp}
+			<span class="active-bar"></span>
+		{/if}
 		<span class="m-nav-icon home-icon">◈</span>
-		<span class="m-nav-label">Home</span>
+		<span class="m-nav-label" class:visible={!activeApp}>Home</span>
 	</button>
 
 	<!-- Quick launch apps -->
 	{#each quickApps as app (app.id)}
+		{@const isActive = activeApp?.id === app.id}
 		<button
-			class="m-nav-btn {app.colorClass}"
-			class:active={activeApp?.id === app.id}
+			class="m-nav-btn"
+			class:active={isActive}
 			on:click={() => open(app)}
 			aria-label={$t(`apps.${app.id}.name`)}
 		>
+			{#if isActive}
+				<span class="active-bar"></span>
+			{/if}
 			<span class="m-nav-icon">{app.emoji}</span>
-			<span class="m-nav-label">{$t(`apps.${app.id}.name`)}</span>
+			<span class="m-nav-label" class:visible={isActive}>{$t(`apps.${app.id}.name`)}</span>
 		</button>
 	{/each}
 
 	<!-- Settings -->
 	{#if SETTINGS}
+		{@const isActive = activeApp?.id === 'settings'}
 		<button
 			class="m-nav-btn"
-			class:active={activeApp?.id === 'settings'}
+			class:active={isActive}
 			on:click={() => open(SETTINGS)}
 			aria-label={$t('apps.settings.name')}
 		>
+			{#if isActive}
+				<span class="active-bar"></span>
+			{/if}
 			<span class="m-nav-icon">{SETTINGS.emoji}</span>
-			<span class="m-nav-label">{$t('apps.settings.name')}</span>
+			<span class="m-nav-label" class:visible={isActive}>{$t('apps.settings.name')}</span>
 		</button>
 	{/if}
 </nav>
 
 <style>
 	.m-bottomnav {
-		height: 64px;
+		height: 60px;
 		display: flex;
 		align-items: stretch;
-		background: color-mix(in srgb, var(--bg-surface) 90%, transparent);
+		background: color-mix(in srgb, var(--bg-surface) 92%, transparent);
 		backdrop-filter: blur(20px);
 		border-top: 1px solid var(--border-accent);
 		flex-shrink: 0;
@@ -82,47 +93,53 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 3px;
+		gap: 2px;
 		background: none;
 		border: none;
 		cursor: pointer;
-		border-radius: var(--radius-md);
+		border-radius: 0;
 		transition: all 0.15s ease;
 		-webkit-tap-highlight-color: transparent;
-		padding: 6px 2px;
+		padding: 4px 2px 6px;
 		position: relative;
+		overflow: hidden;
 	}
 
 	.m-nav-btn:active {
 		background: var(--accent-dim);
-		transform: scale(0.92);
+		transform: scale(0.9);
 	}
 
-	.m-nav-btn.active::after {
-		content: '';
+	/* Top line indicator for active tab */
+	.active-bar {
 		position: absolute;
-		bottom: 4px;
-		width: 4px;
-		height: 4px;
-		border-radius: 50%;
+		top: 0;
+		left: 20%;
+		right: 20%;
+		height: 2px;
+		border-radius: 0 0 2px 2px;
 		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent-glow, #00ff8860);
 	}
 
 	.m-nav-icon {
 		font-size: 20px;
 		line-height: 1;
+		transition: transform 0.15s ease;
 	}
 
 	.home-icon {
 		color: var(--accent);
 		font-family: var(--font-display, 'Syne', sans-serif);
-		font-size: 18px;
+		font-size: 17px;
 	}
 
 	.m-nav-btn.active .m-nav-icon {
+		transform: scale(1.1);
 		filter: drop-shadow(0 0 4px var(--accent-glow, #00ff8840));
 	}
 
+	/* Labels only visible when active */
 	.m-nav-label {
 		font-family: var(--font-mono);
 		font-size: 9px;
@@ -131,9 +148,14 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		max-width: 100%;
+		max-height: 0;
+		opacity: 0;
+		transition: max-height 0.15s ease, opacity 0.15s ease;
 	}
 
-	.m-nav-btn.active .m-nav-label {
+	.m-nav-label.visible {
+		max-height: 14px;
+		opacity: 1;
 		color: var(--accent);
 	}
 </style>

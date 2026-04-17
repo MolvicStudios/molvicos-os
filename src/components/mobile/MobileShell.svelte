@@ -8,15 +8,21 @@
 	import Notification from '../ui/Notification.svelte';
 	import FeedbackModal from '../feedback/FeedbackModal.svelte';
 	import FeedbackToast from '../feedback/FeedbackToast.svelte';
+	import { fly } from 'svelte/transition';
 	import { mobileActiveApp, mobileAppComponent } from '$lib/stores/mobile.js';
 
+	// slideDir: 1 = app opens from right, -1 = returning home (from left)
+	let slideDir = 1;
+
 	async function openApp(appDef) {
+		slideDir = 1;
 		const mod = await appDef.loader();
 		mobileAppComponent.set(mod.default);
 		mobileActiveApp.set(appDef);
 	}
 
 	function closeApp() {
+		slideDir = -1;
 		mobileActiveApp.set(null);
 		mobileAppComponent.set(null);
 	}
@@ -27,9 +33,15 @@
 
 	<main class="m-content">
 		{#if $mobileActiveApp && $mobileAppComponent}
-			<MobileAppView component={$mobileAppComponent} on:close={closeApp} />
+			<MobileAppView
+				component={$mobileAppComponent}
+				slideDir={slideDir}
+				on:close={closeApp}
+			/>
 		{:else}
-			<MobileHome on:open={(e) => openApp(e.detail)} />
+			<div class="home-wrap" in:fly={{ x: -60, duration: 220, opacity: 0 }}>
+				<MobileHome on:open={(e) => openApp(e.detail)} />
+			</div>
 		{/if}
 	</main>
 
@@ -61,5 +73,10 @@
 		min-height: 0;
 		overflow: hidden;
 		position: relative;
+	}
+
+	.home-wrap {
+		position: absolute;
+		inset: 0;
 	}
 </style>
