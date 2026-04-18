@@ -49,7 +49,7 @@
 	{#if isOffline}
 		<div class="offline-banner">📡 Offline — local models still available</div>
 	{/if}
-	{#if $demoMode && !isOffline}
+	{#if $demoMode}
 		<div class="demo-banner">🧪 Demo Mode — Add an API key in Settings for full AI access</div>
 	{/if}
 	<div class="topbar-left">
@@ -75,6 +75,7 @@
 
 	<div class="topbar-right">
 		<ThemeToggle />
+		<a class="kofi-btn" href="https://ko-fi.com/E1E41XP6I9" target="_blank" rel="noopener" title="Support us on Ko-fi">☕</a>
 		<button class="avatar-pill" title={$userProfile.name || 'User'}>
 			<span class="initials">{initials}</span>
 		</button>
@@ -215,5 +216,26 @@
 		color: var(--text-secondary);
 		min-width: 64px;
 		text-align: right;
+	}
+
+	.kofi-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 22px;
+		height: 22px;
+		border-radius: 8px;
+		background: var(--bg-elevated);
+		border: 1px solid var(--border);
+		font-size: 12px;
+		text-decoration: none;
+		transition: all var(--transition);
+		cursor: pointer;
+	}
+
+	.kofi-btn:hover {
+		border-color: var(--accent-border);
+		background: var(--accent-dim);
+		transform: scale(1.1);
 	}
 </style>
