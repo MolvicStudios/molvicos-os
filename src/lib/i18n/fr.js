@@ -203,7 +203,10 @@ export default {
 		openTutorial: 'Ouvrir le tutoriel',
 		demoModeBanner: 'Mode Démo — Ajoutez une clé API dans les Paramètres pour l’accès complet à l’IA',
 		modelSelect: 'Modèle par défaut',
-		modelSelectSub: 'Modèle utilisé par défaut pour ce fournisseur'
+		modelSelectSub: 'Modèle utilisé par défaut pour ce fournisseur',
+		kofiTitle: 'Soutenez Molvicos',
+		kofiSub: 'Si vous appréciez Molvicos OS, offrez-nous un café !',
+		kofiButton: 'Offrir un Café'
 	},
 	tutorial: {
 		skip: 'Passer',

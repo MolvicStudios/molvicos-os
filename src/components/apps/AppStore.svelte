@@ -130,6 +130,17 @@
 		{#if filteredApps.length === 0}
 			<div class="as-empty">No apps match your search</div>
 		{/if}
+
+		<div class="as-kofi">
+			<span class="as-kofi-icon">☕</span>
+			<div class="as-kofi-text">
+				<span class="as-kofi-title">{$t('settings.kofiTitle')}</span>
+				<span class="as-kofi-sub">{$t('settings.kofiSub')}</span>
+			</div>
+			<a href="https://ko-fi.com/E1E41XP6I9" target="_blank" rel="noopener noreferrer" class="as-kofi-btn">
+				☕ {$t('settings.kofiButton')}
+			</a>
+		</div>
 	</div>
 </div>
 
@@ -222,4 +233,26 @@
 	.as-free { font-size: 9px; color: var(--accent); padding: 1px 6px; border: 1px solid var(--accent-border); border-radius: 3px; }
 	.as-section { font-size: 8px; color: var(--text-muted); text-transform: uppercase; }
 	.as-empty { grid-column: 1 / -1; text-align: center; padding: 40px; font-size: 12px; color: var(--text-muted); }
+
+	.as-kofi {
+		grid-column: 1 / -1;
+		margin-top: 8px; padding: 14px 16px;
+		background: color-mix(in srgb, var(--accent) 6%, var(--bg-surface));
+		border: 1px solid var(--accent-border);
+		border-radius: var(--radius-md);
+		display: flex; align-items: center; gap: 12px;
+	}
+	.as-kofi-icon { font-size: 22px; flex-shrink: 0; }
+	.as-kofi-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+	.as-kofi-title { font-size: 12px; color: var(--text-primary); }
+	.as-kofi-sub { font-size: 10px; color: var(--text-secondary); }
+	.as-kofi-btn {
+		white-space: nowrap; padding: 7px 14px;
+		background: #FF5E5B; color: #fff; border: none;
+		border-radius: var(--radius-sm); font-family: var(--font-mono);
+		font-size: 11px; font-weight: 600; cursor: pointer;
+		text-decoration: none; transition: opacity var(--transition);
+		flex-shrink: 0;
+	}
+	.as-kofi-btn:hover { opacity: 0.85; }
 </style>

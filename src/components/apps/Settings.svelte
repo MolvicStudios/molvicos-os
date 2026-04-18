@@ -218,6 +218,19 @@
 				<button class="sr-save-btn" on:click={() => tutorialOpen.set(true)}>{$t('settings.openTutorial')}</button>
 			</div>
 
+			<div class="kofi-section">
+				<div class="kofi-header">
+					<span class="kofi-icon">☕</span>
+					<div class="kofi-text">
+						<span class="sr-label">{$t('settings.kofiTitle')}</span>
+						<span class="sr-sub">{$t('settings.kofiSub')}</span>
+					</div>
+				</div>
+				<a href="https://ko-fi.com/E1E41XP6I9" target="_blank" rel="noopener noreferrer" class="kofi-btn">
+					☕ {$t('settings.kofiButton')}
+				</a>
+			</div>
+
 		{:else if activeSection === 'appearance'}
 			<div class="settings-section-title">{$t('settings.appearance')}</div>
 
@@ -636,4 +649,23 @@
 		from { transform: translateY(10px); opacity: 0; }
 		to { transform: translateY(0); opacity: 1; }
 	}
+
+	.kofi-section {
+		margin-top: 18px; padding: 14px 16px;
+		background: color-mix(in srgb, var(--accent) 6%, var(--bg-surface));
+		border: 1px solid var(--accent-border);
+		border-radius: var(--radius-md);
+		display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	}
+	.kofi-header { display: flex; align-items: center; gap: 10px; }
+	.kofi-icon { font-size: 22px; }
+	.kofi-text { display: flex; flex-direction: column; gap: 2px; }
+	.kofi-btn {
+		white-space: nowrap; padding: 7px 14px;
+		background: #FF5E5B; color: #fff; border: none;
+		border-radius: var(--radius-sm); font-family: var(--font-mono);
+		font-size: 11px; font-weight: 600; cursor: pointer;
+		text-decoration: none; transition: opacity var(--transition);
+	}
+	.kofi-btn:hover { opacity: 0.85; }
 </style>

@@ -234,7 +234,10 @@ export default {
 		desktops: 'Escritorios',
 		demoModeBanner: 'Modo Demo — Añade una API key en Ajustes para acceso completo a la IA',
 		modelSelect: 'Modelo por defecto',
-		modelSelectSub: 'Modelo usado por defecto para este proveedor'
+		modelSelectSub: 'Modelo usado por defecto para este proveedor',
+		kofiTitle: 'Apoya Molvicos',
+		kofiSub: 'Si disfrutas Molvicos OS, ¡invítanos a un café!',
+		kofiButton: 'Invitar a un Café'
 	},
 	tutorial: {
 		skip: 'Saltar',

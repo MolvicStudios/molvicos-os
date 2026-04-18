@@ -203,7 +203,10 @@ export default {
 		openTutorial: '打开教程',
 		demoModeBanner: '演示模式 — 在设置中添加 API 密鉅以获取完整的 AI 访问权限',
 		modelSelect: '默认模型',
-		modelSelectSub: '此提供商默认使用的模型'
+		modelSelectSub: '此提供商默认使用的模型',
+		kofiTitle: '支持 Molvicos',
+		kofiSub: '如果你喜欢 Molvicos OS，请我们喝杯咖啡吧！',
+		kofiButton: '请喝咖啡'
 	},
 	tutorial: {
 		skip: '跳过',

@@ -234,7 +234,10 @@ export default {
 		desktops: 'Desktops',
 		demoModeBanner: 'Demo Mode — Add an API key in Settings for full AI access',
 		modelSelect: 'Default model',
-		modelSelectSub: 'Model used by default for this provider'
+		modelSelectSub: 'Model used by default for this provider',
+		kofiTitle: 'Support Molvicos',
+		kofiSub: 'If you enjoy Molvicos OS, consider buying us a coffee!',
+		kofiButton: 'Buy a Coffee'
 	},
 	tutorial: {
 		skip: 'Skip',
