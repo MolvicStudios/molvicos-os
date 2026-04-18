@@ -71,11 +71,11 @@
 		{#if activeAppName}
 			<span class="active-app" key={$activeApp}>{activeAppName}</span>
 		{/if}
+		<a class="kofi-btn" href="https://ko-fi.com/E1E41XP6I9" target="_blank" rel="noopener" title="Support us on Ko-fi">☕ Ko-fi</a>
 	</div>
 
 	<div class="topbar-right">
 		<ThemeToggle />
-		<a class="kofi-btn" href="https://ko-fi.com/E1E41XP6I9" target="_blank" rel="noopener" title="Support us on Ko-fi">☕</a>
 		<button class="avatar-pill" title={$userProfile.name || 'User'}>
 			<span class="initials">{initials}</span>
 		</button>
@@ -149,6 +149,9 @@
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
+		display: flex;
+		align-items: center;
+		gap: 10px;
 	}
 
 	.logo {
@@ -221,21 +224,24 @@
 	.kofi-btn {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		width: 22px;
-		height: 22px;
-		border-radius: 8px;
+		gap: 4px;
+		padding: 2px 8px;
+		height: 20px;
+		border-radius: 10px;
 		background: var(--bg-elevated);
 		border: 1px solid var(--border);
-		font-size: 12px;
+		font-family: var(--font-mono);
+		font-size: 9px;
+		color: var(--text-secondary);
 		text-decoration: none;
 		transition: all var(--transition);
 		cursor: pointer;
+		letter-spacing: 0.5px;
 	}
 
 	.kofi-btn:hover {
+		color: var(--accent);
 		border-color: var(--accent-border);
 		background: var(--accent-dim);
-		transform: scale(1.1);
 	}
 </style>
