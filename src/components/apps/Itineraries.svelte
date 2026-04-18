@@ -179,7 +179,7 @@
 	}
 	.itin-step.done .step-num {
 		background: var(--accent2, #00cc88); border-color: var(--accent2, #00cc88);
-		color: #000;
+		color: var(--text-on-accent);
 	}
 
 	.step-info { flex: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
@@ -200,7 +200,7 @@
 		border-radius: var(--radius-sm); font-size: 10px; padding: 3px 8px;
 		cursor: pointer; color: var(--accent); font-family: var(--font-mono);
 	}
-	.step-done-btn:hover { background: var(--accent); color: #000; }
+	.step-done-btn:hover { background: var(--accent); color: var(--text-on-accent); }
 
 	.itin-complete-row {
 		display: flex; align-items: center; justify-content: space-between;

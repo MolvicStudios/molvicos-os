@@ -159,8 +159,8 @@
 		width: 20px;
 		text-align: center;
 	}
-	.status.valid { color: #00ff88; }
-	.status.invalid { color: #ff4444; }
+	.status.valid { color: var(--success, #00ff88); }
+	.status.invalid { color: var(--danger, #ff4444); }
 	.status.checking { color: var(--text-muted); }
 
 	.note {

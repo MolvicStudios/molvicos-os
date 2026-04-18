@@ -205,7 +205,7 @@
 		background: var(--accent);
 	}
 	.dock-home:hover .dock-emoji {
-		color: #000;
+		color: var(--text-on-accent);
 	}
 
 	.desktop-selector {

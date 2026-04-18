@@ -187,7 +187,7 @@
 	}
 	.rp-input:focus { border-color: var(--accent); }
 	.word-count { font-size: 10px; color: var(--text-muted); text-align: right; }
-	.word-count.warn { color: #ffa500; }
+	.word-count.warn { color: var(--warning, #ffa500); }
 
 	.format-select { display: flex; flex-direction: column; gap: 4px; }
 	.fmt-toggle { display: flex; gap: 8px; margin-bottom: 4px; }

@@ -434,9 +434,9 @@ Include practical structure with variables marked [VARIABLE] and usage instructi
 	.validation-banner {
 		padding: 6px 12px; font-family: var(--font-mono); font-size: 11px; text-align: center; flex-shrink: 0;
 	}
-	.validation-banner.valid { background: #0a2c0a; color: #4ade80; border-bottom: 1px solid #166534; }
-	.validation-banner.warning { background: #2c2a0a; color: #facc15; border-bottom: 1px solid #854d0e; }
-	.validation-banner.error { background: #2c0a0a; color: #f87171; border-bottom: 1px solid #991b1b; }
+	.validation-banner.valid { background: color-mix(in srgb, var(--success) 10%, var(--bg-surface)); color: var(--success); border-bottom: 1px solid color-mix(in srgb, var(--success) 30%, transparent); }
+	.validation-banner.warning { background: color-mix(in srgb, var(--warning) 10%, var(--bg-surface)); color: var(--warning); border-bottom: 1px solid color-mix(in srgb, var(--warning) 30%, transparent); }
+	.validation-banner.error { background: color-mix(in srgb, var(--danger) 10%, var(--bg-surface)); color: var(--danger); border-bottom: 1px solid color-mix(in srgb, var(--danger) 30%, transparent); }
 
 	/* Results */
 	.wb-result { display: flex; flex: 1; overflow: hidden; }

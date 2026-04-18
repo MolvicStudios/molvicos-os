@@ -107,7 +107,7 @@
 		padding: 0 4px;
 	}
 	.hi-del:hover {
-		color: #ff4444;
+		color: var(--danger, #ff4444);
 	}
 	.history-empty {
 		padding: 20px 12px;

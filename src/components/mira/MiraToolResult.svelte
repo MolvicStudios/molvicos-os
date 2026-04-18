@@ -27,10 +27,10 @@
 	}
 
 	.tool-result.success {
-		border-left-color: #00ff88;
+		border-left-color: var(--success, #00ff88);
 	}
 	.tool-result.error {
-		border-left-color: #ff4444;
+		border-left-color: var(--danger, #ff4444);
 	}
 
 	.tool-header {
@@ -44,8 +44,8 @@
 		font-size: 12px;
 		font-weight: 700;
 	}
-	.success .tool-icon { color: #00ff88; }
-	.error .tool-icon { color: #ff4444; }
+	.success .tool-icon { color: var(--success, #00ff88); }
+	.error .tool-icon { color: var(--danger, #ff4444); }
 
 	.tool-name {
 		font-size: 10px;

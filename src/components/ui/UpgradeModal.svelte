@@ -108,14 +108,14 @@
 	}
 	.cta-yearly {
 		background: var(--accent); border: none; border-radius: var(--radius-md);
-		color: #000; font-size: 14px; font-weight: 500; padding: 12px;
+		color: var(--text-on-accent); font-size: 14px; font-weight: 500; padding: 12px;
 		cursor: pointer; font-family: var(--font-mono);
 		display: flex; align-items: center; justify-content: center; gap: 8px;
 		transition: opacity var(--transition);
 	}
 	.cta-yearly:hover { opacity: 0.9; }
 	.cta-save {
-		font-size: 11px; background: #000; color: var(--accent);
+		font-size: 11px; background: var(--bg-base); color: var(--accent);
 		padding: 2px 8px; border-radius: 4px;
 	}
 	.cta-monthly {

@@ -168,7 +168,7 @@
 		border-radius: var(--radius-sm);
 		font-size: 11px;
 	}
-	.tier-high { background: #00ff8822; color: #00ff88; }
-	.tier-mid { background: #ffa50022; color: #ffa500; }
-	.tier-low { background: #ff444422; color: #ff4444; }
+	.tier-high { background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success, #00ff88); }
+	.tier-mid { background: color-mix(in srgb, var(--warning) 12%, transparent); color: var(--warning, #ffa500); }
+	.tier-low { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger, #ff4444); }
 </style>

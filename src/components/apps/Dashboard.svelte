@@ -148,7 +148,7 @@
 	.pb-billing { font-size: 10px; color: var(--text-secondary); }
 	.pb-upgrade {
 		background: var(--accent); border: none; border-radius: var(--radius-sm);
-		color: #000; font-size: 11px; padding: 5px 12px; cursor: pointer;
+		color: var(--text-on-accent); font-size: 11px; padding: 5px 12px; cursor: pointer;
 		font-family: var(--font-mono);
 	}
 

@@ -104,7 +104,7 @@
 <style>
 	.offline-bar {
 		background: var(--danger, #ef4444);
-		color: #fff;
+		color: var(--text-on-accent, #fff);
 		font-family: var(--font-mono);
 		font-size: 10px;
 		font-weight: 600;

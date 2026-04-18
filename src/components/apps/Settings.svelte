@@ -578,7 +578,7 @@
 	.cpc-billing { font-size: 10px; color: var(--text-secondary); }
 	.cpc-upgrade {
 		background: var(--accent); border: none; border-radius: var(--radius-sm);
-		color: #000; font-size: 11px; padding: 6px 14px;
+		color: var(--text-on-accent); font-size: 11px; padding: 6px 14px;
 		cursor: pointer; font-family: var(--font-mono);
 	}
 
@@ -608,7 +608,7 @@
 
 	.settings-toast {
 		position: fixed; bottom: 20px; right: 20px;
-		background: var(--accent); color: #000;
+		background: var(--accent); color: var(--text-on-accent);
 		font-size: 11px; padding: 7px 16px;
 		border-radius: var(--radius-sm); font-family: var(--font-mono);
 		animation: slideUp 0.2s ease;

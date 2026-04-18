@@ -657,7 +657,7 @@
 	}
 
 	.m-btn:hover { color: var(--text-primary); border-color: var(--text-secondary); }
-	.m-btn.danger:hover { color: #ff5370; border-color: #ff5370; }
+	.m-btn.danger:hover { color: var(--danger); border-color: var(--danger); }
 
 	.thinking-badge {
 		position: absolute;

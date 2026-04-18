@@ -178,7 +178,7 @@
 	.c-badge {
 		font-family: var(--font-mono);
 		font-size: 12px;
-		color: #00ff88;
+		color: var(--success, #00ff88);
 	}
 
 	.section-label {

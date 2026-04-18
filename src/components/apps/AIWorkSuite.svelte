@@ -614,13 +614,13 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .form-field label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
   .gen-btn {
     background: var(--accent); border: none; border-radius: var(--radius-sm);
-    color: #000; font-size: 11px; padding: 9px 14px; cursor: pointer;
+    color: var(--text-on-accent); font-size: 11px; padding: 9px 14px; cursor: pointer;
     font-family: var(--font-mono); font-weight: 500; margin-top: 4px;
   }
   .gen-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .time-entry-form { display: flex; gap: 5px; align-items: center; }
-  .add-btn { background: var(--accent); border: none; border-radius: 4px; color: #000; font-size: 14px; width: 28px; height: 28px; cursor: pointer; flex-shrink: 0; }
+  .add-btn { background: var(--accent); border: none; border-radius: 4px; color: var(--text-on-accent); font-size: 14px; width: 28px; height: 28px; cursor: pointer; flex-shrink: 0; }
   .time-list { display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow-y: auto; }
   .time-row { display: flex; align-items: center; gap: 6px; font-size: 10px; padding: 4px 0; border-bottom: 0.5px solid var(--border); }
   .tr-date  { color: var(--text-secondary); width: 70px; flex-shrink: 0; }
@@ -658,7 +658,7 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .tc-btn-del { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; padding: 2px 6px; line-height: 1; }
   .tc-btn-del:hover { color: #ef4444; }
   .tcv2-chat-btn { background: none; border: 1px solid var(--accent); border-radius: var(--radius-sm); color: var(--accent); font-size: 10px; padding: 6px 12px; cursor: pointer; font-family: var(--font-mono); transition: all var(--transition); margin-top: 2px; }
-  .tcv2-chat-btn:hover { background: var(--accent); color: #000; }
+  .tcv2-chat-btn:hover { background: var(--accent); color: var(--text-on-accent); }
 
   /* Team chat layout */
   .team-chat-layout { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
@@ -677,7 +677,7 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .tch-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
   .msg { max-width: 85%; }
   .msg-user { align-self: flex-end; }
-  .msg-user .msg-bubble { background: var(--accent); color: #000; border-radius: 12px 12px 2px 12px; padding: 8px 12px; font-size: 11px; line-height: 1.5; }
+  .msg-user .msg-bubble { background: var(--accent); color: var(--text-on-accent); border-radius: 12px 12px 2px 12px; padding: 8px 12px; font-size: 11px; line-height: 1.5; }
   .msg-agent { align-self: flex-start; display: flex; flex-direction: column; gap: 3px; }
   .msg-label { font-size: 9px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.5px; }
   .msg-agent .msg-bubble { background: var(--bg-input); color: var(--text-primary); border-radius: 2px 12px 12px 12px; padding: 8px 12px; font-size: 11px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
@@ -689,6 +689,6 @@ Include total hours, breakdown by type of work, and a billing summary paragraph.
   .tch-input { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
   .tch-input input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 11px; color: var(--text-primary); font-family: var(--font-mono); }
   .tch-input input:focus { border-color: var(--accent); outline: none; }
-  .tci-send { background: var(--accent); border: none; border-radius: var(--radius-sm); color: #000; font-size: 14px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tci-send { background: var(--accent); border: none; border-radius: var(--radius-sm); color: var(--text-on-accent); font-size: 14px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .tci-send:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>

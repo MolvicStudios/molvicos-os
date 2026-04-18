@@ -126,8 +126,8 @@
 		min-width: 18px;
 		height: 18px;
 		padding: 0 5px;
-		background: #ff4444;
-		color: #fff;
+		background: var(--danger, #ff4444);
+		color: var(--text-on-accent, #fff);
 		border-radius: 9px;
 		font-family: var(--font-mono);
 		font-size: 10px;

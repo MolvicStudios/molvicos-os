@@ -459,7 +459,7 @@ Each message must reference a different value angle or trigger. Never repeat the
   .radio-label { font-size: 11px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; cursor: pointer; }
   .gen-btn {
     background: var(--accent); border: none; border-radius: var(--radius-sm);
-    color: #000; font-size: 11px; padding: 9px 14px; cursor: pointer;
+    color: var(--text-on-accent); font-size: 11px; padding: 9px 14px; cursor: pointer;
     font-family: var(--font-mono); font-weight: 500; margin-top: 4px;
     transition: opacity var(--transition);
   }
