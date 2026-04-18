@@ -92,6 +92,8 @@ export default {
 		toneshifter: { name: '语调转换', desc: 'AI语调翻译器', input: '原始文本' },
 		analytics: { name: '分析', desc: '网站分析', connectDesc: '连接到您的MolvicStudios Analytics Worker' },
 		itineraries: { name: '行程规划', desc: '引导式 AI 工作流' },
+		codestudio: { name: 'Code Studio', desc: 'AI代码编辑器', edit: '编辑', preview: '预览', download: '下载', editorPlaceholder: '开始编写代码或使用AI生成...', noCode: '暂无代码。', aiGenerate: 'AI生成', modelLabel: '模型', promptLabel: '指令', promptPlaceholder: '描述要生成或修改的代码...', generateBtn: '生成', generating: '生成中...', noKey: '未配置API密钥。', aiHint: '按Enter↵生成' },
+		teambuilder: { name: 'Team Builder', desc: '多学科AI团队', team: '团队', teamTab: '团队', chatTab: '聊天', templates: '模板', addMember: '添加', editMember: '编辑成员', newMember: '新成员', memberName: '姓名', memberRole: '角色', systemPrompt: '角色系统提示词...', emptyTeam: '添加成员或加载模板开始。', roundrobin: '轮询（全部回答）', consensus: '共识（汇总）', chatEmpty: '向团队提问开始对话。', inputPlaceholder: '给团队发消息...', addMemberFirst: '请先添加团队成员', synthesis: '团队综合' },
 		comingSoon: '即将推出',
 		comingSoonHint: '此应用正在集成到操作系统中。'
 	},
@@ -198,7 +200,10 @@ export default {
 		n8nUrl: 'n8n 实例 URL',
 		n8nUrlSub: '连接你的自托管 n8n',
 		saved: '已保存',
-		openTutorial: '打开教程'
+		openTutorial: '打开教程',
+		demoModeBanner: '演示模式 — 在设置中添加 API 密鉅以获取完整的 AI 访问权限',
+		modelSelect: '默认模型',
+		modelSelectSub: '此提供商默认使用的模型'
 	},
 	tutorial: {
 		skip: '跳过',

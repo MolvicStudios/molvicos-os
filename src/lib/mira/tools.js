@@ -126,21 +126,50 @@ export async function executeTool(toolName, args) {
 
 /**
  * Parse tool calls from assistant response text.
- * Format: [TOOL: name({"key": "value"})]
+ * Handles multiple formats LLMs may produce:
+ *   [TOOL: name({"key": "value"})]
+ *   [TOOL: name({"key": "value", "nested": {"a": 1}})]
+ *   TOOL: name({"key": "value"})
+ *   <tool>name({"key": "value"})</tool>
  */
 export function parseToolCalls(text) {
-	const pattern = /\[TOOL:\s*(\w+)\((\{[^}]+\})\)\]/g;
 	const calls = [];
-	let match;
-	while ((match = pattern.exec(text)) !== null) {
+
+	// Primary format: [TOOL: name({...})]  — supports nested braces
+	const primary = /\[TOOL:\s*(\w+)\((\{[\s\S]*?\})\)\]/g;
+	let m;
+	while ((m = primary.exec(text)) !== null) {
 		try {
-			const name = match[1];
-			const args = JSON.parse(match[2]);
-			calls.push({ name, args });
+			calls.push({ name: m[1], args: JSON.parse(m[2]) });
 		} catch {
-			// Skip malformed tool calls
+			// Try fixing common LLM JSON quirks (single quotes, trailing commas)
+			try {
+				const fixed = m[2]
+					.replace(/'/g, '"')
+					.replace(/,\s*([}\]])/g, '$1');
+				calls.push({ name: m[1], args: JSON.parse(fixed) });
+			} catch { /* skip */ }
 		}
 	}
+	if (calls.length) return calls;
+
+	// Fallback — plain TOOL: without brackets
+	const plain = /TOOL:\s*(\w+)\((\{[\s\S]*?\})\)/g;
+	while ((m = plain.exec(text)) !== null) {
+		try {
+			calls.push({ name: m[1], args: JSON.parse(m[2]) });
+		} catch { /* skip */ }
+	}
+	if (calls.length) return calls;
+
+	// Fallback — XML-style <tool>name({...})</tool>
+	const xml = /<tool>\s*(\w+)\((\{[\s\S]*?\})\)\s*<\/tool>/g;
+	while ((m = xml.exec(text)) !== null) {
+		try {
+			calls.push({ name: m[1], args: JSON.parse(m[2]) });
+		} catch { /* skip */ }
+	}
+
 	return calls;
 }
 

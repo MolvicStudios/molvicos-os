@@ -95,6 +95,8 @@ export default {
 		contractgen: { name: 'ContractGen', desc: 'Contratos con IA', serviceType: 'Tipo de servicio', projectDesc: 'Descripción del proyecto', projectDescPh: 'Describe el proyecto y alcance del contrato...', price: 'Precio', deadline: 'Fecha límite', deliverables: 'Entregables', deliverablesPh: 'Lista de entregables principales...', payment: 'Condiciones de pago', jurisdiction: 'Jurisdicción', tone: 'Tono', generateBtn: 'Generar Contrato', generating: 'Generando', newContract: 'Nuevo Contrato', disclaimer: 'Este documento es una plantilla y NO sustituye el asesoramiento legal profesional.' },
 		invoiceai: { name: 'InvoiceAI', desc: 'Facturas con IA', providerInfo: 'Datos del proveedor', providerName: 'Nombre / Empresa', taxId: 'NIF / CIF', address: 'Dirección', clientInfo: 'Datos del cliente', clientName: 'Nombre del cliente', clientCompany: 'Empresa', clientAddress: 'Dirección del cliente', invoiceDetails: 'Datos de factura', invoiceNum: 'Nº Factura', currency: 'Moneda', taxRegime: 'Régimen fiscal', services: 'Servicios / Conceptos', servicesPh: 'Describe los servicios realizados y precios...', generateBtn: 'Generar Factura', generating: 'Generando', newInvoice: 'Nueva Factura' },
 		itineraries: { name: 'Itinerarios', desc: 'Flujos de trabajo con IA' },
+		codestudio: { name: 'Code Studio', desc: 'Editor de Código IA', edit: 'Editar', preview: 'Vista previa', download: 'Descargar', editorPlaceholder: 'Empieza a escribir código o usa la IA para generarlo...', noCode: 'Sin código aún.', aiGenerate: 'Generar con IA', modelLabel: 'Modelo', promptLabel: 'Instrucción', promptPlaceholder: 'Describe el código a generar o modificar...', generateBtn: 'Generar', generating: 'Generando...', noKey: 'Sin clave API configurada.', aiHint: 'Enter ↵ para generar · Ctrl+Z para deshacer' },
+		teambuilder: { name: 'Team Builder', desc: 'Equipos IA Multidisciplinares', team: 'Equipo', teamTab: 'Equipo', chatTab: 'Chat', templates: 'Plantillas', addMember: 'Añadir', editMember: 'Editar Miembro', newMember: 'Nuevo Miembro', memberName: 'Nombre', memberRole: 'Rol', systemPrompt: 'Prompt de rol del sistema...', emptyTeam: 'Añade miembros o carga una plantilla para empezar.', roundrobin: 'Round-Robin (todos responden)', consensus: 'Consenso (resumido)', chatEmpty: 'Pregunta algo al equipo para empezar.', inputPlaceholder: 'Mensaje al equipo...', addMemberFirst: 'Añade miembros primero', synthesis: 'Síntesis del Equipo' },
 		comingSoon: 'Próximamente',
 		comingSoonHint: 'Esta app se está integrando en el OS.'
 	},
@@ -229,7 +231,10 @@ export default {
 		saved: 'Guardado',
 		openTutorial: 'Abrir Tutorial',
 		feedback: 'Feedback y Errores',
-		desktops: 'Escritorios'
+		desktops: 'Escritorios',
+		demoModeBanner: 'Modo Demo — Añade una API key en Ajustes para acceso completo a la IA',
+		modelSelect: 'Modelo por defecto',
+		modelSelectSub: 'Modelo usado por defecto para este proveedor'
 	},
 	tutorial: {
 		skip: 'Saltar',

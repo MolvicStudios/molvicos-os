@@ -15,12 +15,20 @@ const PROVIDER_ENDPOINTS = {
 	github: 'https://models.inference.ai.azure.com/chat/completions'
 };
 
-export async function POST({ request, ...event }) {
+export async function POST({ request, platform, ...event }) {
 	const blocked = applyRateLimit({ request, ...event }, { prefix: 'mira', maxRequests: 20, windowMs: 60_000 });
 	if (blocked) return blocked;
 
 	try {
 		const { provider, apiKey, model, system, messages } = await request.json();
+
+		// Demo mode: route through Cloudflare Workers AI
+		if (provider === 'demo') {
+			if (!platform?.env?.AI) {
+				return streamDemoFallback(system, messages);
+			}
+			return streamWorkersAI(platform.env.AI, system, messages);
+		}
 
 		if (!provider || !apiKey || !model || !messages) {
 			return new Response('Missing required fields', { status: 400 });
@@ -161,5 +169,45 @@ async function streamAnthropic(apiKey, model, system, messages) {
 			'Cache-Control': 'no-cache',
 			'Connection': 'keep-alive'
 		}
+	});
+}
+
+/**
+ * Stream from Cloudflare Workers AI (demo mode, production only).
+ */
+async function streamWorkersAI(AI, system, messages) {
+	const allMessages = system
+		? [{ role: 'system', content: system }, ...messages]
+		: messages;
+	const stream = await AI.run('@cf/meta/llama-3.1-8b-instruct', {
+		stream: true,
+		messages: allMessages
+	});
+	return new Response(stream, {
+		headers: {
+			'Content-Type': 'text/event-stream',
+			'Cache-Control': 'no-cache',
+			'Connection': 'keep-alive'
+		}
+	});
+}
+
+/**
+ * Local-dev fallback for demo mode (Workers AI not available).
+ */
+function streamDemoFallback(system, messages) {
+	const lastUser = [...messages].reverse().find(m => m.role === 'user')?.content || '';
+	const reply = `[Demo Mode — local dev] I received: "${lastUser.slice(0, 80)}${lastUser.length > 80 ? '...' : ''}". Deploy to Cloudflare Pages to use the free Workers AI demo, or add an API key in Settings.`;
+	const encoder = new TextEncoder();
+	const stream = new ReadableStream({
+		start(controller) {
+			const data = JSON.stringify({ choices: [{ delta: { content: reply } }] });
+			controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+			controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+			controller.close();
+		}
+	});
+	return new Response(stream, {
+		headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' }
 	});
 }

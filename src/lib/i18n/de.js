@@ -92,6 +92,8 @@ export default {
 		toneshifter: { name: 'ToneShifter', desc: 'KI-Tonübersetzer', input: 'Originaltext' },
 		analytics: { name: 'Analytics', desc: 'Web-Analyse', connectDesc: 'Verbinde dich mit deinem MolvicStudios Analytics Worker' },
 		itineraries: { name: 'Reiserouten', desc: 'Geführte KI-Workflows' },
+		codestudio: { name: 'Code Studio', desc: 'KI-Code-Editor', edit: 'Bearbeiten', preview: 'Vorschau', download: 'Herunterladen', editorPlaceholder: 'Code schreiben oder KI nutzen...', noCode: 'Noch kein Code.', aiGenerate: 'Mit KI generieren', modelLabel: 'Modell', promptLabel: 'Anweisung', promptPlaceholder: 'Zu generierenden Code beschreiben...', generateBtn: 'Generieren', generating: 'Generierung...', noKey: 'Kein API-Schlüssel konfiguriert.', aiHint: 'Enter ↵ zum Generieren' },
+		teambuilder: { name: 'Team Builder', desc: 'Multidisziplinäre KI-Teams', team: 'Team', teamTab: 'Team', chatTab: 'Chat', templates: 'Vorlagen', addMember: 'Hinzufügen', editMember: 'Mitglied bearbeiten', newMember: 'Neues Mitglied', memberName: 'Name', memberRole: 'Rolle', systemPrompt: 'System-Prompt der Rolle...', emptyTeam: 'Mitglieder hinzufügen oder Vorlage laden.', roundrobin: 'Round-Robin (alle antworten)', consensus: 'Konsens (zusammengefasst)', chatEmpty: 'Stell dem Team eine Frage.', inputPlaceholder: 'Nachricht an das Team...', addMemberFirst: 'Zuerst Mitglieder hinzufügen', synthesis: 'Team-Synthese' },
 		comingSoon: 'Demnächst',
 		comingSoonHint: 'Diese App wird in das OS integriert.'
 	},
@@ -198,7 +200,10 @@ export default {
 		n8nUrl: 'n8n-Instanz-URL',
 		n8nUrlSub: 'Verbinde dein selbstgehostetes n8n',
 		saved: 'Gespeichert',
-		openTutorial: 'Tutorial öffnen'
+		openTutorial: 'Tutorial öffnen',
+		demoModeBanner: 'Demo-Modus — Füge einen API-Schlüssel in den Einstellungen hinzu für vollen KI-Zugriff',
+		modelSelect: 'Standardmodell',
+		modelSelectSub: 'Standardmäßig verwendetes Modell für diesen Anbieter'
 	},
 	tutorial: {
 		skip: 'Überspringen',

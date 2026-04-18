@@ -95,6 +95,8 @@ export default {
 		contractgen: { name: 'ContractGen', desc: 'AI Contract Generator', serviceType: 'Service type', projectDesc: 'Project description', projectDescPh: 'Describe the project scope for the contract...', price: 'Price', deadline: 'Deadline', deliverables: 'Deliverables', deliverablesPh: 'List key deliverables...', payment: 'Payment terms', jurisdiction: 'Jurisdiction', tone: 'Tone', generateBtn: 'Generate Contract', generating: 'Generating', newContract: 'New Contract', disclaimer: 'This document is a template and NOT a substitute for professional legal advice.' },
 		invoiceai: { name: 'InvoiceAI', desc: 'AI Invoice Generator', providerInfo: 'Provider details', providerName: 'Name / Company', taxId: 'Tax ID', address: 'Address', clientInfo: 'Client details', clientName: 'Client name', clientCompany: 'Company', clientAddress: 'Client address', invoiceDetails: 'Invoice details', invoiceNum: 'Invoice #', currency: 'Currency', taxRegime: 'Tax regime', services: 'Services / Items', servicesPh: 'Describe services rendered and prices...', generateBtn: 'Generate Invoice', generating: 'Generating', newInvoice: 'New Invoice' },
 		itineraries: { name: 'Itineraries', desc: 'Guided AI Workflows' },
+		codestudio: { name: 'Code Studio', desc: 'AI Code Editor', edit: 'Edit', preview: 'Preview', download: 'Download', editorPlaceholder: 'Start writing code or use AI to generate...', noCode: 'No code yet.', aiGenerate: 'AI Generate', modelLabel: 'Model', promptLabel: 'Instruction', promptPlaceholder: 'Describe the code to generate or modify...', generateBtn: 'Generate', generating: 'Generating...', noKey: 'No API key configured.', aiHint: 'Enter ↵ to generate · Ctrl+Z to undo' },
+		teambuilder: { name: 'Team Builder', desc: 'Multidisciplinary AI Teams', team: 'Team', teamTab: 'Team', chatTab: 'Chat', templates: 'Templates', addMember: 'Add', editMember: 'Edit Member', newMember: 'New Member', memberName: 'Name', memberRole: 'Role', systemPrompt: 'Role system prompt...', emptyTeam: 'Add members or load a template to start.', roundrobin: 'Round-Robin (all respond)', consensus: 'Consensus (summarized)', chatEmpty: 'Ask the team something to get started.', inputPlaceholder: 'Message the team...', addMemberFirst: 'Add team members first', synthesis: 'Team Synthesis' },
 		comingSoon: 'Coming Soon',
 		comingSoonHint: 'This app is being integrated into the OS.'
 	},
@@ -229,7 +231,10 @@ export default {
 		saved: 'Saved',
 		openTutorial: 'Open Tutorial',
 		feedback: 'Feedback & Bugs',
-		desktops: 'Desktops'
+		desktops: 'Desktops',
+		demoModeBanner: 'Demo Mode — Add an API key in Settings for full AI access',
+		modelSelect: 'Default model',
+		modelSelectSub: 'Model used by default for this provider'
 	},
 	tutorial: {
 		skip: 'Skip',

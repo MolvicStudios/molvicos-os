@@ -59,7 +59,7 @@ export const APPS = [
 	{
 		id: 'workflow',
 		loader: lazy(() => import('../components/apps/WorkflowBuilder.svelte')),
-		emoji: '⚙️',
+		emoji: '🔁',
 		colorClass: 'icon-teal',
 		dockSlot: null,
 		defaultSize: { w: 800, h: 600 },
@@ -241,6 +241,28 @@ export const APPS = [
 		defaultSize: { w: 760, h: 600 },
 		credits: 2,
 		section: 'tools',
+		status: 'active'
+	},
+	{
+		id: 'codestudio',
+		loader: lazy(() => import('../components/apps/CodeStudio.svelte')),
+		emoji: '🖥️',
+		colorClass: 'icon-blue',
+		dockSlot: null,
+		defaultSize: { w: 960, h: 640 },
+		credits: 2,
+		section: 'core',
+		status: 'active'
+	},
+	{
+		id: 'teambuilder',
+		loader: lazy(() => import('../components/apps/TeamBuilder.svelte')),
+		emoji: '👥',
+		colorClass: 'icon-purple',
+		dockSlot: null,
+		defaultSize: { w: 880, h: 600 },
+		credits: 3,
+		section: 'power',
 		status: 'active'
 	}
 ];

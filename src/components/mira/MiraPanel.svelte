@@ -1,6 +1,6 @@
 <script>
 	import { onDestroy } from 'svelte';
-	import { miraOpen, miraThinking, miraStreaming, clearChat, miraContext } from '$lib/stores/mira.js';
+	import { miraOpen, miraThinking, miraStreaming, clearChat, miraContext, miraModelChosen } from '$lib/stores/mira.js';
 	import { openWindows, activeApp, theme } from '$lib/stores/os.js';
 	import { currentLang, t } from '$lib/i18n/index.js';
 	import { planStore } from '$lib/stores/plan.js';
@@ -8,8 +8,10 @@
 	import MiraChat from './MiraChat.svelte';
 	import MiraInput from './MiraInput.svelte';
 	import MiraSuggestions from './MiraSuggestions.svelte';
+	import MiraModelPicker from './MiraModelPicker.svelte';
 
 	let proactiveInterval;
+	let showPicker = false;
 
 	function startProactive() {
 		if (!proactiveInterval) proactiveInterval = initProactive();
@@ -23,6 +25,11 @@
 	}
 
 	onDestroy(stopProactive);
+
+	// Show picker on first open if model not yet chosen
+	$: if ($miraOpen && !$miraModelChosen) {
+		showPicker = true;
+	}
 
 	// Start/stop proactive engine based on panel visibility
 	$: if ($miraOpen) startProactive(); else stopProactive();
@@ -50,6 +57,9 @@
 				</div>
 			</div>
 			<div class="mira-actions">
+				<button class="mira-model-btn" on:click={() => showPicker = true} title="Change model">
+					⊞
+				</button>
 				<button class="mira-clear" on:click={clearChat} title={$t('mira.clearChat')}>
 					⟳
 				</button>
@@ -59,15 +69,19 @@
 			</div>
 		</header>
 
-		<MiraSuggestions />
-		<MiraChat />
-		<MiraInput />
+		{#if showPicker}
+			<MiraModelPicker on:done={() => showPicker = false} />
+		{:else}
+			<MiraSuggestions />
+			<MiraChat />
+			<MiraInput />
 
-		{#if thinking}
-			<div class="mira-thinking">
-				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-				<span class="think-text">{$t('mira.thinking')}</span>
-			</div>
+			{#if thinking}
+				<div class="mira-thinking">
+					<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+					<span class="think-text">{$t('mira.thinking')}</span>
+				</div>
+			{/if}
 		{/if}
 	</aside>
 {/if}
@@ -135,7 +149,8 @@
 	}
 
 	.mira-clear,
-	.mira-close {
+	.mira-close,
+	.mira-model-btn {
 		width: 28px;
 		height: 28px;
 		border-radius: var(--radius-sm);
@@ -150,7 +165,8 @@
 		transition: all var(--transition);
 	}
 	.mira-clear:hover,
-	.mira-close:hover {
+	.mira-close:hover,
+	.mira-model-btn:hover {
 		border-color: var(--accent);
 		color: var(--text-primary);
 	}

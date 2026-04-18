@@ -92,6 +92,8 @@ export default {
 		toneshifter: { name: 'ToneShifter', desc: 'Traducteur de ton IA', input: 'Texte original' },
 		analytics: { name: 'Analytics', desc: 'Analyse Web', connectDesc: 'Connectez-vous à votre Worker Analytics MolvicStudios' },
 		itineraries: { name: 'Itinéraires', desc: 'Workflows IA guidés' },
+		codestudio: { name: 'Code Studio', desc: 'Éditeur de code IA', edit: 'Éditer', preview: 'Aperçu', download: 'Télécharger', editorPlaceholder: 'Commencez à écrire du code ou utilisez l\'IA...', noCode: 'Pas encore de code.', aiGenerate: 'Générer avec IA', modelLabel: 'Modèle', promptLabel: 'Instruction', promptPlaceholder: 'Décrivez le code à générer ou modifier...', generateBtn: 'Générer', generating: 'Génération...', noKey: 'Aucune clé API configurée.', aiHint: 'Entrée ↵ pour générer' },
+		teambuilder: { name: 'Team Builder', desc: 'Équipes IA multidisciplinaires', team: 'Équipe', teamTab: 'Équipe', chatTab: 'Chat', templates: 'Modèles', addMember: 'Ajouter', editMember: 'Modifier', newMember: 'Nouveau membre', memberName: 'Nom', memberRole: 'Rôle', systemPrompt: 'Prompt système du rôle...', emptyTeam: 'Ajoutez des membres ou chargez un modèle.', roundrobin: 'Round-Robin (tous répondent)', consensus: 'Consensus (résumé)', chatEmpty: 'Posez une question à l\'équipe.', inputPlaceholder: 'Message à l\'équipe...', addMemberFirst: 'Ajoutez des membres d\'abord', synthesis: 'Synthèse de l\'équipe' },
 		comingSoon: 'Bientôt disponible',
 		comingSoonHint: 'Cette app est en cours d\'intégration dans l\'OS.'
 	},
@@ -198,7 +200,10 @@ export default {
 		n8nUrl: 'URL instance n8n',
 		n8nUrlSub: 'Connectez votre n8n auto-hébergé',
 		saved: 'Enregistré',
-		openTutorial: 'Ouvrir le tutoriel'
+		openTutorial: 'Ouvrir le tutoriel',
+		demoModeBanner: 'Mode Démo — Ajoutez une clé API dans les Paramètres pour l’accès complet à l’IA',
+		modelSelect: 'Modèle par défaut',
+		modelSelectSub: 'Modèle utilisé par défaut pour ce fournisseur'
 	},
 	tutorial: {
 		skip: 'Passer',

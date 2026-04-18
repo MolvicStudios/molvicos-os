@@ -2,6 +2,7 @@
 	import { currentLang, setLang, t, SUPPORTED_LANGS } from '$lib/i18n/index.js';
 	import { activeApp, theme, cmdPaletteOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
+	import { demoMode } from '$lib/stores/models.js';
 	import ThemeToggle from '../ui/ThemeToggle.svelte';
 	import { APPS } from '$lib/apps.js';
 	import { onMount, onDestroy } from 'svelte';
@@ -47,6 +48,9 @@
 <header class="topbar">
 	{#if isOffline}
 		<div class="offline-banner">📡 Offline — local models still available</div>
+	{/if}
+	{#if $demoMode && !isOffline}
+		<div class="demo-banner">🧪 Demo Mode — Add an API key in Settings for full AI access</div>
 	{/if}
 	<div class="topbar-left">
 		<span class="logo">MOLVICOS</span>
@@ -94,6 +98,25 @@
 		font-size: 10px;
 		font-weight: 600;
 		z-index: 9001;
+		letter-spacing: 0.5px;
+	}
+
+	.demo-banner {
+		position: absolute;
+		top: 36px;
+		left: 0;
+		right: 0;
+		height: 22px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: color-mix(in srgb, var(--accent) 10%, var(--bg-surface));
+		color: var(--accent);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 600;
+		border-bottom: 1px solid var(--accent-border);
+		z-index: 9000;
 		letter-spacing: 0.5px;
 	}
 

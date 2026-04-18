@@ -1,7 +1,7 @@
 <script>
 	import { theme, tutorialOpen } from '$lib/stores/os.js';
 	import { userProfile } from '$lib/stores/user.js';
-	import { apiKeys, keyStatus, ollamaStatus } from '$lib/stores/models.js';
+	import { apiKeys, keyStatus, ollamaStatus, providerModels } from '$lib/stores/models.js';
 	import { setLang, currentLang } from '$lib/i18n/index.js';
 	import { t } from '$lib/i18n/index.js';
 	import { miraProvider } from '$lib/stores/mira.js';
@@ -54,6 +54,55 @@
 		{ id: 'mistral',   name: 'Mistral',        prefix: 'mis_',    url: 'https://console.mistral.ai',         free: true },
 		{ id: 'github',    name: 'GitHub Models',  prefix: 'ghp_',    url: 'https://github.com/marketplace/models', free: true },
 	];
+
+	const PROVIDER_MODELS = {
+		groq: [
+			{ id: 'llama-3.3-70b-versatile',    name: 'Llama 3.3 70B Versatile' },
+			{ id: 'llama-3.1-70b-versatile',    name: 'Llama 3.1 70B Versatile' },
+			{ id: 'llama-3.1-8b-instant',       name: 'Llama 3.1 8B Instant' },
+			{ id: 'mixtral-8x7b-32768',         name: 'Mixtral 8x7B' },
+			{ id: 'gemma2-9b-it',               name: 'Gemma 2 9B' },
+			{ id: 'qwen-2.5-72b-instruct',      name: 'Qwen 2.5 72B' },
+		],
+		openai: [
+			{ id: 'gpt-4o',       name: 'GPT-4o' },
+			{ id: 'gpt-4o-mini',  name: 'GPT-4o Mini' },
+			{ id: 'gpt-4.1',      name: 'GPT-4.1' },
+			{ id: 'gpt-4.1-mini', name: 'GPT-4.1 Mini' },
+			{ id: 'o3-mini',      name: 'o3 Mini' },
+			{ id: 'o4-mini',      name: 'o4 Mini' },
+		],
+		anthropic: [
+			{ id: 'claude-opus-4-5-20251001',   name: 'Claude Opus 4.5' },
+			{ id: 'claude-sonnet-4-5-20251001', name: 'Claude Sonnet 4.5' },
+			{ id: 'claude-haiku-4-5-20251001',  name: 'Claude Haiku 4.5' },
+			{ id: 'claude-3-5-sonnet-20241022', name: 'Claude 3.5 Sonnet' },
+			{ id: 'claude-3-5-haiku-20241022',  name: 'Claude 3.5 Haiku' },
+		],
+		gemini: [
+			{ id: 'gemini-2.5-pro-preview-05-06', name: 'Gemini 2.5 Pro' },
+			{ id: 'gemini-2.0-flash',              name: 'Gemini 2.0 Flash' },
+			{ id: 'gemini-2.0-flash-lite',         name: 'Gemini 2.0 Flash Lite' },
+			{ id: 'gemini-1.5-pro',                name: 'Gemini 1.5 Pro' },
+			{ id: 'gemini-1.5-flash',              name: 'Gemini 1.5 Flash' },
+		],
+		mistral: [
+			{ id: 'mistral-large-latest',  name: 'Mistral Large' },
+			{ id: 'mistral-medium-latest', name: 'Mistral Medium' },
+			{ id: 'mistral-small-latest',  name: 'Mistral Small' },
+			{ id: 'codestral-latest',      name: 'Codestral' },
+			{ id: 'open-mistral-nemo',     name: 'Mistral NeMo' },
+			{ id: 'mistral-7b-latest',     name: 'Mistral 7B' },
+		],
+		github: [
+			{ id: 'gpt-4o',                         name: 'GPT-4o' },
+			{ id: 'gpt-4o-mini',                    name: 'GPT-4o Mini' },
+			{ id: 'Meta-Llama-3.1-70B-Instruct',    name: 'Llama 3.1 70B' },
+			{ id: 'Mistral-large-2407',             name: 'Mistral Large' },
+			{ id: 'Phi-3.5-mini-instruct',          name: 'Phi 3.5 Mini' },
+			{ id: 'DeepSeek-R1',                    name: 'DeepSeek R1' },
+		]
+	};
 
 	function saveAllKeys() {
 		localStorage.setItem('ms_api_keys', JSON.stringify($apiKeys));
@@ -219,9 +268,22 @@
 					</button>
 					<a href={provider.url} target="_blank" rel="noopener noreferrer" class="akr-link">Get key →</a>
 				</div>
-			{/each}
+			{#if $apiKeys[provider.id]?.trim() && PROVIDER_MODELS[provider.id]}
+				<div class="model-select-row">
+					<span class="msr-label">{$t('settings.modelSelect')}</span>
+					<select
+						value={$providerModels[provider.id]}
+						on:change={e => { providerModels.update(m => ({ ...m, [provider.id]: e.target.value })); showSaved('Model saved'); }}
+					>
+						{#each PROVIDER_MODELS[provider.id] as m}
+							<option value={m.id}>{m.name}</option>
+						{/each}
+					</select>
+				</div>
+			{/if}
+		{/each}
 
-			<div class="api-actions">
+		<div class="api-actions">
 				<button class="sr-save-btn" on:click={saveAllKeys}>💾 {$t('common.save')}</button>
 				<button class="sr-save-btn" on:click={testAllKeys}>🧪 Test All</button>
 			</div>
@@ -398,6 +460,21 @@
 
 	.lang-pills { display: flex; gap: 4px; flex-wrap: wrap; }
 	.mira-provider-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+
+	.model-select-row {
+		display: flex; align-items: center; justify-content: space-between;
+		padding: 6px 0 10px 0; border-bottom: 0.5px solid var(--border); gap: 12px;
+		margin-top: -4px;
+	}
+	.msr-label { font-size: 10px; color: var(--text-secondary); white-space: nowrap; }
+	.model-select-row select {
+		background: var(--bg-input, var(--bg-base)); border: 1px solid var(--border);
+		border-radius: var(--radius-sm); color: var(--text-primary);
+		font-family: var(--font-mono); font-size: 11px;
+		padding: 4px 8px; outline: none; cursor: pointer;
+		max-width: 220px;
+	}
+	.model-select-row select:focus { border-color: var(--accent); }
 	.lang-pill {
 		background: none; border: 1px solid var(--border);
 		border-radius: var(--radius-sm); font-size: 10px; padding: 4px 8px;

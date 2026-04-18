@@ -4,6 +4,7 @@ import {
 	miraStreaming,
 	miraMessages,
 	miraProvider,
+	miraModel,
 	addMessage,
 	updateMessage
 } from '../stores/mira.js';
@@ -16,12 +17,13 @@ import { syncContext } from './proactive.js';
  * Model mapping per provider for MIRA.
  */
 export const MIRA_MODELS = {
-	groq: 'llama-3.1-8b-instant',
+	groq: 'llama-3.3-70b-versatile',
 	openai: 'gpt-4o-mini',
-	anthropic: 'claude-3-haiku-20240307',
+	anthropic: 'claude-haiku-4-5-20251001',
 	gemini: 'gemini-1.5-flash',
 	mistral: 'mistral-small-latest',
-	github: 'gpt-4o-mini'
+	github: 'gpt-4o-mini',
+	demo: '@cf/meta/llama-3.1-8b-instruct'
 };
 
 /**
@@ -40,7 +42,7 @@ export function detectProvider() {
 	for (const p of priority) {
 		if (keys[p]) return p;
 	}
-	return null;
+	return 'demo'; // Fall back to Cloudflare Workers AI demo mode
 }
 
 /**
@@ -49,18 +51,21 @@ export function detectProvider() {
 export async function sendMessage(userText) {
 	syncContext();
 
-	const provider = get(miraProvider) || detectProvider();
+	const provider = detectProvider();
 	if (!provider) {
 		addMessage('assistant', 'No API key configured. Add one in Settings or during onboarding.');
 		return;
 	}
 
 	const keys = get(apiKeys);
-	const apiKey = keys[provider];
-	if (!apiKey) {
-		addMessage('assistant', `No API key found for ${provider}. Please add your key.`);
+	const apiKey = provider === 'demo' ? '' : keys[provider];
+	if (provider !== 'demo' && !apiKey) {
+		addMessage('assistant', `No API key found for ${provider}. Please add your key in Settings.`);
 		return;
 	}
+
+	// Use explicitly chosen model or fall back to provider default
+	const chosenModel = get(miraModel) || MIRA_MODELS[provider];
 
 	// Add user message
 	addMessage('user', userText);
@@ -84,7 +89,7 @@ export async function sendMessage(userText) {
 			body: JSON.stringify({
 				provider,
 				apiKey,
-				model: MIRA_MODELS[provider],
+				model: chosenModel,
 				system: systemPrompt,
 				messages: history
 			})

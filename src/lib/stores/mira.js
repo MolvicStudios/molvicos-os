@@ -44,6 +44,20 @@ miraProvider.subscribe(v => {
 	if (typeof localStorage !== 'undefined') localStorage.setItem('ms_mira_provider', v);
 });
 
+/** Selected model for MIRA (persisted). Empty = use provider default. */
+const savedMiraModel = typeof localStorage !== 'undefined' ? localStorage.getItem('ms_mira_model') : null;
+export const miraModel = writable(savedMiraModel || '');
+miraModel.subscribe(v => {
+	if (typeof localStorage !== 'undefined') localStorage.setItem('ms_mira_model', v);
+});
+
+/** Whether user has explicitly chosen a model in the picker */
+const savedMiraModelChosen = typeof localStorage !== 'undefined' ? localStorage.getItem('ms_mira_model_chosen') : null;
+export const miraModelChosen = writable(savedMiraModelChosen === 'true');
+miraModelChosen.subscribe(v => {
+	if (typeof localStorage !== 'undefined') localStorage.setItem('ms_mira_model_chosen', String(v));
+});
+
 /** Web research mode toggle */
 export const miraWebMode = writable(false);
 
