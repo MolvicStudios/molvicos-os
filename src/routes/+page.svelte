@@ -84,7 +84,7 @@
 </svelte:head>
 
 {#if ready}
-<div class="landing">
+<div class="landing" id="top">
 
 	<!-- NAV -->
 	<nav class="nav">
@@ -229,6 +229,9 @@
 		</div>
 	</footer>
 
+	<!-- BACK TO TOP -->
+	<a href="#top" class="back-to-top" title="Back to top">↑</a>
+
 </div>
 {/if}
 
@@ -251,6 +254,7 @@
 		background: var(--lp-bg);
 		min-height: 100vh;
 		overflow-x: hidden;
+		overflow-y: auto;
 	}
 
 	h1, h2, h3 {
@@ -586,5 +590,30 @@
 		.preview-grid { grid-template-columns: 1fr; }
 		.hero { padding: 4rem 1rem 2rem; }
 		.footer-inner { flex-direction: column; gap: 0.8rem; text-align: center; }
+	}
+
+	/* ─── BACK TO TOP ─── */
+	.back-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background: var(--lp-accent);
+		color: var(--lp-bg);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.2rem;
+		font-weight: 700;
+		text-decoration: none;
+		box-shadow: 0 4px 16px rgba(0,255,136,0.3);
+		z-index: 99;
+		transition: transform 0.2s, opacity 0.2s;
+	}
+	.back-to-top:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 24px rgba(0,255,136,0.5);
 	}
 </style>
