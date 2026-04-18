@@ -4,6 +4,7 @@
 	import { openWindows, activeApp, theme } from '$lib/stores/os.js';
 	import { currentLang, t } from '$lib/i18n/index.js';
 	import { planStore } from '$lib/stores/plan.js';
+	import { demoMode } from '$lib/stores/models.js';
 	import { initProactive, syncContext } from '$lib/mira/proactive.js';
 	import MiraChat from './MiraChat.svelte';
 	import MiraInput from './MiraInput.svelte';
@@ -26,8 +27,8 @@
 
 	onDestroy(stopProactive);
 
-	// Show picker on first open if model not yet chosen
-	$: if ($miraOpen && !$miraModelChosen) {
+	// Show picker on first open only if model not chosen AND not in demo mode
+	$: if ($miraOpen && !$miraModelChosen && !$demoMode) {
 		showPicker = true;
 	}
 

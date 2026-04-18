@@ -174,16 +174,67 @@ async function streamAnthropic(apiKey, model, system, messages) {
 
 /**
  * Stream from Cloudflare Workers AI (demo mode, production only).
+ * Transforms Workers AI SSE format {"response":"token"} to OpenAI SSE format
+ * {"choices":[{"delta":{"content":"token"}}]} so the client parser works unchanged.
  */
 async function streamWorkersAI(AI, system, messages) {
 	const allMessages = system
 		? [{ role: 'system', content: system }, ...messages]
 		: messages;
-	const stream = await AI.run('@cf/meta/llama-3.1-8b-instruct', {
+
+	const cfStream = await AI.run('@cf/meta/llama-3.1-8b-instruct', {
 		stream: true,
 		messages: allMessages
 	});
-	return new Response(stream, {
+
+	// Workers AI SSE: data: {"response":"token","p":"..."}\n\n
+	// We transform to OpenAI SSE: data: {"choices":[{"delta":{"content":"token"}}]}\n\n
+	let buffer = '';
+	const transformer = new TransformStream({
+		transform(chunk, controller) {
+			buffer += new TextDecoder().decode(chunk);
+			const lines = buffer.split('\n');
+			buffer = lines.pop() ?? '';
+
+			for (const line of lines) {
+				const trimmed = line.trim();
+				if (!trimmed || trimmed === 'data: [DONE]') {
+					if (trimmed === 'data: [DONE]') {
+						controller.enqueue(new TextEncoder().encode('data: [DONE]\n\n'));
+					}
+					continue;
+				}
+				if (trimmed.startsWith('data: ')) {
+					try {
+						const json = JSON.parse(trimmed.slice(6));
+						const token = json.response ?? '';
+						if (token) {
+							const out = JSON.stringify({ choices: [{ delta: { content: token } }] });
+							controller.enqueue(new TextEncoder().encode(`data: ${out}\n\n`));
+						}
+					} catch {
+						// skip malformed chunk
+					}
+				}
+			}
+		},
+		flush(controller) {
+			// flush any remaining buffer
+			if (buffer.trim().startsWith('data: ')) {
+				try {
+					const json = JSON.parse(buffer.trim().slice(6));
+					const token = json.response ?? '';
+					if (token) {
+						const out = JSON.stringify({ choices: [{ delta: { content: token } }] });
+						controller.enqueue(new TextEncoder().encode(`data: ${out}\n\n`));
+					}
+				} catch {}
+			}
+			controller.enqueue(new TextEncoder().encode('data: [DONE]\n\n'));
+		}
+	});
+
+	return new Response(cfStream.pipeThrough(transformer), {
 		headers: {
 			'Content-Type': 'text/event-stream',
 			'Cache-Control': 'no-cache',
