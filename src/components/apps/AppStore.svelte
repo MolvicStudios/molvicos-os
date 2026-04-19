@@ -145,7 +145,7 @@
 </div>
 
 <style>
-	.as-wrap { height: 100%; font-family: var(--font-mono); display: flex; flex-direction: column; overflow: hidden; }
+	.as-wrap { height: 100%; font-family: var(--font-mono); display: flex; flex-direction: column; min-height: 0; }
 	.as-header { padding: 12px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 	.as-search-row { margin-bottom: 8px; }
 	.as-search {
@@ -185,7 +185,7 @@
 	.as-grid {
 		flex: 1; overflow-y: auto; padding: 12px 16px;
 		display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 10px; align-content: start;
+		gap: 10px; align-content: start; min-height: 0;
 	}
 	.as-card {
 		position: relative; border-radius: var(--radius-md);
