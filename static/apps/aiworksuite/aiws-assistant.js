@@ -23,62 +23,46 @@ const AIWS_CONFIG = {
   };
 
   /* ── SYSTEM PROMPT ── */
-  const SYSTEM_BASE = `Eres Aiden, el asistente técnico oficial de AIWorkSuite (aiworksuite.pro), una suite SaaS de herramientas de IA para freelancers y profesionales independientes.
+  const SYSTEM_BASE = `Eres Aiden, el asistente técnico oficial de AIWorkSuite (aiworksuite.pro), una suite 100% gratuita de herramientas de IA para freelancers y profesionales independientes.
 
-HERRAMIENTAS DISPONIBLES EN PLAN FREE (activo ahora):
+HERRAMIENTAS DISPONIBLES — TODAS GRATUITAS Y SIN LÍMITES:
 - Generador de Propuestas IA: crea propuestas comerciales profesionales en segundos
-- CRM básico: gestión de hasta 5 clientes con pipeline de 7 etapas y chat IA por fase
-- Equipos IA: crea hasta 3 equipos de agentes IA especializados con distintos roles
-- Workspace IA: chatea con cada equipo lanzado desde una pestaña dedicada
-- Biblioteca de Prompts: guarda hasta 10 prompts personalizados y reutilízalos en cualquier módulo
-- Clave BYOK (Groq gratis, OpenAI, Anthropic, OpenRouter) configurada en Ajustes → Proveedor IA
-- Requiere registro gratuito con email
+- CRM: gestión de clientes con pipeline de 7 etapas y chat IA por fase (ilimitado)
+- Equipos IA: crea equipos de agentes IA especializados con detección automática de roles (ilimitado)
+- Workspace IA: chatea con cada equipo lanzado desde pestañas dedicadas (ilimitado)
+- Biblioteca de Prompts: guarda prompts personalizados y reutilízalos en cualquier módulo (ilimitado)
+- Clave BYOK (Groq gratis, OpenAI, Anthropic, OpenRouter, Gemini, Mistral, DeepSeek, Together, Cohere, xAI) configurada en Ajustes → Proveedor IA
+- No requiere registro ni cuenta — acceso directo
 
-LÍMITES DEL PLAN FREE:
-- Máx. 5 clientes en CRM (Pro: ilimitados)
-- Máx. 3 equipos IA · 1 chat por equipo (Pro: ilimitados · 3 chats por equipo)
-- Máx. 10 prompts en biblioteca (Pro: ilimitados)
-- Sin detección automática de roles IA (Pro: detección IA de roles en equipos)
-- Sin personalización de marca (Pro: logo propio, colores, cabeceras)
-
-PLAN PRO — PRÓXIMAMENTE, AÚN NO DISPONIBLE:
-El plan Pro está en desarrollo y no se ha lanzado todavía.
-Las personas en la lista de espera serán las primeras en acceder con precio especial de lanzamiento.
-Incluirá: clientes y equipos ilimitados, 3 chats por equipo, detección IA de roles,
-prompts ilimitados, personalización de marca, soporte prioritario, acceso anticipado a nuevas herramientas.
+IMPORTANTE: AIWorkSuite es 100% gratuito. No hay planes de pago, suscripciones ni límites. Todas las funciones están desbloqueadas para todos los usuarios.
 
 PROBLEMAS TÉCNICOS FRECUENTES Y SOLUCIONES:
-- "No genera / botón sin respuesta" → verificar conexión; si usa BYOK comprobar la clave en Ajustes → Proveedor IA
+- "No genera / botón sin respuesta" → verificar conexión; comprobar la clave BYOK en Ajustes → Proveedor IA
 - "El texto sale en inglés" → rellenar el formulario en español, el idioma de salida sigue al idioma de entrada
-- "No puedo iniciar sesión" → limpiar caché del navegador; verificar email confirmado (revisar carpeta spam)
 - "No se guarda mi trabajo" → revisar que el almacenamiento del navegador no está bloqueado (modo incógnito puede causar esto)
 - "Las plantillas / página no cargan" → recargar con Ctrl+F5
 - "¿Funciona en móvil?" → sí, totalmente responsive en cualquier navegador moderno
-- "¿Mis datos están seguros?" → autenticación Supabase con cifrado; datos no compartidos con terceros
-- "¿Puedo usar mi propia clave de IA?" → sí, en Ajustes → Proveedor IA: Groq (gratis), OpenAI, Anthropic o OpenRouter
+- "¿Mis datos están seguros?" → 100% local en tu navegador; datos no compartidos con terceros
+- "¿Puedo usar mi propia clave de IA?" → sí, en Ajustes → Proveedor IA: compatible con 10 proveedores
 - "Clave de proveedor IA incorrecta" → verificar que no hay espacios al pegar la clave y que el plan del proveedor tiene crédito activo
 
 REGLAS DE COMPORTAMIENTO:
 - Responde SIEMPRE en el idioma del usuario (detecta automáticamente español e inglés)
 - Tono amigable, técnico y resolutivo — ve directo a la solución
 - Máximo 3 párrafos cortos por respuesta
-- Si el usuario pregunta por Pro, precios o funciones Pro: explica que está PRÓXIMAMENTE, que aún no se ha lanzado, y ofrece avisarle por email cuando salga
-- Si el usuario quiere apuntarse a la lista de espera → emite exactamente: [SHOW_WAITLIST_FORM]
+- Si el usuario pregunta por precios o planes: explica que AIWorkSuite es 100% gratuito, sin límites
 - Si el problema técnico no tiene solución conocida o requiere intervención humana → emite exactamente: [SHOW_SUPPORT_FORM]
 - Al final de cada respuesta donde NO emitas un formulario, sugiere 2 o 3 preguntas de seguimiento breves exactamente así en la última línea: [CHIPS:opción 1|opción 2|opción 3]
 - No inventes funcionalidades que no existen`;
 
   /* ── PROMPT DINÁMICO ── */
   function buildPrompt() {
-    const plan     = ((window.USER_PLAN) || 'free').toUpperCase();
-    const email    = window.CURRENT_USER && window.CURRENT_USER.email ? window.CURRENT_USER.email : null;
     const viewEl   = document.querySelector('[id^="view-"].active');
     const viewId   = viewEl ? viewEl.id.replace('view-', '') : null;
-    const viewName = viewId ? (VIEW_NAMES[viewId] || viewId) : 'Página principal / sin sesión';
+    const viewName = viewId ? (VIEW_NAMES[viewId] || viewId) : 'Página principal';
     return [
       '[CONTEXTO DEL USUARIO EN ESTE MOMENTO]',
-      'Plan activo: ' + plan,
-      email ? 'Email: ' + email : 'Sesión: no iniciada',
+      'Plan activo: FREE (todas las funciones desbloqueadas)',
       'Sección abierta: ' + viewName,
       '---',
       SYSTEM_BASE
@@ -159,7 +143,7 @@ REGLAS DE COMPORTAMIENTO:
       <div class="nm">Aiden</div>
       <div class="st"><span class="dot"></span><span>Soporte AIWorkSuite</span></div>
     </div>
-    <span class="pr">PRO soon</span>
+    <span class="pr">Free</span>
     <button id="${NS}-xbtn" aria-label="Cerrar">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -168,7 +152,7 @@ REGLAS DE COMPORTAMIENTO:
   <div id="${NS}-chips">
     <button class="${NS}-chip" data-msg="¿Cómo genero una propuesta?">Propuestas</button>
     <button class="${NS}-chip" data-msg="¿Cómo funcionan los Equipos IA?">Equipos IA</button>
-    <button class="${NS}-chip" data-msg="¿Qué incluye el plan Pro?">Plan Pro</button>
+    <button class="${NS}-chip" data-msg="¿Cómo configuro mi API key?">API Key</button>
     <button class="${NS}-chip" data-msg="Tengo un problema técnico">Soporte</button>
   </div>
   <div id="${NS}-sf" class="${NS}-form" style="display:none">
@@ -179,15 +163,6 @@ REGLAS DE COMPORTAMIENTO:
     </div>
     <textarea id="${NS}-sm" placeholder="Describe tu problema con el mayor detalle posible..."></textarea>
     <button class="${NS}-fbtn sup" id="${NS}-ss">Enviar al soporte \u2192</button>
-  </div>
-  <div id="${NS}-wf" class="${NS}-form" style="display:none">
-    <div class="ft">\uD83D\uDE80 Lista de espera \u2014 Plan Pro</div>
-    <div class="fdesc">Te avisamos en cuanto el Pro est\u00E9 disponible. Los primeros en apuntarse tendr\u00E1n precio especial de lanzamiento.</div>
-    <div class="fr">
-      <input type="text"  id="${NS}-wn" placeholder="Tu nombre"  autocomplete="name"/>
-      <input type="email" id="${NS}-we" placeholder="Tu email"   autocomplete="email"/>
-    </div>
-    <button class="${NS}-fbtn wl" id="${NS}-wb">Avisadme cuando se lance \u2192</button>
   </div>
   <div id="${NS}-ft">
     <textarea id="${NS}-inp" rows="1" placeholder="\u00BFEn qu\u00E9 puedo ayudarte?"></textarea>
@@ -204,7 +179,6 @@ REGLAS DE COMPORTAMIENTO:
   var isOpen  = false;
   var busy    = false;
   var sfShown = false;
-  var wfShown = false;
 
   function g(x) { return document.getElementById(NS + '-' + x); }
 
@@ -256,7 +230,6 @@ REGLAS DE COMPORTAMIENTO:
     });
     g('snd').onclick = function() { send(); };
     g('ss').onclick  = submitSupport;
-    g('wb').onclick  = submitWaitlist;
 
     document.querySelectorAll('.' + NS + '-chip').forEach(function(c) {
       c.addEventListener('click', function() { setChips([]); send(c.dataset.msg); });
@@ -383,11 +356,6 @@ REGLAS DE COMPORTAMIENTO:
         if (clean) botMsg(clean);
         showSupForm();
         hist.push({ role: 'assistant', content: clean || reply });
-      } else if (reply.indexOf('[SHOW_WAITLIST_FORM]') !== -1) {
-        var clean2 = reply.replace('[SHOW_WAITLIST_FORM]', '').trim();
-        if (clean2) botMsg(clean2);
-        showWaitForm();
-        hist.push({ role: 'assistant', content: clean2 || reply });
       } else {
         botMsg(reply);
         hist.push({ role: 'assistant', content: reply });
@@ -441,51 +409,6 @@ REGLAS DE COMPORTAMIENTO:
       btn.disabled = false; btn.textContent = 'Enviar al soporte \u2192';
       addTrustedMsg('No se pudo enviar. Esc\u00EDbenos a <a href="mailto:molvicstudios@outlook.com">molvicstudios@outlook.com</a>', 'bot');
     }
-  }
-
-  /* ── FORMULARIO LISTA DE ESPERA PRO ── */
-  function showWaitForm() {
-    if (wfShown) return;
-    wfShown = true;
-    var form = g('wf');
-    form.style.display = 'block';
-    if (window.CURRENT_USER && window.CURRENT_USER.email) {
-      g('we').value = window.CURRENT_USER.email;
-      var raw  = window.CURRENT_USER.email.split('@')[0];
-      var name = raw.replace(/[._\-+]/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }).trim();
-      g('wn').value = name;
-    }
-    g('log').scrollTop = 99999;
-  }
-
-  async function submitWaitlist() {
-    var name  = g('wn').value.trim();
-    var email = g('we').value.trim();
-    if (!email) { alert('Por favor introduce tu email.'); return; }
-    var btn = g('wb');
-    btn.disabled = true; btn.textContent = 'Guardando\u2026';
-
-    // Waitlist stored locally only (Supabase removed)
-    try {
-      var stored = JSON.parse(localStorage.getItem('aiws_waitlist') || '[]');
-      if (!stored.some(function(i) { return i.email === email; })) {
-        stored.push({ email: email, name: name || null, date: new Date().toISOString() });
-        localStorage.setItem('aiws_waitlist', JSON.stringify(stored));
-      }
-    } catch(_) {}
-
-    emailjs.send(AIWS_CONFIG.emailjsServiceId, AIWS_CONFIG.emailjsTemplateId,
-      { name: name || email, email: email,
-        message: 'Se ha apuntado a la lista de espera del Plan Pro desde el asistente.',
-        time: new Date().toLocaleString('es-ES'), site: 'AIWorkSuite \u2014 Lista de espera Pro' }
-    ).catch(function() {});
-
-    g('wf').style.display = 'none'; wfShown = false;
-    addTrustedMsg(
-      '\uD83C\uDF89 \u00A1Perfecto' + (name ? ', <strong>' + escHtml(name) + '</strong>' : '') +
-      '! Te avisaremos en <strong>' + escHtml(email) + '</strong> en cuanto el plan Pro se lance. Los primeros tendr\u00E1n precio especial \uD83D\uDE80',
-      'bot'
-    );
   }
 
   if (document.readyState === 'loading') {

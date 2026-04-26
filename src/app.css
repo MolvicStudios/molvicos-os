@@ -179,6 +179,40 @@
 	--text-on-accent: #000800;
 }
 
+/* Forest (verde bosque) */
+[data-theme='forest'] {
+	--bg-base: #09130b;
+	--bg-surface: #0f1c11;
+	--bg-elevated: #162618;
+	--bg-overlay: #1c301f;
+	--bg-input: #060e08;
+
+	--accent: #2ecc71;
+	--accent-dim: #2ecc7120;
+	--accent-border: #2ecc7135;
+	--accent-glow: #2ecc7110;
+
+	--accent2: #00e5cc;
+	--accent2-dim: #00e5cc20;
+
+	--text-primary: #dff2e5;
+	--text-secondary: #7aaa90;
+	--text-muted: #4e7a5e;
+	--text-accent: #2ecc71;
+
+	--border: #3cdc6408;
+	--border-accent: #3cdc6420;
+	--border-strong: #3cdc6445;
+
+	--danger: #f87171;
+	--warning: #fbbf24;
+	--success: #2ecc71;
+	--info: #60a5fa;
+
+	--win-shadow: 0 8px 40px #09130b80, 0 0 0 1px #2ecc7120;
+	--text-on-accent: #09130b;
+}
+
 /* --- Reset --- */
 *,
 *::before,
@@ -511,6 +545,18 @@ select:focus {
 [data-theme='matrix'] .icon-blue { background: #000e00; border-color: #44ff8830; }
 [data-theme='matrix'] .icon-gray { background: #060a06; border-color: #44884430; }
 [data-theme='matrix'] .icon-gold { background: #0a0e00; border-color: #ccff0030; }
+
+/* Forest icon overrides */
+[data-theme='forest'] .icon-cyan { background: #0a1a10; border-color: #00e5cc30; }
+[data-theme='forest'] .icon-green { background: #0a1a0e; border-color: #2ecc7140; }
+[data-theme='forest'] .icon-purple { background: #100a1a; border-color: #a78bfa30; }
+[data-theme='forest'] .icon-amber { background: #1a140a; border-color: #fbbf2430; }
+[data-theme='forest'] .icon-pink { background: #1a0a14; border-color: #f8717130; }
+[data-theme='forest'] .icon-red { background: #1a0a0a; border-color: #f8717130; }
+[data-theme='forest'] .icon-teal { background: #0a1a14; border-color: #00e5cc30; }
+[data-theme='forest'] .icon-blue { background: #0a0e1a; border-color: #60a5fa30; }
+[data-theme='forest'] .icon-gray { background: #0a100a; border-color: #4e7a5e30; }
+[data-theme='forest'] .icon-gold { background: #1a140a; border-color: #fbbf2430; }
 
 /* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {

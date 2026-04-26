@@ -1,0 +1,11 @@
+name = "aiworksuite"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "."
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aiworksuite-db"
+database_id = "ad07c53b-cb73-43a9-b99a-c48bc6c77bfe"

@@ -3,7 +3,7 @@
 // Estrategia: Cache-first para assets estáticos, red siempre para APIs
 // ═══════════════════════════════════════════════════════════════════════
 
-const SW_VERSION    = 'v5.0.1';
+const SW_VERSION    = 'v5.2.0';
 const CACHE_STATIC  = `aws-static-${SW_VERSION}`;
 const CACHE_DYNAMIC = `aws-dynamic-${SW_VERSION}`;
 
@@ -17,6 +17,8 @@ const STATIC_ASSETS = [
   '/favicon-192x192.png',
   '/favicon-512x512.png',
   '/offline.html',
+  '/styles.css',
+  '/app.js',
 ];
 
 // Dominios que NUNCA se cachean — siempre pasan por la red
@@ -81,7 +83,15 @@ self.addEventListener('fetch', event => {
           }
           if (response.type !== 'opaque' && url.origin === self.location.origin) {
             const clone = response.clone();
-            caches.open(CACHE_DYNAMIC).then(cache => cache.put(event.request, clone));
+            caches.open(CACHE_DYNAMIC).then(cache => {
+              cache.put(event.request, clone);
+              // D6: Limit dynamic cache to 60 entries
+              cache.keys().then(keys => {
+                if (keys.length > 60) {
+                  cache.delete(keys[0]);
+                }
+              });
+            });
           }
           return response;
         })

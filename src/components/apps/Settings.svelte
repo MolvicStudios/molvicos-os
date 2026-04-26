@@ -38,6 +38,7 @@
 		{ id: 'synthwave', name: 'Synthwave',   free: true },
 		{ id: 'ocean',     name: 'Deep Ocean',  free: true },
 		{ id: 'matrix',    name: 'Matrix',      free: true },
+		{ id: 'forest',    name: 'Forest',      free: true },
 	];
 
 	function selectTheme(themeId) {

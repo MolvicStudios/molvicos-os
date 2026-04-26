@@ -1,0 +1,5 @@
+# Redirect www to non-www
+https://www.aiworksuite.pro/* https://aiworksuite.pro/:splat 301
+
+# Redirect index.html to clean URL
+/index.html / 301

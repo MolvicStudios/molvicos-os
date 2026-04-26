@@ -9,7 +9,7 @@
 	export let colorClass = '';
 	export let badge = '';
 	export let locked = false;
-	export let si evastatus = 'active';
+	export let status = 'active';
 
 	const dispatch = createEventDispatcher();
 

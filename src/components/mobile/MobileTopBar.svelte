@@ -11,7 +11,7 @@
 	let menuOpen = false;
 	let isOffline = false;
 
-	const THEMES = ['noir', 'icaro', 'synthwave', 'matrix'];
+	const THEMES = ['noir', 'icaro', 'synthwave', 'matrix', 'forest'];
 
 	function handleOnline() { isOffline = false; }
 	function handleOffline() { isOffline = true; }
