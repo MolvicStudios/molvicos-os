@@ -94,6 +94,7 @@
 				class="drag-wrap"
 				class:dragging={dragSection === 'core' && dragIdx === i}
 				draggable="true"
+				title="Drag to reorder"
 				on:dragstart={() => handleDragStart('core', i)}
 				on:dragover={handleDragOver}
 				on:drop={() => handleDrop('core', i)}
@@ -119,6 +120,7 @@
 				class="drag-wrap"
 				class:dragging={dragSection === 'power' && dragIdx === i}
 				draggable="true"
+				title="Drag to reorder"
 				on:dragstart={() => handleDragStart('power', i)}
 				on:dragover={handleDragOver}
 				on:drop={() => handleDrop('power', i)}
@@ -144,6 +146,7 @@
 				class="drag-wrap"
 				class:dragging={dragSection === 'tools' && dragIdx === i}
 				draggable="true"
+				title="Drag to reorder"
 				on:dragstart={() => handleDragStart('tools', i)}
 				on:dragover={handleDragOver}
 				on:drop={() => handleDrop('tools', i)}

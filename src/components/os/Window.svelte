@@ -157,13 +157,13 @@
 			{#if credits > 0}
 				<span class="credits-cost">⚡{credits}</span>
 			{/if}
-			<button class="win-btn minimize" on:click|stopPropagation={() => minimizeApp(id)} title={$t('os.minimize')}>
+			<button class="win-btn minimize" on:click|stopPropagation={() => minimizeApp(id)} title={$t('os.minimize')} aria-label={$t('os.minimize')}>
 				<span class="dot dot-yellow"></span>
 			</button>
-			<button class="win-btn maximize" on:click|stopPropagation={() => maximizeApp(id)} title={$t('os.maximize')}>
+			<button class="win-btn maximize" on:click|stopPropagation={() => maximizeApp(id)} title={$t('os.maximize')} aria-label={$t('os.maximize')}>
 				<span class="dot dot-green"></span>
 			</button>
-			<button class="win-btn close" on:click|stopPropagation={requestClose} title={$t('os.close')}>
+			<button class="win-btn close" on:click|stopPropagation={requestClose} title={$t('os.close')} aria-label={$t('os.close')}>
 				<span class="dot dot-red"></span>
 			</button>
 		</div>

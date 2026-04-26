@@ -48,7 +48,14 @@ export async function openApp(appDef) {
 		return;
 	}
 
-	const mod = await appDef.loader();
+	let mod;
+	try {
+		mod = await appDef.loader();
+	} catch (err) {
+		console.error(`[os] Failed to load app "${appDef.id}":`, err);
+		notify(`Error loading ${appDef.title || appDef.id}`, 'error');
+		return;
+	}
 
 	const win = {
 		id: appDef.id,

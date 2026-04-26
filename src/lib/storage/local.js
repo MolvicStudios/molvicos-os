@@ -47,4 +47,24 @@ export const storage = {
 	setUserProfile: (p) => storage.set(SCHEMA.keys.MS_USER_PROFILE, p)
 };
 
+/** Safe localStorage getter with try/catch */
+export function safeGet(key) {
+	try {
+		const val = localStorage.getItem(key);
+		return val;
+	} catch {
+		return null;
+	}
+}
+
+/** Safe localStorage setter with try/catch */
+export function safeSet(key, value) {
+	try {
+		localStorage.setItem(key, value);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 export { SCHEMA };

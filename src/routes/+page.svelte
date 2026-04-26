@@ -52,16 +52,6 @@
 	onMount(() => {
 		detectLang();
 		ready = true;
-
-		// Adsterra Native Banner
-		const adContainer = document.getElementById('adsterra-container');
-		if (adContainer) {
-			const s = document.createElement('script');
-			s.async = true;
-			s.dataset.cfasync = 'false';
-			s.src = 'https://pl29050767.profitablecpmratenetwork.com/895f21b3d4e69e3a0245b9adbdc68c23/invoke.js';
-			adContainer.appendChild(s);
-		}
 	});
 </script>
 
@@ -91,7 +81,7 @@
 		<a href="/" class="logo">
 			<span class="logo-icon">◈</span> Molvicos
 		</a>
-		<button class="hamburger" aria-label="Toggle menu" on:click={() => mobileMenuOpen = !mobileMenuOpen}>
+		<button class="hamburger" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} on:click={() => mobileMenuOpen = !mobileMenuOpen}>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
@@ -166,11 +156,6 @@
 			{/each}
 		</div>
 	</section>
-
-	<!-- ADSTERRA NATIVE BANNER -->
-	<div id="adsterra-container" style="width:100%; max-width:900px; margin: 2rem auto; overflow:hidden;">
-		<div id="container-895f21b3d4e69e3a0245b9adbdc68c23"></div>
-	</div>
 
 	<!-- APPS -->
 	<section id="apps" class="apps-section">

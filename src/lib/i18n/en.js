@@ -415,6 +415,11 @@ export default {
 			privacy: 'Privacy',
 			terms: 'Terms',
 			cookies: 'Cookies'
+			}
+		},
+		cookies: {
+			banner: 'We use cookies to improve your experience.',
+			policy: 'Cookie Policy',
+			accept: 'Accept'
 		}
-	}
-};
+	};

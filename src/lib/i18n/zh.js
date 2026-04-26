@@ -234,5 +234,10 @@ export default {
 		credits: { title: '💎 积分系统', desc: '每个AI操作消耗积分。免费计划：每月30积分。本地模型：零积分。升级Pro享受无限。' },
 		settings: { title: '⚙️ 设置', desc: '配置API密钥（Groq、OpenAI、Anthropic、Gemini、Mistral、GitHub Models），更改主题，管理许可证，自定义Dock。' },
 		ready: { title: '一切就绪！', desc: '开始探索您的AI操作系统。从桌面或程序坞打开任何应用。记住：Cmd+K快速访问。' }
+	},
+	cookies: {
+		banner: '我们使用Cookie来改善您的体验。',
+		policy: 'Cookie政策',
+		accept: '接受'
 	}
 };

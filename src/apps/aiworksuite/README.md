@@ -83,4 +83,4 @@ Los iconos necesitan crearse con herramientas externas (Figma, Canva, etc.):
 
 ## Contacto
 
-info@molvicstudios.pro · [molvicstudios.pro](https://molvicstudios.pro)
+molvicstudios@outlook.com · [molvicstudios.pro](https://molvicstudios.pro)

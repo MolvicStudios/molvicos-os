@@ -234,5 +234,10 @@ export default {
 		credits: { title: '💎 Credits-System', desc: 'Jede KI-Aktion verbraucht Credits. Kostenloser Plan: 30 Credits/Monat. Lokale Modelle: null Credits. Upgrade auf Pro für unbegrenzt.' },
 		settings: { title: '⚙️ Einstellungen', desc: 'API-Keys konfigurieren (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), Themes ändern, Lizenz verwalten und dein Dock anpassen.' },
 		ready: { title: 'Alles bereit!', desc: 'Erkunde dein KI-Betriebssystem. Öffne jede App vom Desktop oder Dock. Denke daran: Cmd+K für Schnellzugriff.' }
+	},
+	cookies: {
+		banner: 'Wir verwenden Cookies, um dein Erlebnis zu verbessern.',
+		policy: 'Cookie-Richtlinie',
+		accept: 'Akzeptieren'
 	}
 };

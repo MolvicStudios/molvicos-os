@@ -234,5 +234,10 @@ export default {
 		credits: { title: '💎 Système de Crédits', desc: 'Chaque action IA consomme des crédits. Plan gratuit : 30 crédits/mois. Modèles locaux : zéro crédit. Passez à Pro pour illimité.' },
 		settings: { title: '⚙️ Paramètres', desc: 'Configurez les clés API (Groq, OpenAI, Anthropic, Gemini, Mistral, GitHub Models), changez de thèmes, gérez votre licence et personnalisez votre Dock.' },
 		ready: { title: 'Tout est prêt !', desc: 'Explorez votre OS IA. Ouvrez une app depuis le Bureau ou le Dock. Rappel : Cmd+K pour l\'accès rapide.' }
+	},
+	cookies: {
+		banner: 'Nous utilisons des cookies pour améliorer votre expérience.',
+		policy: 'Politique de Cookies',
+		accept: 'Accepter'
 	}
 };

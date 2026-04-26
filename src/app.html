@@ -13,6 +13,12 @@
 		<link rel="icon" type="image/png" href="/icons/icon-192.png" />
 		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 		<link rel="manifest" href="/manifest.webmanifest" />
+		<link rel="alternate" hreflang="en" href="https://molvicos.pro/" />
+		<link rel="alternate" hreflang="es" href="https://molvicos.pro/" />
+		<link rel="alternate" hreflang="de" href="https://molvicos.pro/" />
+		<link rel="alternate" hreflang="fr" href="https://molvicos.pro/" />
+		<link rel="alternate" hreflang="zh" href="https://molvicos.pro/" />
+		<link rel="alternate" hreflang="x-default" href="https://molvicos.pro/" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -38,31 +44,7 @@
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 		<script>
-		;(function () {
-			var SITE     = 'molvicos.pro'
-			var ENDPOINT = 'https://analytics.molvicstudios.pro/track'
-			var USER_KEY = 'ms_uid'
-			if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.endsWith('.pages.dev') || /bot|crawl|spider|slurp|bingbot|googlebot/i.test(navigator.userAgent)) return
-			var isNewUser = !localStorage.getItem(USER_KEY)
-			if (isNewUser) localStorage.setItem(USER_KEY, '1')
-			var sessionStart = Date.now(), lastActivity = Date.now()
-			document.addEventListener('mousemove', function(){ lastActivity = Date.now() }, { passive: true })
-			document.addEventListener('keydown', function(){ lastActivity = Date.now() }, { passive: true })
-			document.addEventListener('touchstart', function(){ lastActivity = Date.now() }, { passive: true })
-			function send(ev, extra) {
-				var p = { site: SITE, page: location.pathname, event: ev || 'pageview', referrer: document.referrer, is_new_user: isNewUser }
-				if (extra) Object.assign(p, extra)
-				fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p), keepalive: true }).catch(function(){})
-			}
-			if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ send('pageview') })
-			else send('pageview')
-			window.addEventListener('beforeunload', function () {
-				var d = Math.round((Date.now() - sessionStart) / 1000)
-				var a = Math.min(d, Math.round((lastActivity - sessionStart) / 1000))
-				if (a > 2) send('session_end', { duration: a })
-			})
-			window.molvicTrack = function(e) { send(e) }
-		})()
+		!function(){var S='molvicos.pro',E='https://analytics.molvicstudios.pro/track',K='ms_uid';if(location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname.endsWith('.pages.dev')||/bot|crawl|spider/i.test(navigator.userAgent))return;var n=!localStorage.getItem(K);n&&localStorage.setItem(K,'1');var s=Date.now(),l=s;['mousemove','keydown','touchstart'].forEach(function(e){document.addEventListener(e,function(){l=Date.now()},{passive:!0})});function t(e,o){var p={site:S,page:location.pathname,event:e||'pageview',referrer:document.referrer,is_new_user:n};o&&Object.assign(p,o);fetch(E,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),keepalive:!0}).catch(function(){})}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',function(){t('pageview')}):t('pageview');window.addEventListener('beforeunload',function(){var d=Math.round((Date.now()-s)/1e3),a=Math.min(d,Math.round((l-s)/1e3));a>2&&t('session_end',{duration:a})});window.molvicTrack=function(e){t(e)}}();
 		</script>
 	<script type="application/ld+json">
 {

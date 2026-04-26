@@ -336,6 +336,11 @@ export default {
 			privacy: 'Privacidad',
 			terms: 'Términos',
 			cookies: 'Cookies'
+			}
+		},
+		cookies: {
+			banner: 'Usamos cookies para mejorar tu experiencia.',
+			policy: 'Política de Cookies',
+			accept: 'Aceptar'
 		}
-	}
-};
+	};

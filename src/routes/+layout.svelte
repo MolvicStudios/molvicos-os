@@ -4,19 +4,19 @@
 	import { theme } from '$lib/stores/os.js';
 	import { apiKeys } from '$lib/stores/models.js';
 	import { userProfile } from '$lib/stores/user.js';
-	import { storage } from '$lib/storage/local.js';
-	import { detectLang } from '$lib/i18n/index.js';
+	import { storage, safeGet, safeSet } from '$lib/storage/local.js';
+	import { detectLang, t } from '$lib/i18n/index.js';
 	import { initConsoleTrap } from '$lib/feedback/console-trap.js';
 	import '../app.css';
 
 	let cookiesAccepted = false;
 
 	if (typeof localStorage !== 'undefined') {
-		cookiesAccepted = localStorage.getItem('cookies_accepted') === 'true';
+		cookiesAccepted = safeGet('cookies_accepted') === 'true';
 	}
 
 	function acceptCookies() {
-		localStorage.setItem('cookies_accepted', 'true');
+		safeSet('cookies_accepted', 'true');
 		cookiesAccepted = true;
 	}
 
@@ -28,7 +28,7 @@
 		const savedProfile = storage.get('ms_user_profile');
 		if (savedProfile) userProfile.update((p) => ({ ...p, ...savedProfile }));
 
-		const savedTheme = localStorage.getItem('ms_theme') || 'icaro';
+		const savedTheme = safeGet('ms_theme') || 'icaro';
 		theme.set(savedTheme);
 	}
 
@@ -39,7 +39,7 @@
 		detectLang();
 
 		// Apply theme to DOM
-		const savedTheme = localStorage.getItem('ms_theme') || 'icaro';
+		const savedTheme = safeGet('ms_theme') || 'icaro';
 		document.documentElement.setAttribute('data-theme', savedTheme);
 
 		// Subscribe to persist changes
@@ -61,11 +61,11 @@
 <slot />
 
 {#if !cookiesAccepted}
-<div class="cookie-banner">
-  <p>We use cookies to improve your experience.
-    <a href="/legal/cookies.html">Cookie Policy</a>
+<div class="cookie-banner" role="dialog" aria-modal="false" aria-label="Cookie consent">
+  <p>{$t('cookies.banner')}
+    <a href="/legal/cookies.html">{$t('cookies.policy')}</a>
   </p>
-  <button on:click={acceptCookies} class="cookie-accept-btn">Accept</button>
+  <button on:click={acceptCookies} class="cookie-accept-btn">{$t('cookies.accept')}</button>
 </div>
 {/if}
 

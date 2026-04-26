@@ -439,7 +439,7 @@ REGLAS DE COMPORTAMIENTO:
       addTrustedMsg('\u2705 Ticket enviado, <strong>' + escHtml(name) + '</strong>. Te escribiremos a <strong>' + escHtml(email) + '</strong> lo antes posible.', 'bot');
     } catch(_) {
       btn.disabled = false; btn.textContent = 'Enviar al soporte \u2192';
-      addTrustedMsg('No se pudo enviar. Esc\u00EDbenos a <a href="mailto:info@molvicstudios.pro">info@molvicstudios.pro</a>', 'bot');
+      addTrustedMsg('No se pudo enviar. Esc\u00EDbenos a <a href="mailto:molvicstudios@outlook.com">molvicstudios@outlook.com</a>', 'bot');
     }
   }
 

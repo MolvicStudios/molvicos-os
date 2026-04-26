@@ -430,6 +430,10 @@ select:focus {
 	background: #0a0a10;
 	border-color: #66668830;
 }
+.icon-gold {
+	background: #1a1400;
+	border-color: #ffd70030;
+}
 
 [data-theme='icaro'] .icon-cyan {
 	background: #e8f4fa;
@@ -467,6 +471,10 @@ select:focus {
 	background: #f0f0f2;
 	border-color: #66668830;
 }
+[data-theme='icaro'] .icon-gold {
+	background: #faf4e0;
+	border-color: #ffd70030;
+}
 
 /* Synthwave icon overrides */
 [data-theme='synthwave'] .icon-cyan { background: #10002a; border-color: #00ffff30; }
@@ -478,6 +486,7 @@ select:focus {
 [data-theme='synthwave'] .icon-teal { background: #0a0020; border-color: #00ffcc30; }
 [data-theme='synthwave'] .icon-blue { background: #0a0030; border-color: #4488ff30; }
 [data-theme='synthwave'] .icon-gray { background: #100018; border-color: #88668830; }
+[data-theme='synthwave'] .icon-gold { background: #1a0a20; border-color: #ffd70030; }
 
 /* Ocean icon overrides */
 [data-theme='ocean'] .icon-cyan { background: #00081a; border-color: #00ddff30; }
@@ -489,6 +498,7 @@ select:focus {
 [data-theme='ocean'] .icon-teal { background: #000a18; border-color: #00ffcc30; }
 [data-theme='ocean'] .icon-blue { background: #000a2a; border-color: #0088ff40; }
 [data-theme='ocean'] .icon-gray { background: #060a14; border-color: #44668830; }
+[data-theme='ocean'] .icon-gold { background: #0a0810; border-color: #ffd70030; }
 
 /* Matrix icon overrides */
 [data-theme='matrix'] .icon-cyan { background: #001400; border-color: #00ffcc30; }
@@ -500,6 +510,7 @@ select:focus {
 [data-theme='matrix'] .icon-teal { background: #001200; border-color: #00ff8830; }
 [data-theme='matrix'] .icon-blue { background: #000e00; border-color: #44ff8830; }
 [data-theme='matrix'] .icon-gray { background: #060a06; border-color: #44884430; }
+[data-theme='matrix'] .icon-gold { background: #0a0e00; border-color: #ccff0030; }
 
 /* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
