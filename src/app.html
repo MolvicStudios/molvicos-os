@@ -93,6 +93,27 @@
   }
 }
 </script>
-<script defer type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'E1E41XP6I9');kofiwidget2.draw();</script>
+<script defer type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+<script>
+	// Inicializar Ko-fi widget solo cuando el script esté cargado
+	(function() {
+		var ks = document.querySelector('script[src*="ko-fi.com/cdn/widget"]');
+		function initKoFi() {
+			try {
+				if (typeof kofiwidget2 !== 'undefined') {
+					kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'E1E41XP6I9');
+					kofiwidget2.draw();
+				}
+			} catch(e) { /* Ko-fi widget no disponible */ }
+		}
+		if (ks) {
+			ks.addEventListener('load', initKoFi);
+			// Fallback: si ya está cargado, ejecutar inmediatamente
+			if (ks.readyState === 'complete' || ks.readyState === 'loaded') {
+				initKoFi();
+			}
+		}
+	})();
+</script>
 </body>
 </html>

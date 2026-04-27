@@ -74,34 +74,16 @@ const cloudflare = {
 	],
 	execute: async (tool, args) => {
 		const { token, accountId } = getExtensionConfig('cloudflare');
-		const h = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-		const api = 'https://api.cloudflare.com/client/v4';
-		switch (tool) {
-			case 'cf_list_pages': {
-				const r = await fetch(`${api}/accounts/${accountId}/pages/projects`, { headers: h });
-				const d = await r.json();
-				return d.success ? { success: true, data: d.result.map(p => `${p.name} — ${p.subdomain}`).join('\n') || 'No projects' } : { success: false, data: d.errors?.[0]?.message };
-			}
-			case 'cf_list_workers': {
-				const r = await fetch(`${api}/accounts/${accountId}/workers/scripts`, { headers: h });
-				const d = await r.json();
-				return d.success ? { success: true, data: d.result.map(w => w.id).join('\n') || 'No workers' } : { success: false, data: d.errors?.[0]?.message };
-			}
-			case 'cf_purge_cache': {
-				const r = await fetch(`${api}/zones/${args.zone_id}/purge_cache`, { method: 'POST', headers: h, body: JSON.stringify({ purge_everything: true }) });
-				const d = await r.json();
-				return d.success ? { success: true, data: 'Cache purged' } : { success: false, data: d.errors?.[0]?.message };
-			}
-			case 'cf_list_domains': {
-				const r = await fetch(`${api}/zones?account.id=${accountId}`, { headers: h });
-				const d = await r.json();
-				return d.success ? { success: true, data: d.result.map(z => `${z.name} (${z.status})`).join('\n') || 'No zones' } : { success: false, data: d.errors?.[0]?.message };
-			}
-			case 'cf_list_kv': {
-				const r = await fetch(`${api}/accounts/${accountId}/storage/kv/namespaces`, { headers: h });
-				const d = await r.json();
-				return d.success ? { success: true, data: d.result.map(n => `${n.title} (${n.id})`).join('\n') || 'No KV namespaces' } : { success: false, data: d.errors?.[0]?.message };
-			}
+		// Proxy a través del servidor para evitar CORS
+		try {
+			const r = await fetch('/api/cloudflare-proxy', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token, accountId, tool, args })
+			});
+			return await r.json();
+		} catch (err) {
+			return { success: false, data: `Connection error: ${err.message}` };
 		}
 	}
 };
