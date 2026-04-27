@@ -2,6 +2,19 @@
    MOLVICOS OS — Design System
    ============================================ */
 
+/* Font display swap for performance */
+@font-face {
+  font-family: 'Space Mono';
+  font-display: swap;
+  src: local('Space Mono');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-display: swap;
+  src: local('Syne');
+}
+
 /* --- CSS Variables --- */
 :root {
 	/* Neural Noir (dark default) */

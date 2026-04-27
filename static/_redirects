@@ -3,3 +3,14 @@ https://www.molvicos.pro/* https://molvicos.pro/:splat 301
 
 # Redirect index.html to clean URL
 /index.html / 301
+
+# Force HTTPS (Cloudflare handles this at edge, but double-ensure)
+# HTTP to HTTPS redirect
+http://molvicos.pro/* https://molvicos.pro/:splat 301
+http://www.molvicos.pro/* https://molvicos.pro/:splat 301
+
+# Clean URL structure - redirect old query params to new paths
+/?page_id=* / 301
+
+# Redirect old paths if any
+/old-blog/* /blog/:splat 301

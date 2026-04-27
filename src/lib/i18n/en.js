@@ -352,8 +352,20 @@ export default {
 		nav: {
 			features: 'Features',
 			apps: 'Apps',
+			usp: 'Why Us',
 			faq: 'FAQ',
 			openApp: 'Open app →'
+		},
+		usp: {
+			title: 'Why Choose Molvicos?',
+			sub: 'The AI-native OS built for creators, freelancers, and teams who value privacy, speed, and results.',
+			speed: { title: 'Blazing Fast', desc: 'Optimized PWA with lazy loading, WebP images, and edge caching. LCP under 2 seconds.' },
+			privacy: { title: '100% Private', desc: 'Your data stays in your browser. No servers, no tracking, no accounts. API keys never leave your device.' },
+			allinone: { title: 'All-in-One AI Suite', desc: '12+ integrated AI apps — from prompt engineering to invoicing. One OS, infinite possibilities.' },
+			support: { title: '24/7 AI Support', desc: 'MIRA, your AI copilot, is always ready to help. Plus community support via Discord and GitHub.' },
+			multilingual: { title: '5 Languages', desc: 'Full interface in English, Spanish, German, French, and Chinese. AI responses in your language.' },
+			free: { title: '100% Free', desc: 'No registration, no credit card, no hidden costs. All features unlocked. Just open and use.' },
+			cta: 'Start Now — It\'s Free'
 		},
 		hero: {
 			badge: '✦ 100% Free — No registration required',
@@ -415,11 +427,11 @@ export default {
 			privacy: 'Privacy',
 			terms: 'Terms',
 			cookies: 'Cookies'
-			}
 		},
 		cookies: {
 			banner: 'We use cookies to improve your experience.',
 			policy: 'Cookie Policy',
 			accept: 'Accept'
 		}
-	};
+	},
+};

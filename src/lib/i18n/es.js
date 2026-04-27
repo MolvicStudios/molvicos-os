@@ -273,8 +273,20 @@ export default {
 		nav: {
 			features: 'Funciones',
 			apps: 'Apps',
+			usp: 'Por qué nosotros',
 			faq: 'FAQ',
 			openApp: 'Abrir app →'
+		},
+		usp: {
+			title: '¿Por qué elegir Molvicos?',
+			sub: 'El OS nativo de IA construido para creadores, freelancers y equipos que valoran privacidad, velocidad y resultados.',
+			speed: { title: 'Rápido como un rayo', desc: 'PWA optimizada con lazy loading, imágenes WebP y caché edge. LCP por debajo de 2 segundos.' },
+			privacy: { title: '100% Privado', desc: 'Tus datos se quedan en tu navegador. Sin servidores, sin tracking, sin cuentas. Las claves API nunca salen de tu dispositivo.' },
+			allinone: { title: 'Suite IA Todo-en-Uno', desc: 'Más de 12 apps de IA integradas — desde prompt engineering hasta facturación. Un solo OS, infinitas posibilidades.' },
+			support: { title: 'Soporte IA 24/7', desc: 'MIRA, tu copiloto de IA, siempre listo para ayudar. Además de soporte comunitario vía Discord y GitHub.' },
+			multilingual: { title: '5 Idiomas', desc: 'Interfaz completa en español, inglés, alemán, francés y chino. Respuestas de IA en tu idioma.' },
+			free: { title: '100% Gratis', desc: 'Sin registro, sin tarjeta de crédito, sin costes ocultos. Todas las funciones desbloqueadas. Solo abre y usa.' },
+			cta: 'Empezar ahora — Es gratis'
 		},
 		hero: {
 			badge: '✦ 100% Gratis — Sin registro',
@@ -336,11 +348,11 @@ export default {
 			privacy: 'Privacidad',
 			terms: 'Términos',
 			cookies: 'Cookies'
-			}
 		},
 		cookies: {
 			banner: 'Usamos cookies para mejorar tu experiencia.',
 			policy: 'Política de Cookies',
 			accept: 'Aceptar'
 		}
-	};
+	}
+};

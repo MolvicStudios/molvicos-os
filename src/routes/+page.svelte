@@ -46,12 +46,19 @@
 
 	let openFaq = -1;
 	let mobileMenuOpen = false;
+	let scrolled = false;
 
 	function toggleFaq(i) { openFaq = openFaq === i ? -1 : i; }
 
+	function handleScroll() {
+		scrolled = window.scrollY > 60;
+	}
+
 	onMount(() => {
 		detectLang();
+		window.addEventListener('scroll', handleScroll, { passive: true });
 		ready = true;
+		return () => window.removeEventListener('scroll', handleScroll);
 	});
 </script>
 
@@ -77,18 +84,19 @@
 <div class="landing" id="top">
 
 	<!-- NAV -->
-	<nav class="nav">
-		<a href="/" class="logo">
+	<nav class="nav" class:nav-scrolled={scrolled}>
+		<a href="/" class="logo" aria-label="Molvicos — Home">
 			<span class="logo-icon">◈</span> Molvicos
 		</a>
-		<button class="hamburger" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} on:click={() => mobileMenuOpen = !mobileMenuOpen}>
+		<button class="hamburger" aria-label="Toggle navigation menu" aria-expanded={mobileMenuOpen} on:click={() => mobileMenuOpen = !mobileMenuOpen}>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 			<span class="hamburger-line" class:open={mobileMenuOpen}></span>
 		</button>
-		<div class="nav-links" class:mobile-open={mobileMenuOpen}>
+		<div class="nav-links" class:mobile-open={mobileMenuOpen} role="navigation" aria-label="Main navigation">
 			<a href="#features" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.features')}</a>
 			<a href="#apps" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.apps')}</a>
+			<a href="#usp" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.usp') || 'Why Us'}</a>
 			<a href="#faq" on:click={() => mobileMenuOpen = false}>{$t('landing.nav.faq')}</a>
 			<a href="/os" class="btn-nav">{$t('landing.nav.openApp')}</a>
 		</div>
@@ -142,6 +150,47 @@
 		</div>
 	</section>
 
+	<!-- USP SECTION -->
+	<section id="usp" class="usp-section">
+		<h2>{$t('landing.usp.title') || 'Why Choose Molvicos?'}</h2>
+		<p class="section-sub">{$t('landing.usp.sub') || 'The AI-native OS built for creators, freelancers, and teams who value privacy, speed, and results.'}</p>
+		<div class="usp-grid">
+			<div class="usp-card">
+				<div class="usp-icon">🚀</div>
+				<h3>{$t('landing.usp.speed.title') || 'Blazing Fast'}</h3>
+				<p>{$t('landing.usp.speed.desc') || 'Optimized PWA with lazy loading, WebP images, and edge caching. LCP under 2 seconds.'}</p>
+			</div>
+			<div class="usp-card">
+				<div class="usp-icon">🔒</div>
+				<h3>{$t('landing.usp.privacy.title') || '100% Private'}</h3>
+				<p>{$t('landing.usp.privacy.desc') || 'Your data stays in your browser. No servers, no tracking, no accounts. API keys never leave your device.'}</p>
+			</div>
+			<div class="usp-card">
+				<div class="usp-icon">🎯</div>
+				<h3>{$t('landing.usp.allinone.title') || 'All-in-One AI Suite'}</h3>
+				<p>{$t('landing.usp.allinone.desc') || '12+ integrated AI apps — from prompt engineering to invoicing. One OS, infinite possibilities.'}</p>
+			</div>
+			<div class="usp-card">
+				<div class="usp-icon">💬</div>
+				<h3>{$t('landing.usp.support.title') || '24/7 AI Support'}</h3>
+				<p>{$t('landing.usp.support.desc') || 'MIRA, your AI copilot, is always ready to help. Plus community support via Discord and GitHub.'}</p>
+			</div>
+			<div class="usp-card">
+				<div class="usp-icon">🌍</div>
+				<h3>{$t('landing.usp.multilingual.title') || '5 Languages'}</h3>
+				<p>{$t('landing.usp.multilingual.desc') || 'Full interface in English, Spanish, German, French, and Chinese. AI responses in your language.'}</p>
+			</div>
+			<div class="usp-card">
+				<div class="usp-icon">💰</div>
+				<h3>{$t('landing.usp.free.title') || '100% Free'}</h3>
+				<p>{$t('landing.usp.free.desc') || 'No registration, no credit card, no hidden costs. All features unlocked. Just open and use.'}</p>
+			</div>
+		</div>
+		<div class="usp-cta">
+			<a href="/os" class="btn btn-primary btn-lg">{$t('landing.usp.cta') || 'Start Now — It\'s Free'}</a>
+		</div>
+	</section>
+
 	<!-- FEATURES -->
 	<section id="features" class="features">
 		<h2>{$t('landing.features.heading')}</h2>
@@ -177,13 +226,13 @@
 		<h2>{$t('landing.faq.heading')}</h2>
 		<div class="faq-list">
 			{#each faqs as faq, i}
-				<button class="faq-item" class:open={openFaq === i} on:click={() => toggleFaq(i)}>
+				<button class="faq-item" class:open={openFaq === i} on:click={() => toggleFaq(i)} aria-expanded={openFaq === i}>
 					<div class="faq-q">
 						<span>{faq.q}</span>
 						<span class="faq-chevron">{openFaq === i ? '−' : '+'}</span>
 					</div>
 					{#if openFaq === i}
-						<div class="faq-a">{faq.a}</div>
+						<div class="faq-a" role="region">{faq.a}</div>
 					{/if}
 				</button>
 			{/each}
@@ -215,7 +264,7 @@
 	</footer>
 
 	<!-- BACK TO TOP -->
-	<a href="#top" class="back-to-top" title="Back to top">↑</a>
+	<a href="#top" class="back-to-top" title="Back to top" aria-label="Scroll to top">↑</a>
 
 </div>
 {/if}
@@ -283,6 +332,10 @@
 		box-shadow: 0 0 24px var(--lp-accent);
 		transform: translateY(-1px);
 	}
+	.btn-lg {
+		padding: 1em 2.5em;
+		font-size: 1.1rem;
+	}
 	.btn-outline {
 		background: transparent;
 		border: 1.5px solid var(--lp-accent);
@@ -301,6 +354,11 @@
 		background: rgba(6,9,15,0.85);
 		backdrop-filter: blur(12px);
 		border-bottom: 1px solid var(--lp-border);
+		transition: padding 0.2s ease, background 0.2s ease;
+	}
+	.nav-scrolled {
+		padding: 0.8rem 2rem;
+		background: rgba(6,9,15,0.95);
 	}
 	.logo {
 		font-family: var(--font-display, 'Syne', sans-serif);
@@ -421,6 +479,50 @@
 		100% { top: 100%; }
 	}
 
+	/* ─── USP SECTION ─── */
+	.usp-section {
+		padding: 5rem 1.5rem;
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+	.usp-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+	.usp-card {
+		background: var(--lp-surface);
+		border: 1px solid var(--lp-border);
+		border-radius: var(--lp-radius);
+		padding: 2rem 1.5rem;
+		text-align: center;
+		transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+	}
+	.usp-card:hover {
+		border-color: rgba(0,255,136,0.3);
+		transform: translateY(-3px);
+		box-shadow: 0 8px 32px rgba(0,255,136,0.06);
+	}
+	.usp-icon {
+		font-size: 2.4rem;
+		display: block;
+		margin-bottom: 1rem;
+	}
+	.usp-card h3 {
+		font-size: 1.1rem;
+		margin-bottom: 0.6rem;
+		color: #fff;
+	}
+	.usp-card p {
+		font-size: 0.85rem;
+		color: var(--lp-text2);
+		line-height: 1.6;
+	}
+	.usp-cta {
+		text-align: center;
+	}
+
 	/* ─── FEATURES ─── */
 	.features {
 		padding: 5rem 1.5rem;
@@ -472,9 +574,6 @@
 	.app-card h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
 	.app-card p { font-size: 0.75rem; color: var(--lp-text2); line-height: 1.4; }
 
-	/* ─── PRICING (removed) ─── */
-
-	/* ─── FAQ ─── */
 	/* ─── FAQ ─── */
 	.faq {
 		padding: 5rem 1.5rem;
@@ -575,6 +674,7 @@
 		.preview-grid { grid-template-columns: 1fr; }
 		.hero { padding: 4rem 1rem 2rem; }
 		.footer-inner { flex-direction: column; gap: 0.8rem; text-align: center; }
+		.usp-grid { grid-template-columns: 1fr; }
 	}
 
 	/* ─── BACK TO TOP ─── */
