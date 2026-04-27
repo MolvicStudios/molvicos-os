@@ -1,10 +1,6 @@
 # Redirect www to non-www
 https://www.molvicos.pro/* https://molvicos.pro/:splat 301
 
-# Force HTTPS (Cloudflare handles this at edge, but double-ensure)
-# HTTP to HTTPS redirect
+# Force HTTPS
 http://molvicos.pro/* https://molvicos.pro/:splat 301
 http://www.molvicos.pro/* https://molvicos.pro/:splat 301
-
-# Clean URL structure - redirect old query params to new paths
-/?page_id=* / 301
